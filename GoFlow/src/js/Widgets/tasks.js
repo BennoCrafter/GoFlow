@@ -13,18 +13,11 @@ export class TasksWidget {
         this.editTaskText = this.editTaskText.bind(this); // Bind the editTaskText method to the instance
         this.saveTitle = this.saveTitle.bind(this); // Bind the saveTitle method to the instance
         this.initializeListeners();
+
     }
 
     saveData = () => {
-        window.electronAPI.saveData(JSON.stringify("testt hello world pllss"));
-      };
-    restoreData = async () => {
-        // const result = await window.electronAPI.restoreData();
-      
-        // if (result.success) {
-        //   rowData = JSON.parse(result.data);
-        //   gridOptions.api.setRowData(rowData);
-        // }
+        window.electronAPI.saveData(JSON.stringify("testt hello world pllss"), "widget" + throws.widgetId);
       };
 
     addTaskToWidget() {

@@ -10,8 +10,8 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -45,8 +45,7 @@ app.on('window-all-closed', () => {
 });
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
@@ -55,10 +54,10 @@ app.on('activate', () => {
 const handleCommunication = () => {
   ipcMain.removeHandler("saveData");
   ipcMain.removeHandler("restoreData");
-  ipcMain.handle("saveData", async (event, data) => {
+  ipcMain.handle("saveData", async (event, data, name) => {
     try {
-      const filePath = path.join(__dirname, '../test.json'); // Set your desired file path here
-      console.log("hey", file)
+      const filePath = path.join(__dirname, `../WidgetData/${name}.json`); // Set your desired file path here
+
       await fs.writeFile(filePath, data, "utf8");
 
       return { success: true };
@@ -66,26 +65,29 @@ const handleCommunication = () => {
       return { error };
     }
   });
+  
+
   ipcMain.handle("restoreData", async () => {
     try {
-      const { canceled, filePaths } = await dialog.showOpenDialog({
-        properties: ["openFile"],
-        filters: [
-          {
-            name: "json",
-            extensions: ["json"],
-          },
-        ],
-      });
+      let filesData = []
+      const directoryPath = path.join(__dirname, '../WidgetData/')
 
-      if (!canceled) {
-        const [filePath] = filePaths;
-        const data = await fs.readFile(filePath, "utf8");
+      fs.readdir(directoryPath, function (err, files) {
+        //handling error
+        if (err) {
+            return console.error('Unable to scan directory: ' + err);
+        } 
+        //listing all files using forEach
+        files.forEach(function (file) {
+            console.log(file)
+            // Do whatever you want to do with the file
+            const data = fs.readFile(directoryPath, "utf8");
+            filesData.push(data)
+        });
+    });
 
-        return { success: true, data };
-      } else {
-        return { canceled };
-      }
+    return { success: true, filesData };
+
     } catch (error) {
       return { error };
     }

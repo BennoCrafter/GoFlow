@@ -21,15 +21,13 @@
     height: 20px;
     cursor:auto;
 }
-.ui-resizable-handle {
-    width: 10px;
-    height: 10px;
-    background-color: #4062BB;
-    position: absolute;
-}
 
-.ui-resizable-se {
-    bottom: 0;
-    right: 0;
-    cursor: se-resize;
-}
+        .resize-handle {
+            width: 10px;
+            height: 10px;
+            background-color: darkgray;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            cursor: nwse-resize;
+        }

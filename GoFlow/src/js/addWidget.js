@@ -1,4 +1,4 @@
-import { TasksWidget } from "./tasks.js"
+import { TasksWidget } from "./Widgets/tasks.js"
 
 let widgets = [];
 let widgetId = 0;
@@ -17,6 +17,7 @@ function addTasksWidget(name, idClassNamesTasks) {
     widget.className = 'widget';
     widget.id = `tasks${widgetId}`
     widget.innerHTML = `
+        <div class="resize-handle"></div>
         <div class="title-bar">
             <div class="title">
                 <span contenteditable="true" class="titleText">${name} ${widgetId}</span>
@@ -34,7 +35,7 @@ function addTasksWidget(name, idClassNamesTasks) {
         </div>
     `;
     widgetsContainer.appendChild(widget);
-    new TasksWidget(widgetId); // Create a new TasksWidget instance
+    widgets.push(new TasksWidget(widgetId)); // Create a new TasksWidget instance
     widgetId++;
 }
 
