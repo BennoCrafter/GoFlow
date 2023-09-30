@@ -1,8 +1,32 @@
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
+body{
+overflow: hidden;
+}
+
+.widgets {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Centers vertically on the viewport */
+}
+
+/* Add this CSS to center the tasks within the widget */
+.widget {
+  text-align: center;
+  margin: 10px; /* Add spacing between widgets */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #59C3C3;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: monospace;
 }
   
+button:hover {
+  background-color: #47b8b8;
+}

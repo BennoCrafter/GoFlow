@@ -1,9 +1,9 @@
 {
   "name": "goflow",
   "productName": "goflow",
-  "version": "1.0.0",
-  "description": "My Electron application description",
-  "main": "src/index.js",
+  "version": "0.0.1",
+  "description": "GoFlow. Manage everything!",
+  "main": "src/Electron/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -18,7 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "replace-in-file": "^7.0.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.4.2",

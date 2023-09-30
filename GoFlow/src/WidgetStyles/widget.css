@@ -1,0 +1,35 @@
+.title-bar {
+    background-color: #4062BB;
+    color: #fff;    
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.widget{
+    position: absolute;
+}
+
+.title {
+    flex-grow: 1;
+    text-align: center;
+    cursor: grab;
+}
+.titleText{
+    width: 40px;
+    height: 20px;
+    cursor:auto;
+}
+.ui-resizable-handle {
+    width: 10px;
+    height: 10px;
+    background-color: #4062BB;
+    position: absolute;
+}
+
+.ui-resizable-se {
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+}
