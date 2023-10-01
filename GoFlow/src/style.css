@@ -1,5 +1,6 @@
 body{
 overflow: hidden;
+background-color: #e2e4df;
 }
 
 .widgets {
@@ -17,7 +18,7 @@ overflow: hidden;
 
 button {
     padding: 10px 20px;
-    background-color: #59C3C3;
+    background-color: #cca3a3;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -28,5 +29,17 @@ button {
 }
   
 button:hover {
-  background-color: #47b8b8;
+  background-color: #e4b2b2;
+}
+
+.widgetButtonsMenu {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.widgetButtonMenu {
+  margin: 5px;
 }

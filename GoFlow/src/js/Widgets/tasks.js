@@ -1,11 +1,13 @@
 
 export class TasksWidget {
-    constructor(widgetId) {
+    constructor(widgetId, title="Task", tasks={}, xPos=0, yPos=0) {
         this.widgetId = widgetId;
-        this.tasks = {};
+        this.tasks = tasks;
         this.id = 0;
         this.type = "tasks"
-        this.title = "Task" + this.widgetId
+        this.title = title
+        this.xPos = xPos
+        this.yPos = yPos
         this.widgetPath = document.getElementById(`tasks${this.widgetId}`);
         this.taskInput = this.widgetPath.querySelector("#taskInput");
         this.taskList = this.widgetPath.querySelector("#taskList");
@@ -13,11 +15,22 @@ export class TasksWidget {
         this.editTaskText = this.editTaskText.bind(this); // Bind the editTaskText method to the instance
         this.saveTitle = this.saveTitle.bind(this); // Bind the saveTitle method to the instance
         this.initializeListeners();
+        this.movePos()
+        this.displayTasks()
+        this.widgetPath.querySelector(".titleText").textContent = this.title;
+
 
     }
-
-    saveData = () => {
-        window.electronAPI.saveData(JSON.stringify("testt hello world pllss"), "widget" + throws.widgetId);
+    movePos(){
+        this.widgetPath.style.left = this.xPos
+        this.widgetPath.style.top = this.yPos          
+    }
+    saveData() {
+        this.xPos = this.widgetPath.style.left;
+        this.yPos = this.widgetPath.style.top;
+        let data = {type: this.type, widgetId: this.widgetId, title: this.title, tasks: this.tasks, xPos: this.xPos, yPos: this.yPos}
+        console.log(data)
+        window.electronAPI.saveData(JSON.stringify(data), "widget" + this.widgetId);
       };
 
     addTaskToWidget() {
@@ -34,6 +47,7 @@ export class TasksWidget {
     }
 
     displayTasks() {
+        console.log(this.tasks)
         this.taskList.innerHTML = "";
         Object.entries(this.tasks).forEach(([taskId, task]) => {
             const div = document.createElement("div");
@@ -50,11 +64,6 @@ export class TasksWidget {
 
             const editTask = div.querySelector(".taskText");
             editTask.addEventListener("click", () => this.editTaskText(taskId, editTask));
-            
-            const saveBtn = document.getElementById("saveData");
-            const restoreBtn = document.getElementById("restoreData");
-            saveBtn.addEventListener("click", this.saveData);
-            restoreBtn.addEventListener("click", this.restoreData);
         });
     }
 

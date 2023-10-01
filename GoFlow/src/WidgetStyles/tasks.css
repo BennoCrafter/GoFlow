@@ -1,75 +1,76 @@
 .taskBoard{
     overflow: hidden;
     margin: auto;
-    background-color: #EBEBEB;
+    background-color: #f3eded;
     width: 320px;
   }
-  .tasks{
-    width: 320px;
-    height: 480px;
-    background-color:#EBEBEB;
-    margin: auto;
-    overflow: auto;
-  }
-  
-  .task {
-    border: 2px solid #ccc;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 10px;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    text-align: center;
-    font-family: monospace;
-  }
-  
-  
-  .taskCompletion {
-    padding: 10px 20px;
-    background-color: #3498db;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    max-width: 30px;
-    max-height: 30px;
-    min-width: 30px;
-    min-height: 30px;
-  }
-  
-  .taskCompletion:hover {
-    background-color: #2980b9;
-  }
-  
-  .taskText{
-    padding: 10px;
-    word-wrap: normal;
-  }
-  
-  /* Beautify the input field */
-  #taskInput {
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    margin-left: 10px;
-    width: 170px;
-    font-family: monospace;
-  }
-  
-  #addTaskButton{
-    float: right;
-    width: 70px;
-    margin-right: 10px;
-    margin-top: 10px;
-  }
-  
-  .fadeOut{
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s 1s, opacity 1s linear;
-  }
-  
+
+.tasks{
+  width: 320px;
+  height: 480px;
+  background-color:#f3eded;
+  margin: auto;
+  overflow: auto;
+}
+
+.task {
+  border: 2px solid #ccc;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  font-family: monospace;
+}
+
+
+.taskCompletion {
+  padding: 10px 20px;
+  background-color: #c5cfc4;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  max-width: 30px;
+  max-height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.taskCompletion:hover {
+  background-color: #c5cfc4;
+}
+
+.taskText{
+  padding: 10px;
+  word-wrap: normal;
+}
+
+/* Beautify the input field */
+#taskInput {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-left: 10px;
+  width: 170px;
+  font-family: monospace;
+}
+
+#addTaskButton{
+  float: right;
+  width: 70px;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+.fadeOut{
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 1s, opacity 1s linear;
+}
+

@@ -1,0 +1,56 @@
+/* Apply a reset to remove default padding and margin */
+* {
+    box-sizing: border-box;
+    margin: 0;
+  }
+  
+body {  
+    background-color: #e2e4df;
+    font-family: monospace;
+    font-size: 20px;
+}
+
+.incrementalGoalWindow {
+    margin: 0;
+    background-color: #f3eded;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    max-width: 300px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    }
+  
+  /* Style text with a readable color */
+#incrementalGoalStreak{
+    color: #92929c;
+    line-height: 1.5;
+  }
+
+/* Adjust button styles */
+#increaseGoal {
+    position: relative;
+    background: #f1b4b4;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s;
+    align-self: flex-end; 
+    margin-left: auto; 
+}
+
+  
+#increaseGoal:hover {
+background: #e9b4b4
+}
+  
+#incrementalGoalName{
+    font-size: 20px;
+}
