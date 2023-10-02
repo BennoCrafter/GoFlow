@@ -1,5 +1,5 @@
 # TODO
 
-- VERY IMPORTANT: make th ui scales better
+- VERY IMPORTANT: make the ui scales better
 - add simple adding from custom widgets
-- continue making the incremental goal widget
+- adding feature customize the incremental goal widget, like goal

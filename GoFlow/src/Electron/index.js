@@ -55,7 +55,6 @@ const handleCommunication = () => {
   ipcMain.handle("saveData", async (event, data, name) => {
     try {
       const filePath = path.join(__dirname, `../WidgetData/${name}.json`); // Set your desired file path here
-      console.log(filePath)
       await fsWrite.writeFile(filePath, data, "utf8");
 
       return { success: true };

@@ -3,16 +3,17 @@ overflow: hidden;
 background-color: #e2e4df;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
 .widgets {
   display: flex;
-  justify-content: center;
-  align-items: center;
   height: 100vh; /* Centers vertically on the viewport */
 }
 
-/* Add this CSS to center the tasks within the widget */
 .widget {
-  text-align: center;
   margin: 10px; /* Add spacing between widgets */
 }
 

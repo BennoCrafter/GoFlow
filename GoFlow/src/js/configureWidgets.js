@@ -1,4 +1,5 @@
 import { TasksWidget } from "./Widgets/tasks.js"
+import { IncrementalGoalWidget } from "./Widgets/incrementalGoal.js"
 
 let widgets = [];
 let widgetId = 0;
@@ -12,6 +13,9 @@ const restoreData = async () => {
             for (const widget of result.filesData) {
                 if (widget.type === "tasks") {
                     addTasksWidget("Task", widget, widget.widgetId)
+                }else if(widget.type == "incrementalGoal"){
+                    console.log("tets")
+                    addIncrementalGoal("My Goal", widget.goalName, widget, widget.widgetId)
                 }
                 
             }
@@ -27,6 +31,8 @@ function addWidget(type){
     console.log(type)
     if(type=="addWidgetTasks"){
         addTasksWidget("Task")
+    }else if(type=="addWidgetIncrementalGoal"){
+        addIncrementalGoal("My Goal", "do 10 push ups")
     }
 }
 
@@ -62,7 +68,7 @@ function addTasksWidget(name, mode="new", wId=widgetId) {
     widgetId++;
 }
 
-function addIncrementalGoal(name, mode="new", wId=widgetId, incrementalGoalName){
+function addIncrementalGoal(name, incrementalGoalName, mode="new", wId=widgetId){
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
@@ -78,11 +84,18 @@ function addIncrementalGoal(name, mode="new", wId=widgetId, incrementalGoalName)
             </div>
         </div>
         <div class="incrementalGoalWindow">
-            <p${incrementalGoalName}</p>
+            <p id="incrementalGoalName">${incrementalGoalName}</p>
             <button id="increaseGoal" type="button">+</button>
             <p id="incrementalGoalStreak">Streak: 0<p>
         </div>
     `; 
+    widgetsContainer.appendChild(widget);
+    if(mode=="new"){
+        widgets.push(new IncrementalGoalWidget(widgetId))
+    }else{
+        widgets.push(new IncrementalGoalWidget(mode.widgetId, mode.goalName, mode.lastDateIncreased, mode.streak, mode.xPos, mode.yPos));
+    }
+    widgetId++;
 }
 
 
