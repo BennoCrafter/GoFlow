@@ -42,14 +42,9 @@ function addTasksWidget(name, mode="new", wId=widgetId) {
     widget.className = 'widget';
     widget.id = `tasks${wId}`
     widget.innerHTML = `
-        <div class="resize-handle"></div>
         <div class="title-bar">
-            <div class="title">
-                <span contenteditable="true" class="titleText">${name} ${wId}</span>
-            </div>  
-            <div class="buttons">
-                <button class="close-button" onclick="closeWindow('${wId}')">✕</button>
-            </div>
+            <span contenteditable="true" class="titleText">${name} ${wId}</span>
+        </div>  
         </div>
         <div class="taskBoard">
             <button id="addTaskButton" type="button">Add</button>
@@ -74,14 +69,9 @@ function addIncrementalGoal(name, incrementalGoalName, mode="new", wId=widgetId)
     widget.className = 'widget';
     widget.id = `incrementalGoal${wId}`
     widget.innerHTML = `
-        <div class="resize-handle"></div>
         <div class="title-bar">
-            <div class="title">
-                <span contenteditable="true" class="titleText">${name} ${wId}</span>
-            </div>  
-            <div class="buttons">
-                <button class="close-button" onclick="closeWindow('${wId}')">✕</button>
-            </div>
+            <span contenteditable="true" class="titleText">${name} ${wId}</span>
+        </div>  
         </div>
         <div class="incrementalGoalWindow">
             <p id="incrementalGoalName">${incrementalGoalName}</p>
@@ -93,7 +83,7 @@ function addIncrementalGoal(name, incrementalGoalName, mode="new", wId=widgetId)
     if(mode=="new"){
         widgets.push(new IncrementalGoalWidget(widgetId))
     }else{
-        widgets.push(new IncrementalGoalWidget(mode.widgetId, mode.goalName, mode.lastDateIncreased, mode.streak, mode.xPos, mode.yPos));
+        widgets.push(new IncrementalGoalWidget(mode.widgetId, mode.goalName, mode.lastDateIncreased, mode.streak, mode.xPos, mode.yPos, mode.title));
     }
     widgetId++;
 }

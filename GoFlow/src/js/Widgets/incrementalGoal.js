@@ -1,19 +1,21 @@
 export class IncrementalGoalWidget {
-    constructor(widgetId, goalName = "enter goal", lastDateIncreased=null, streak = 0, xPos="0px", yPos = "0px") {
+    constructor(widgetId, goalName = "enter goal", lastDateIncreased=null, streak = 0, xPos="0px", yPos = "0px", title="Goal") {
         this.widgetId = widgetId;
         this.goalName = goalName;
         this.streak = streak;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.title = title
         this.type = "incrementalGoal";
         this.lastDateIncreased = lastDateIncreased;
         console.log("xx", this.lastDateIncreased)
         this.widgetPath = document.getElementById(`incrementalGoal${this.widgetId}`);
         this.widgetPath.style.left = this.xPos
         this.widgetPath.style.top = this.yPos   
-
+        this.saveTitle = this.saveTitle.bind(this); // Bind the saveTitle method to the instance
         this.loadEventListener();
         this.checkStreak()
+        this.widgetPath.querySelector(".titleText").textContent = this.title;
 
     }
       
@@ -67,11 +69,18 @@ export class IncrementalGoalWidget {
         yPos: this.yPos,
         lastDateIncreased: this.lastDateIncreased,
         type: this.type,
+        title: this.title,
       };
   
       // Assuming you have an external API for saving data (window.electronAPI.saveData),
       // you can call it here.
       window.electronAPI.saveData(JSON.stringify(data), "widget" + this.widgetId);
+    }
+
+    saveTitle() {
+      const titleText = this.widgetPath.querySelector(".titleText");
+      titleText.contentEditable = false;
+      this.title = titleText.textContent.trim();
     }
     
     checkStreak(){
@@ -88,6 +97,23 @@ export class IncrementalGoalWidget {
       this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#increaseGoal").addEventListener("click", () => {
         this.increaseGoal();
       });
+
+      this.widgetPath.querySelector(".titleText").addEventListener("click", () => {
+        this.widgetPath.querySelector(".titleText").contentEditable = true;
+        this.widgetPath.querySelector(".titleText").focus();
+      });
+
+      document.addEventListener("click", (event) => {
+        if (event.target !== this.widgetPath.querySelector(".titleText")) {
+            this.saveTitle();
+        }
+    });
+    this.widgetPath.querySelector(".titleText").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+          event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
+          this.widgetPath.querySelector(".titleText").blur(); // Trigger the blur event to save the title
+      }
+  });
     }
   }
   

@@ -3,7 +3,7 @@ export class TasksWidget {
     constructor(widgetId, title="Task", tasks={}, xPos=0, yPos=0) {
         this.widgetId = widgetId;
         this.tasks = tasks;
-        this.id = 0;
+        this.id = Object.keys(this.tasks).length;
         this.type = "tasks"
         this.title = title
         this.xPos = xPos
@@ -57,7 +57,7 @@ export class TasksWidget {
                 <input type="checkbox" class="taskCompletion">
                 <span contenteditable="${!task.completed}" class="taskText">${task.text}</span>
             `;
-            this.taskList.appendChild(div);
+            this.taskList.insertBefore(div, this.taskList.firstChild);
 
             const toggleCompletion = div.querySelector(".taskCompletion");
             toggleCompletion.addEventListener("click", () => this.toggleTaskCompletion(taskId));

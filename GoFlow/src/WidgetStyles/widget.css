@@ -2,32 +2,20 @@
     background-color: #96beb1;
     color: #fff;    
     padding: 5px;
-    display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-grow: 1;
+    text-align: center;
+    cursor: grab;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .widget{
     position: absolute;
 }
 
-.title {
-    flex-grow: 1;
-    text-align: center;
-    cursor: grab;
-}
 .titleText{
     width: 40px;
     height: 20px;
     cursor:auto;
-}
-
-.resize-handle {
-    width: 10px;
-    height: 10px;
-    background-color: darkgray;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    cursor: nwse-resize;
 }
