@@ -8,7 +8,6 @@ export class IncrementalGoalWidget {
         this.title = title
         this.type = "incrementalGoal";
         this.lastDateIncreased = lastDateIncreased;
-        console.log("xx", this.lastDateIncreased)
         this.widgetPath = document.getElementById(`incrementalGoal${this.widgetId}`);
         this.widgetPath.style.left = this.xPos
         this.widgetPath.style.top = this.yPos   
@@ -23,7 +22,7 @@ export class IncrementalGoalWidget {
       if (this.canIncrease()) {
         this.lastDateIncreased = new Date().getTime();
         this.streak++;
-  
+        this.showReward()
         console.log(`Goal increased! Current streak: ${this.streak}`);
         this.updateText();
         this.saveData();
@@ -34,12 +33,12 @@ export class IncrementalGoalWidget {
   
     canIncrease() {
       if (this.lastDateIncreased==null) {
-        console.log("dsdsdd", this.lastDateIncreased)
         return true; // If lastDateIncreased is not set, allow increasing
       }
   
       // Check if the last increment was more than 24 hours ago
       const currentDate = new Date().getTime();
+      console.log(currentDate)
       const timeDifference = currentDate - this.lastDateIncreased;
       if (timeDifference >= 24 * 60 * 60 * 1000 && timeDifference <= 2*(24 * 60 * 60 * 1000)){
         // passed 24 hours and under 48 hours
@@ -92,7 +91,46 @@ export class IncrementalGoalWidget {
     updateText() {
       this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#incrementalGoalStreak").textContent = "Streak: " + this.streak;
     }
+    
+    showReward() {
+      const rewardElement = this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#reward")
+      const rewards = [
+        "Congratulations! You're making great progress!",
+        "Awesome job! Keep it up!",
+        "You're on fire! Here's a virtual high-five!",
+        "You're doing fantastic! Take a moment to celebrate!",
+        "You're unstoppable! Keep pushing towards your goal!",
+        "Impressive work! Keep the momentum going!",
+        "You're a goal-crushing machine!",
+        "Every step counts. Keep moving forward!",
+        "You're a star! Keep shining bright!",
+        "You're making it happen! Keep the positivity flowing!",
+        "You're a goal-getter! Stay motivated!",
+        "Outstanding effort! The sky is the limit!",
+        "You're a champion! Keep setting and achieving!",
+        "Incredible dedication! Keep up the good work!",
+        "You're a goal-achieving ninja!",
+        "You're making waves of progress!",
+        "You're a goal-driven inspiration!",
+        "Bravo! You're nailing your goals!",
+        "You're a goal-achieving superstar!",
+        "Amazing! Keep aiming for the stars!"
+    ];
+    
   
+      const randomIndex = Math.floor(Math.random() * rewards.length);
+      const rewardMessage = rewards[randomIndex];
+  
+      rewardElement.textContent = rewardMessage;
+      rewardElement.style.transform = "translate(-50%, -50%) scale(1) rotate(5deg)";
+      rewardElement.style.opacity = "1";
+  
+      setTimeout(() => {
+          rewardElement.style.transform = "translate(-50%, -50%) scale(0) rotate(0deg)";
+          rewardElement.style.opacity = "0";
+      }, 3000); // Hide the reward message after 3 seconds
+    }
+
     loadEventListener() {
       this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#increaseGoal").addEventListener("click", () => {
         this.increaseGoal();
@@ -113,7 +151,7 @@ export class IncrementalGoalWidget {
           event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
           this.widgetPath.querySelector(".titleText").blur(); // Trigger the blur event to save the title
       }
-  });
+    });
     }
   }
   

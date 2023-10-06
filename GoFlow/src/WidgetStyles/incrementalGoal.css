@@ -1,48 +1,56 @@
-  
-body {  
-    background-color: #e2e4df;
-    font-family: monospace;
-    font-size: 20px;
+/* styles.css */
+body {
+  font-family: monospace;
+  font-size: 20px;
 }
 
 .incrementalGoalWindow {
-    background-color: #f3eded;
-    min-width: 270px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Center vertically */
-    border-radius: 0px 0px 10px 10px;    
-    }
-  
-  /* Style text with a readable color */
-#incrementalGoalStreak{
-    color: #92929c;
-    line-height: 1.5;
-  }
+  background-color: #f3eded;
+  width: 270px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 10px 10px;
+}
 
-/* Adjust button styles */
+#incrementalGoalName {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#incrementalGoalStreak {
+  color: #92929c;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
 #increaseGoal {
-    position: relative;
-    background: #f1b4b4;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    transition: background 0.3s;
-    align-self: flex-end; 
-    margin-left: auto; 
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.3s, transform 0.2s;
 }
 
-  
-#increaseGoal:hover {
-background: #e9b4b4
-}
-  
-#incrementalGoalName{
-    font-size: 20px;
+#reward {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0) rotate(0deg);
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+  z-index: 2;
 }

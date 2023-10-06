@@ -1,8 +1,8 @@
 .taskBoard{
-    overflow: hidden;
-    margin: auto;
-    background-color: #f3eded;
-    width: 320px;
+  overflow: hidden;
+  margin: auto;
+  background-color: #f3eded;
+  width: 320px;
   }
 
 .tasks{
@@ -16,30 +16,25 @@
 
 .task {
   text-align: center;
-  border: 2px solid #ccc;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 10px;
+  padding: 0px 20px; /* Increase or decrease this value to adjust the vertical space */
   font-size: 20px;
   display: flex;
   align-items: center;
-  height: 100%;
   text-align: center;
   font-family: monospace;
 }
 
-
 .taskCompletion {
-  padding: 10px 20px;
+  padding: 10px 0px;
   background-color: #c5cfc4;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  max-width: 30px;
-  max-height: 30px;
-  min-width: 30px;
-  min-height: 30px;
+  max-width: 20px;
+  max-height: 20px;
+  min-width: 20px;
+  min-height: 20px;
 }
 
 .taskCompletion:hover {
@@ -48,17 +43,18 @@
 
 .taskText{
   padding: 10px;
-  word-wrap: normal;
+  word-spacing: normal;
 }
 
 /* Beautify the input field */
 #taskInput {
   margin-top: 10px;
+  margin-bottom: 15px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  margin-left: 10px;
+  margin-left: 20px;
   width: 170px;
   font-family: monospace;
 }
@@ -66,7 +62,7 @@
 #addTaskButton{
   float: right;
   width: 70px;
-  margin-right: 10px;
+  margin-right: 20px;
   margin-top: 10px;
 }
 

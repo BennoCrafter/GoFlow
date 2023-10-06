@@ -74,6 +74,7 @@ function addIncrementalGoal(name, incrementalGoalName, mode="new", wId=widgetId)
         </div>  
         </div>
         <div class="incrementalGoalWindow">
+            <p id="reward"> </p>
             <p id="incrementalGoalName">${incrementalGoalName}</p>
             <button id="increaseGoal" type="button">+</button>
             <p id="incrementalGoalStreak">Streak: 0<p>
