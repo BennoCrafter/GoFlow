@@ -12,10 +12,9 @@ const restoreData = async () => {
         if (result.success) {
             for (const widget of result.filesData) {
                 if (widget.type === "tasks") {
-                    addTasksWidget(widget.title, widget, widget.widgetId)
+                    addTasksWidget(widget.title, widget.widgetId, widget)
                 }else if(widget.type == "incrementalGoal"){
-                    console.log("tets")
-                    addIncrementalGoal("My Goal", widget.goalName, widget, widget.widgetId)
+                    addIncrementalGoal(widget.title, widget.widgetId, widget.goalName, widget)
                 }
                 
             }
@@ -28,16 +27,15 @@ const restoreData = async () => {
 };
 
 function addWidget(type){
-    console.log(type)
     if(type=="addWidgetTasks"){
-        addTasksWidget("Task")
+        addTasksWidget()
     }else if(type=="addWidgetIncrementalGoal"){
-        addIncrementalGoal("My Goal", "Enter Goal")
+        addIncrementalGoal()
     }
 }
 
 
-function addTasksWidget(title, data="new", wId=widgetId) {
+function addTasksWidget(title="New Widget", wId=widgetId, data=null) {
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
@@ -64,19 +62,19 @@ function addTasksWidget(title, data="new", wId=widgetId) {
     widgetId++;
 }
 
-function addIncrementalGoal(name, data="new", wId=widgetId){
+function addIncrementalGoal(title, wId=widgetId, goalName="enter goal", data=null){
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
     widget.id = `incrementalGoal${wId}`
     widget.innerHTML = `
         <div class="title-bar">
-            <span contenteditable="true" class="titleText">${name} ${wId}</span>
+            <span contenteditable="true" class="titleText">${title} ${wId}</span>
         </div>  
         </div>
         <div class="incrementalGoalWindow">
             <p id="reward"> </p>
-            <span contenteditable="true" id="incrementalGoalName">${data.goalName}</span>
+            <span contenteditable="true" id="incrementalGoalName">${goalName}</span>
             <button id="increaseGoal" type="button">+</button>
             <p id="incrementalGoalStreak">Streak: 0<p>
         </div>
