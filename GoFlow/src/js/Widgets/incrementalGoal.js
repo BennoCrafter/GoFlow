@@ -97,7 +97,7 @@ export class IncrementalGoalWidget {
       const rewards = [
         "Congratulations! You're making great progress!",
         "Awesome job! Keep it up!",
-        "You're on fire! Here's a virtual high-five!",
+        "You're on fire! Here's a virtual high-five! 🤟",
         "You're doing fantastic! Take a moment to celebrate!",
         "You're unstoppable! Keep pushing towards your goal!",
         "Impressive work! Keep the momentum going!",
@@ -131,6 +131,20 @@ export class IncrementalGoalWidget {
       }, 3000); // Hide the reward message after 3 seconds
     }
 
+    editGoal(){
+      const textSpan = this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#incrementalGoalName")
+      textSpan.contentEditable = true;
+      textSpan.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
+            this.goalName = textSpan.textContent.trim();
+            textSpan.contentEditable = false;
+          }
+    });
+      
+      this.saveData()
+      this.updateText()
+    }
     loadEventListener() {
       this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#increaseGoal").addEventListener("click", () => {
         this.increaseGoal();
@@ -140,6 +154,8 @@ export class IncrementalGoalWidget {
         this.widgetPath.querySelector(".titleText").contentEditable = true;
         this.widgetPath.querySelector(".titleText").focus();
       });
+
+      this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#incrementalGoalName").addEventListener("click", () => this.editGoal());
 
       document.addEventListener("click", (event) => {
         if (event.target !== this.widgetPath.querySelector(".titleText")) {

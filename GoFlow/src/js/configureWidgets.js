@@ -32,11 +32,12 @@ function addWidget(type){
     if(type=="addWidgetTasks"){
         addTasksWidget("Task")
     }else if(type=="addWidgetIncrementalGoal"){
-        addIncrementalGoal("My Goal", "do 10 push ups")
+        addIncrementalGoal("My Goal", "Enter Goal")
     }
 }
 
-function addTasksWidget(name, mode="new", wId=widgetId) {
+
+function addTasksWidget(name, data="new", wId=widgetId) {
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
@@ -55,15 +56,15 @@ function addTasksWidget(name, mode="new", wId=widgetId) {
         </div>
     `;
     widgetsContainer.appendChild(widget);
-    if(mode=="new"){
+    if(data=="new"){
         widgets.push(new TasksWidget(widgetId))
     }else{
-        widgets.push(new TasksWidget(mode.widgetId, mode.title, mode.tasks, mode.xPos, mode.yPos)); // Create a new TasksWidget instance
+        widgets.push(new TasksWidget(data.widgetId, data.title, data.tasks, data.xPos, data.yPos)); // Create a new TasksWidget instance
     }
     widgetId++;
 }
 
-function addIncrementalGoal(name, incrementalGoalName, mode="new", wId=widgetId){
+function addIncrementalGoal(name, data="new", wId=widgetId){
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
@@ -75,16 +76,16 @@ function addIncrementalGoal(name, incrementalGoalName, mode="new", wId=widgetId)
         </div>
         <div class="incrementalGoalWindow">
             <p id="reward"> </p>
-            <p id="incrementalGoalName">${incrementalGoalName}</p>
+            <span contenteditable="true" id="incrementalGoalName">${data.goalName}</span>
             <button id="increaseGoal" type="button">+</button>
             <p id="incrementalGoalStreak">Streak: 0<p>
         </div>
     `; 
     widgetsContainer.appendChild(widget);
-    if(mode=="new"){
+    if(data=="new"){
         widgets.push(new IncrementalGoalWidget(widgetId))
     }else{
-        widgets.push(new IncrementalGoalWidget(mode.widgetId, mode.goalName, mode.lastDateIncreased, mode.streak, mode.xPos, mode.yPos, mode.title));
+        widgets.push(new IncrementalGoalWidget(data.widgetId, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos, data.title));
     }
     widgetId++;
 }
