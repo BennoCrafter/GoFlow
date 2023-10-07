@@ -12,7 +12,7 @@ const restoreData = async () => {
         if (result.success) {
             for (const widget of result.filesData) {
                 if (widget.type === "tasks") {
-                    addTasksWidget("Task", widget, widget.widgetId)
+                    addTasksWidget(widget.title, widget, widget.widgetId)
                 }else if(widget.type == "incrementalGoal"){
                     console.log("tets")
                     addIncrementalGoal("My Goal", widget.goalName, widget, widget.widgetId)
@@ -37,14 +37,14 @@ function addWidget(type){
 }
 
 
-function addTasksWidget(name, data="new", wId=widgetId) {
+function addTasksWidget(title, data="new", wId=widgetId) {
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
     widget.id = `tasks${wId}`
     widget.innerHTML = `
         <div class="title-bar">
-            <span contenteditable="true" class="titleText">${name} ${wId}</span>
+            <span contenteditable="true" class="titleText">${title} ${wId}</span>
         </div>  
         </div>
         <div class="taskBoard">
