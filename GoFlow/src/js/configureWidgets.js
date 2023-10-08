@@ -4,6 +4,7 @@ import { IncrementalGoalWidget } from "./Widgets/incrementalGoal.js"
 let widgets = [];
 let widgetId = 0;
 
+window.onresize = rePosWidgets
 
 const restoreData = async () => {
     try {
@@ -24,6 +25,7 @@ const restoreData = async () => {
     } catch (error) {
         console.error("Error while restoring data:", error);
     }
+    rePosWidgets()
 };
 
 function addWidget(type){
@@ -59,7 +61,7 @@ function addTasksWidget(title="New Widget", wId=widgetId, data=null) {
     if(data==null){
         widgets.push(new TasksWidget(wId))
     }else{
-        widgets.push(new TasksWidget(data.widgetId, data.title, data.tasks, data.xPos, data.yPos, )); // Create a new TasksWidget instance
+        widgets.push(new TasksWidget(data.widgetId, data.title, data.tasks, data.xPos, data.yPos, data.anchorX, data.anchorY)); // Create a new TasksWidget instance
     }
     widgetId++;
 }
@@ -86,7 +88,7 @@ function addIncrementalGoal(title="New Widget", wId=widgetId, goalName="enter go
         console.log("new wi")
         widgets.push(new IncrementalGoalWidget(widgetId=wId))
     }else{
-        widgets.push(new IncrementalGoalWidget(data.widgetId, data.title, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos));
+        widgets.push(new IncrementalGoalWidget(data.widgetId, data.title, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos, data.anchorX, data.anchorY));
     }
     widgetId++;
 }
@@ -112,9 +114,40 @@ addEventListener("beforeunload", (event) => {
     }   
 });
 
+
+
 restoreData();
 
-
+function rePosWidgets(){
+    let width = window.innerWidth
+    let height = window.innerHeight
+    for (let w of widgets) {
+        const anchorX = w.anchorX;
+        const anchorY = w.anchorY;
+        let newXPos;
+        let newYPos;
+      
+        // rePos x
+        if (anchorX[0] == "right") {
+            newXPos = width - parseInt(w.width) - parseInt(anchorX[1]);
+        } else if (anchorX[0] == "left") {
+            newXPos = parseInt(anchorX[1]);
+        }
+    
+        // rePos y
+        if (anchorY[0] == "bottom") {
+            newYPos = height - parseInt(w.height) - parseInt(anchorY[1]);
+        } else if (anchorY[0] == "top") {
+            newYPos = parseInt(anchorY[1]);
+        }
+    
+      
+        w.xPos = newXPos + "px";
+        w.yPos = newYPos + "px";
+        w.updatePos();
+      }
+      
+}
 const addButton = document.getElementById("addWidgetButton");
 const menu = document.querySelector(".widgetButtonsMenu");
 

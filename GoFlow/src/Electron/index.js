@@ -25,7 +25,6 @@ const createWindow = () => {
   });
   mainWindow.maximize()
 
-
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, '../index.html'));
 
@@ -57,17 +56,6 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
-});
-
-app.on('resize', function () {
-  var size   = mainWindow.getSize();
-  var width  = size[0];
-  var height = size[1];
-  console.log("width: " + width);
-  console.log("height: " + height);
-  contextBridge.exposeInMainWorld('windowSize', {
-    desktop: true
-  })
 });
 
 const handleCommunication = () => {

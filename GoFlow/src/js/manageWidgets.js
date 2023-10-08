@@ -40,12 +40,3 @@ document.addEventListener("mouseup", () => {
     isDragging = false;
     activeWindow = null;
 });
-
-function closeWindow(windowId) {
-    const window = document.getElementById(windowId);
-    if (window) {
-        window.remove();
-        delete widgetPositions[windowId]; // Remove the widget's position when it's closed
-    }
-}
-
