@@ -61,7 +61,7 @@ function addTasksWidget(title="New Widget", wId=widgetId, data=null) {
     if(data==null){
         widgets.push(new TasksWidget(wId))
     }else{
-        widgets.push(new TasksWidget(data.widgetId, data.title, data.tasks, data.xPos, data.yPos, data.anchorX, data.anchorY)); // Create a new TasksWidget instance
+        widgets.push(new TasksWidget(data.widgetId, data.title, data.type, data.tasks, data.xPos, data.yPos, data.anchorX, data.anchorY)); // Create a new TasksWidget instance
     }
     widgetId++;
 }
@@ -88,7 +88,7 @@ function addIncrementalGoal(title="New Widget", wId=widgetId, goalName="enter go
         console.log("new wi")
         widgets.push(new IncrementalGoalWidget(widgetId=wId))
     }else{
-        widgets.push(new IncrementalGoalWidget(data.widgetId, data.title, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos, data.anchorX, data.anchorY));
+        widgets.push(new IncrementalGoalWidget(data.widgetId, data.title, data.type, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos, data.anchorX, data.anchorY));
     }
     widgetId++;
 }

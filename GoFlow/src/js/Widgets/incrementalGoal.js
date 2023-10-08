@@ -1,7 +1,10 @@
-export class IncrementalGoalWidget {
+import { Widget } from "../widget.js";
+
+export class IncrementalGoalWidget extends Widget {
   constructor(
     widgetId,
-    title = "Goal",
+    title = "Widget",
+    type = "incrementalGoal",
     goalName = "enter goal",
     lastDateIncreased = null,
     streak = 0,
@@ -10,26 +13,16 @@ export class IncrementalGoalWidget {
     anchorX = ["left", "0px"],
     anchorY = ["top", "0px"]
   ) {
-    this.title = title;
-    this.widgetId = widgetId;
-    this.type = "incrementalGoal";
-    this.widgetPath = document.getElementById(
-      `incrementalGoal${this.widgetId}`
-    );
+    super(widgetId, title, type, xPos, yPos, anchorX, anchorY);
     this.width = "270px";
     this.height = "180px";
     this.goalName = goalName;
     this.streak = streak;
     this.lastDateIncreased = lastDateIncreased;
 
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.anchorX = anchorX;
-    this.anchorY = anchorY;
-
-    this.loadEventListener();
+    this.loadBaseEventListener();
+    this.loadEventListener()
     this.checkStreak();
-    this.updatePos()
   }
 
   increaseGoal() {
@@ -71,37 +64,6 @@ export class IncrementalGoalWidget {
       // doesnt passed 24 hours
       return false;
     }
-  }
-
-  saveData() {
-    this.xPos = this.widgetPath.style.left;
-    this.yPos = this.widgetPath.style.top;
-    const data = {
-      widgetId: this.widgetId,
-      goalName: this.goalName,
-      streak: this.streak,
-      xPos: this.xPos,
-      yPos: this.yPos,
-      anchorX: this.anchorX,
-      anchorY: this.anchorY,
-      lastDateIncreased: this.lastDateIncreased,
-      type: this.type,
-      title: this.title,
-    };
-
-    // Assuming you have an external API for saving data (window.electronAPI.saveData),
-    // you can call it here.
-    window.electronAPI.saveData(JSON.stringify(data), "widget" + this.widgetId);
-  }
-
-  updatePos() {
-    this.widgetPath.style.left = this.xPos;
-    this.widgetPath.style.top = this.yPos;
-  }
-  saveTitle() {
-    const titleText = this.widgetPath.querySelector(".titleText");
-    titleText.contentEditable = false;
-    this.title = titleText.textContent.trim();
   }
 
   checkStreak() {
@@ -182,71 +144,17 @@ export class IncrementalGoalWidget {
     this.saveData();
     this.updateText();
   }
+
   loadEventListener() {
-    this.saveTitle = this.saveTitle.bind(this);
     this.widgetPath
       .querySelector(".incrementalGoalWindow")
       .querySelector("#increaseGoal")
       .addEventListener("click", () => {
         this.increaseGoal();
       });
-
-    this.widgetPath
-      .querySelector(".titleText")
-      .addEventListener("click", () => {
-        this.widgetPath.querySelector(".titleText").contentEditable = true;
-        this.widgetPath.querySelector(".titleText").focus();
-      });
-
     this.widgetPath
       .querySelector(".incrementalGoalWindow")
       .querySelector("#incrementalGoalName")
       .addEventListener("click", () => this.editGoal());
-
-    document.addEventListener("click", (event) => {
-      if (event.target !== this.widgetPath.querySelector(".titleText")) {
-        this.saveTitle();
-      }
-    });
-    this.widgetPath
-      .querySelector(".titleText")
-      .addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
-          this.widgetPath.querySelector(".titleText").blur(); // Trigger the blur event to save the title
-        }
-      });
-
-    this.widgetPath.addEventListener("click", (event) => {
-      this.determineNewAnchors();
-    });
-  }
-
-  determineNewAnchors() {
-    this.xPos = this.widgetPath.style.left;
-    this.yPos = this.widgetPath.style.top;
-  
-    const windowWidth = window.innerWidth;
-    const windowHeight = window.innerHeight;
-    const rightXPos = parseInt(this.xPos) + parseInt(this.width) + "px";
-    const bottomYPos = parseInt(this.yPos) + parseInt(this.height) + "px";
-  
-    // anchorX
-    if (parseInt(this.xPos) > windowWidth / 2) {
-      // Keep the widget on the right side of the screen
-      this.anchorX = ["right", windowWidth - parseInt(rightXPos) + "px"];
-    } else {
-      // Keep the widget on the left side of the screen
-      this.anchorX = ["left", this.xPos];
-    }
-    // anchorY
-    if (parseInt(this.yPos) + parseInt(this.height)/2 > windowHeight / 2) {
-        // Keep the widget at the top of the screen
-        this.anchorY = ["bottom", windowHeight - parseInt(bottomYPos) + "px"];
-    } else {
-        // Keep the widget at the bottom of the screen
-        this.anchorY = ["top", this.yPos];
-    }
-    this.saveData()
   }
 }
