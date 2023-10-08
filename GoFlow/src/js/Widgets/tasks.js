@@ -1,6 +1,6 @@
 
 export class TasksWidget {
-    constructor(widgetId, title="Task", tasks={}, xPos=0, yPos=0) {
+    constructor(widgetId, title="Task", tasks={}, xPos=0, yPos=0, anchorX=["left", "0px"], anchorY=["top", "0px"]) {
         this.widgetId = widgetId;
         this.tasks = tasks;
         this.id = Object.keys(this.tasks).length;
@@ -9,7 +9,7 @@ export class TasksWidget {
         this.xPos = xPos
         this.yPos = yPos
         this.widgetPath = document.getElementById(`tasks${this.widgetId}`);
-        this.taskInput = this.widgetPath.querySelector("#taskInput");
+        this.taskInput = this.widgetPath.querySelector(".taskBoard").querySelector("#taskInput");
         this.taskList = this.widgetPath.querySelector("#taskList");
 
         this.editTaskText = this.editTaskText.bind(this); // Bind the editTaskText method to the instance

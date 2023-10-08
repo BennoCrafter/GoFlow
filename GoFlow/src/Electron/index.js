@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, globalShortcut } = require("electron");
+const { app, BrowserWindow, ipcMain, globalShortcut, contextBridge, screen } = require("electron");
 const path = require('path');
 const fsWrite = require("fs").promises;
 const fsRead = require("fs");
@@ -17,8 +17,9 @@ const createWindow = () => {
     width: 1200,
     height: 800,
     icon: path.join(__dirname, "../icons/icon.png"),
+    nodeIntegration: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, "preload.js"),
     },
     zoomFactor: 1.0,
   });
@@ -58,6 +59,16 @@ app.on('activate', () => {
   }
 });
 
+app.on('resize', function () {
+  var size   = mainWindow.getSize();
+  var width  = size[0];
+  var height = size[1];
+  console.log("width: " + width);
+  console.log("height: " + height);
+  contextBridge.exposeInMainWorld('windowSize', {
+    desktop: true
+  })
+});
 
 const handleCommunication = () => {
   ipcMain.removeHandler("saveData");

@@ -1,20 +1,23 @@
 export class IncrementalGoalWidget {
-    constructor(widgetId, goalName = "enter goal", lastDateIncreased=null, streak = 0, xPos="0px", yPos = "0px", title="Goal") {
+    constructor(widgetId, title="Goal", goalName = "enter goal", lastDateIncreased=null, streak=0, xPos="0px", yPos = "0px", anchorX=["left", "0px"], anchorY=["top", "0px"]) {
+        this.title = title
         this.widgetId = widgetId;
+        this.type = "incrementalGoal";
+        this.widgetPath = document.getElementById(`incrementalGoal${this.widgetId}`);
+
         this.goalName = goalName;
         this.streak = streak;
+        this.lastDateIncreased = lastDateIncreased;
+
         this.xPos = xPos;
         this.yPos = yPos;
-        this.title = title
-        this.type = "incrementalGoal";
-        this.lastDateIncreased = lastDateIncreased;
-        this.widgetPath = document.getElementById(`incrementalGoal${this.widgetId}`);
+        this.anchorX = anchorX;
+        this.anchorY = anchorY;
         this.widgetPath.style.left = this.xPos
         this.widgetPath.style.top = this.yPos   
-        this.saveTitle = this.saveTitle.bind(this); // Bind the saveTitle method to the instance
+        console.log(window.windowSize)
         this.loadEventListener();
         this.checkStreak()
-        this.widgetPath.querySelector(".titleText").textContent = this.title;
 
     }
       
@@ -89,7 +92,12 @@ export class IncrementalGoalWidget {
     }
   
     updateText() {
+      // update streak
       this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#incrementalGoalStreak").textContent = "Streak: " + this.streak;
+      // update title
+      this.widgetPath.querySelector(".titleText").textContent = this.title;
+      // update goal name
+      this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#incrementalGoalName").textContent = this.goalName.trim();
     }
     
     showReward() {
@@ -146,6 +154,7 @@ export class IncrementalGoalWidget {
       this.updateText()
     }
     loadEventListener() {
+      this.saveTitle = this.saveTitle.bind(this);
       this.widgetPath.querySelector(".incrementalGoalWindow").querySelector("#increaseGoal").addEventListener("click", () => {
         this.increaseGoal();
       });

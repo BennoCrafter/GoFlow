@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require("electron");
+const { contextBridge, ipcRenderer} = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
   saveData(data, name) {
@@ -8,4 +8,3 @@ contextBridge.exposeInMainWorld("electronAPI", {
     return ipcRenderer.invoke("restoreData");
   },
 });
-

@@ -1,6 +1,6 @@
 {
   "name": "goflow",
-  "productName": "goflow",
+  "productName": "Goflow",
   "version": "0.0.1",
   "description": "GoFlow. Manage everything!",
   "main": "src/Electron/index.js",

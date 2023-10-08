@@ -31,6 +31,8 @@ function addWidget(type){
         addTasksWidget()
     }else if(type=="addWidgetIncrementalGoal"){
         addIncrementalGoal()
+    }else if(type=="addWidgetQuote"){
+        
     }
 }
 
@@ -54,15 +56,15 @@ function addTasksWidget(title="New Widget", wId=widgetId, data=null) {
         </div>
     `;
     widgetsContainer.appendChild(widget);
-    if(data=="new"){
-        widgets.push(new TasksWidget(widgetId))
+    if(data==null){
+        widgets.push(new TasksWidget(wId))
     }else{
-        widgets.push(new TasksWidget(data.widgetId, data.title, data.tasks, data.xPos, data.yPos)); // Create a new TasksWidget instance
+        widgets.push(new TasksWidget(data.widgetId, data.title, data.tasks, data.xPos, data.yPos, )); // Create a new TasksWidget instance
     }
     widgetId++;
 }
 
-function addIncrementalGoal(title, wId=widgetId, goalName="enter goal", data=null){
+function addIncrementalGoal(title="New Widget", wId=widgetId, goalName="enter goal", data=null){
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
@@ -80,10 +82,11 @@ function addIncrementalGoal(title, wId=widgetId, goalName="enter goal", data=nul
         </div>
     `; 
     widgetsContainer.appendChild(widget);
-    if(data=="new"){
-        widgets.push(new IncrementalGoalWidget(widgetId))
+    if(data==null){
+        console.log("new wi")
+        widgets.push(new IncrementalGoalWidget(widgetId=wId))
     }else{
-        widgets.push(new IncrementalGoalWidget(data.widgetId, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos, data.title));
+        widgets.push(new IncrementalGoalWidget(data.widgetId, data.title, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos));
     }
     widgetId++;
 }
