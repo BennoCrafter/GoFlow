@@ -1,12 +1,13 @@
 export class Widget {
   constructor(
     widgetId,
-    title="Widget",
-    type="not def",
-    xPos = "0px",
-    yPos = "0px",
-    anchorX = ["left", "0px"],
-    anchorY = ["top", "0px"],
+    title,
+    type,
+    xPos,
+    yPos,
+    anchorX,
+    anchorY,
+    uniqueWidgetData
   ) {
     this.widgetId = widgetId;
     this.title = title;
@@ -16,8 +17,11 @@ export class Widget {
     this.yPos = yPos;
     this.anchorX = anchorX;
     this.anchorY = anchorY;
+    
+    this.uniqueWidgetData = uniqueWidgetData;
     this.widgetPath = document.getElementById(`${type}${widgetId}`);
     this.widgetPath.querySelector(".titleText").textContent = this.title;
+    
     this.updatePos()
 }
 
@@ -38,15 +42,8 @@ export class Widget {
       anchorX: this.anchorX,
       anchorY: this.anchorY,
     };
-    let specialData;
-    if(this.type=="incrementalGoal"){
-        specialData = {goalName:this.goalName, streak: this.streak, lastDateIncreased: this.lastDateIncreased}
-    }else if(this.type=="tasks"){
-        specialData = {tasks: this.tasks}
-    }
 
-    const mergedData = {...data, ...specialData}
-    console.log(mergedData)
+    const mergedData = {...data, ...this.uniqueWidgetData}
 
     // todo add possibillity to save it just so as file without any electron
     window.electronAPI.saveData(JSON.stringify(mergedData), "widget" + this.widgetId);
@@ -110,7 +107,6 @@ export class Widget {
   }
 
   saveTitle() {
-    console.log("lel")
     const titleText = this.widgetPath.querySelector(".titleText");
     titleText.contentEditable = false;
     this.title = titleText.textContent.trim();
