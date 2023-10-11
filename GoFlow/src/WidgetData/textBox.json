@@ -1,0 +1,7 @@
+
+
+{
+"html": "<div class='textBoxWindow'><div class='text'><span contenteditable='true' id='textContent'>text content</span></div></div>",
+    "uniqueWidgetData": {"textContent": "enter you're text", "width": "270px", "height": "180px", "textX": "0px", "textY": "0px"},
+    "type": "textBox"
+}

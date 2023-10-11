@@ -8,9 +8,12 @@ export class Widget {
     this.data = data;
     this.uniqueWidgetData = uniqueWidgetData;
     this.widgetPath = document.getElementById(`${this.data.type}${widgetId}`);
+    console.log(this.widgetPath)
     this.widgetPath.querySelector(".titleText").textContent = this.data.title;
+    console.log(this.widgetPath.querySelector(".titleText"))
     this.saveData()
     this.updatePos()
+    this.loadBaseEventListener()
 }
 
   updatePos() {

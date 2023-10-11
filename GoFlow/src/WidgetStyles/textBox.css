@@ -1,0 +1,27 @@
+.textBoxWindow {
+    background-color: #ffeced;
+    width: 270px;
+    height: 160px;
+    padding: 20px;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 0px 0px 10px 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+  }
+  
+  #textContent {
+    font-size: 20px;
+    font-family: monospace;
+    color: black;
+    display: inline-block;
+    max-width: 100%; /* Set maximum width to match the container */
+    white-space: normal; /* Allow text to wrap */
+  }
+  
+  .text {
+    position: absolute;
+  }
+  

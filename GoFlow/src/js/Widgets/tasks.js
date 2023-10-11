@@ -15,7 +15,6 @@ export class TasksWidget extends Widget {
       .querySelector("#taskInput");
     this.taskList = this.widgetPath.querySelector("#taskList");
 
-    this.loadBaseEventListener();
     this.loadEventListeners();
     this.displayTasks();
   }

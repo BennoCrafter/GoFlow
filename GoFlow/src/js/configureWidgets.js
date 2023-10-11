@@ -25,7 +25,7 @@ const restoreData = async () => {
             for (const widget of result.filesData) {
                 // todo fix it
                 console.log(widget.uniqueWidgetData)
-                console.log(widget.data.type)
+                console.log(widget.data)
                 spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
             }
         } else {
