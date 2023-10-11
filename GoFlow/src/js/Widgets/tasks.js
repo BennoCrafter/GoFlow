@@ -73,7 +73,7 @@ export class TasksWidget extends Widget {
   toggleTaskCompletion(taskId) {
     const e = document
       .querySelector(".widgets")
-      .querySelector(`#${this.type}${this.widgetId}`)
+      .querySelector(`#${this.data.type}${this.widgetId}`)
       .querySelector(".tasks")
       .querySelector("#taskList")
       .querySelector(`#task${taskId}`);
