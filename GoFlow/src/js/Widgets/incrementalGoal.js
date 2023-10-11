@@ -3,34 +3,27 @@ import { Widget } from "../widget.js";
 export class IncrementalGoalWidget extends Widget {
   constructor(
     widgetId,
-    title = "Widget",
-    type = "incrementalGoal",
-    goalName = "enter goal",
-    lastDateIncreased = null,
-    streak = 0,
-    xPos = "0px",
-    yPos = "0px",
-    anchorX = ["left", "0px"],
-    anchorY = ["top", "0px"]
+    data,
+    uniqueWidgetData
   ) {
-    super(widgetId, title, type, xPos, yPos, anchorX, anchorY);
-    this.width = "270px";
-    this.height = "180px";
-    this.goalName = goalName;
-    this.streak = streak;
-    this.lastDateIncreased = lastDateIncreased;
-
+    super(widgetId, data, uniqueWidgetData);
+    
+    this.data = data
+    this.uniqueWidgetData = uniqueWidgetData
+    console.log(this.uniqueWidgetData)
+   
     this.loadBaseEventListener();
     this.loadEventListener()
     this.checkStreak();
+    this.updateText()
   }
 
   increaseGoal() {
     if (this.canIncrease()) {
-      this.lastDateIncreased = new Date().getTime();
-      this.streak++;
+      this.uniqueWidgetData.lastDateIncreased = new Date().getTime();
+      this.uniqueWidgetData.streak++;
       this.showReward();
-      console.log(`Goal increased! Current streak: ${this.streak}`);
+      console.log(`Goal increased! Current streak: ${this.uniqueWidgetData.streak}`);
       this.updateText();
       this.saveData();
     } else {
@@ -39,13 +32,13 @@ export class IncrementalGoalWidget extends Widget {
   }
 
   canIncrease() {
-    if (this.lastDateIncreased == null) {
+    if (this.uniqueWidgetData.lastDateIncreased == null) {
       return true; // If lastDateIncreased is not set, allow increasing
     }
 
     // Check if the last increment was more than 24 hours ago
     const currentDate = new Date().getTime();
-    const timeDifference = currentDate - this.lastDateIncreased;
+    const timeDifference = currentDate - this.uniqueWidgetData.lastDateIncreased;
     if (
       timeDifference >= 24 * 60 * 60 * 1000 &&
       timeDifference <= 2 * (24 * 60 * 60 * 1000)
@@ -54,10 +47,10 @@ export class IncrementalGoalWidget extends Widget {
       return true;
     } else if (timeDifference >= 2 * (24 * 60 * 60 * 1000)) {
       // passed over 48 hours (streak reset)
-      this.streak = 0;
+      this.uniqueWidgetData.streak = 0;
       this.saveData();
       this.updateText();
-      this.lastDateIncreased = null; // set it to default
+      this.uniqueWidgetData.lastDateIncreased = null; // set it to default
       console.log("lost streak");
       return false;
     } else {
@@ -77,13 +70,13 @@ export class IncrementalGoalWidget extends Widget {
     this.widgetPath
       .querySelector(".incrementalGoalWindow")
       .querySelector("#incrementalGoalStreak").textContent =
-      "Streak: " + this.streak;
+      "Streak: " + this.uniqueWidgetData.streak;
     // update title
-    this.widgetPath.querySelector(".titleText").textContent = this.title;
+    this.widgetPath.querySelector(".titleText").textContent = this.data.title;
     // update goal name
     this.widgetPath
       .querySelector(".incrementalGoalWindow")
-      .querySelector("#incrementalGoalName").textContent = this.goalName.trim();
+      .querySelector("#incrementalGoalName").textContent = this.uniqueWidgetData.goalName.trim();
   }
 
   showReward() {
@@ -136,7 +129,7 @@ export class IncrementalGoalWidget extends Widget {
     textSpan.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
-        this.goalName = textSpan.textContent.trim();
+        this.uniqueWidgetData.goalName = textSpan.textContent.trim();
         textSpan.contentEditable = false;
       }
     });

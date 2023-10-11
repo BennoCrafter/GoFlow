@@ -63,7 +63,7 @@ const handleCommunication = () => {
   ipcMain.removeHandler("restoreData");
   ipcMain.handle("saveData", async (event, data, name) => {
     try {
-      const filePath = path.join(__dirname, `../WidgetData/${name}.json`); // Set your desired file path here
+      const filePath = path.join(__dirname, `../SavedData/${name}.json`); // Set your desired file path here
       await fsWrite.writeFile(filePath, data, "utf8");
 
       return { success: true };
@@ -74,6 +74,25 @@ const handleCommunication = () => {
   
 
   ipcMain.handle("restoreData", async () => {
+    try {
+      const directoryPath = path.join(__dirname, '../SavedData/');
+      const files = await fsRead.promises.readdir(directoryPath);
+      
+      const filesData = await Promise.all(files.map(async (file) => {
+        const filePath = path.join(directoryPath, file);
+        const data = await fsRead.promises.readFile(filePath, "utf8");
+        return JSON.parse(data);
+      }));
+      
+      
+      return { success: true, filesData: filesData };
+    } catch (error) {
+      console.error('Error:', error);
+      return { error };
+    }
+  });
+
+  ipcMain.handle("getWidgetData", async () => {
     try {
       const directoryPath = path.join(__dirname, '../WidgetData/');
       const files = await fsRead.promises.readdir(directoryPath);

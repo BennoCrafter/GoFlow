@@ -3,18 +3,11 @@ import { Widget } from "../widget.js";
 export class TasksWidget extends Widget {
   constructor(
     widgetId,
-    title = "Widget",
-    type = "tasks",
-    tasks = {},
-    xPos = "0px",
-    yPos = "0px",
-    anchorX = ["left", "0px"],
-    anchorY = ["top", "0px"]
+    data,
+    uniqueWidgetData
   ) {
-    super(widgetId, title, type, xPos, yPos, anchorX, anchorY);
-    this.width = "320px";
-    this.height = "420px";
-    this.tasks = tasks;
+    super(widgetId, data, uniqueWidgetData);
+    this.tasks = uniqueWidgetData.tasks;
     this.id = Object.keys(this.tasks).length;
 
     this.taskInput = this.widgetPath

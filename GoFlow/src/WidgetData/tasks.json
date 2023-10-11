@@ -1,0 +1,5 @@
+{
+    "html": "<div class='taskBoard'><button id='addTaskButton' type='button'>Add</button><input placeholder='Task' id='taskInput'></div><div class='tasks'><div id='taskList'></div></div>",
+    "uniqueWidgetData": {"tasks": {}, "width": "320px", "height": "420px"},
+    "type": "tasks"
+}

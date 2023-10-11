@@ -7,4 +7,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
   restoreData() {
     return ipcRenderer.invoke("restoreData");
   },
+  getWidgetData(){
+    return ipcRenderer.invoke("getWidgetData");
+  }
 });

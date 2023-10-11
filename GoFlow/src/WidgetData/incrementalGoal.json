@@ -1,0 +1,5 @@
+{
+    "html": "<div class='incrementalGoalWindow'><p id='reward'> </p><span contenteditable='true' id='incrementalGoalName'>${goalName}</span><button id='increaseGoal' type='button'>+</button><p id='incrementalGoalStreak'>Streak: 0<p></div>",
+    "uniqueWidgetData": {"goalName": "enter goal", "lastDateIncreased": null, "streak": 0, "width": "270px", "height": "180px"},
+    "type": "incrementalGoal"
+}

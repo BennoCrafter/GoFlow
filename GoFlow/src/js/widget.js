@@ -1,49 +1,29 @@
 export class Widget {
   constructor(
     widgetId,
-    title,
-    type,
-    xPos,
-    yPos,
-    anchorX,
-    anchorY,
-    uniqueWidgetData
+    data,
+    uniqueWidgetData,
   ) {
     this.widgetId = widgetId;
-    this.title = title;
-    this.type = type;
-
-    this.xPos = xPos;
-    this.yPos = yPos;
-    this.anchorX = anchorX;
-    this.anchorY = anchorY;
-    
+    this.data = data;
     this.uniqueWidgetData = uniqueWidgetData;
-    this.widgetPath = document.getElementById(`${type}${widgetId}`);
-    this.widgetPath.querySelector(".titleText").textContent = this.title;
-    
+    this.widgetPath = document.getElementById(`${this.data.type}${widgetId}`);
+    this.widgetPath.querySelector(".titleText").textContent = this.data.title;
+    this.saveData()
     this.updatePos()
 }
 
   updatePos() {
-    this.widgetPath.style.left = this.xPos;
-    this.widgetPath.style.top = this.yPos;
+    
+    this.widgetPath.style.left = this.data.xPos;
+    this.widgetPath.style.top = this.data.yPos;
   }
 
   saveData() {
-    this.xPos = this.widgetPath.style.left;
-    this.yPos = this.widgetPath.style.top;
-    const data = {
-      widgetId: this.widgetId,
-      type: this.type,
-      title: this.title,
-      xPos: this.xPos,
-      yPos: this.yPos,
-      anchorX: this.anchorX,
-      anchorY: this.anchorY,
-    };
+    this.data.xPos = this.widgetPath.style.left;
+    this.data.yPos = this.widgetPath.style.top;
 
-    const mergedData = {...data, ...this.uniqueWidgetData}
+    const mergedData = {...{widgetId: this.widgetId}, ...{data: this.data}, ...{uniqueWidgetData: this.uniqueWidgetData}}
 
     // todo add possibillity to save it just so as file without any electron
     window.electronAPI.saveData(JSON.stringify(mergedData), "widget" + this.widgetId);
@@ -79,29 +59,29 @@ export class Widget {
   }
 
   determineNewAnchors() {
-    this.xPos = this.widgetPath.style.left;
-    this.yPos = this.widgetPath.style.top;
+    this.data.xPos = this.widgetPath.style.left;
+    this.data.yPos = this.widgetPath.style.top;
 
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
-    const rightXPos = parseInt(this.xPos) + parseInt(this.width) + "px";
-    const bottomYPos = parseInt(this.yPos) + parseInt(this.height) + "px";
+    const rightXPos = parseInt(this.data.xPos) + parseInt(this.uniqueWidgetData.width) + "px";
+    const bottomYPos = parseInt(this.data.yPos) + parseInt(this.uniqueWidgetData.height) + "px";
 
     // anchorX
-    if (parseInt(this.xPos) > windowWidth / 2) {
+    if (parseInt(this.data.xPos) > windowWidth / 2) {
       // Keep the widget on the right side of the screen
-      this.anchorX = ["right", windowWidth - parseInt(rightXPos) + "px"];
+      this.data.anchorX = ["right", windowWidth - parseInt(rightXPos) + "px"];
     } else {
       // Keep the widget on the left side of the screen
-      this.anchorX = ["left", this.xPos];
+      this.data.anchorX = ["left", this.data.xPos];
     }
     // anchorY
-    if (parseInt(this.yPos) + parseInt(this.height) / 2 > windowHeight / 2) {
+    if (parseInt(this.data.yPos) + parseInt(this.uniqueWidgetData.height) / 2 > windowHeight / 2) {
       // Keep the widget at the top of the screen
-      this.anchorY = ["bottom", windowHeight - parseInt(bottomYPos) + "px"];
+      this.data.anchorY = ["bottom", windowHeight - parseInt(bottomYPos) + "px"];
     } else {
       // Keep the widget at the bottom of the screen
-      this.anchorY = ["top", this.yPos];
+      this.data.anchorY = ["top", this.data.yPos];
     }
     this.saveData();
   }
@@ -109,6 +89,6 @@ export class Widget {
   saveTitle() {
     const titleText = this.widgetPath.querySelector(".titleText");
     titleText.contentEditable = false;
-    this.title = titleText.textContent.trim();
+    this.data.title = titleText.textContent.trim();
 }
 }

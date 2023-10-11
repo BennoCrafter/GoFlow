@@ -7,13 +7,13 @@ body {
 .incrementalGoalWindow {
   background-color: #f3eded;
   width: 270px;
+  height: 160px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 10px 10px;
-  height: 160px;
 }
 
 #incrementalGoalName {

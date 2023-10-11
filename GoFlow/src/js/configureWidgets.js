@@ -1,10 +1,21 @@
 import { TasksWidget } from "./Widgets/tasks.js"
 import { IncrementalGoalWidget } from "./Widgets/incrementalGoal.js"
+import { TextBox } from "./Widgets/textBox.js";
 
-let widgets = [];
+
 let widgetId = 0;
 
+let widgets = [];
+let widgetData = {};
+// call rePosWidgets functiom on resizing window
 window.onresize = rePosWidgets
+
+// todo: do it extra file
+const exampleData = {xPos: "0px", yPos: "0px",anchorX: ["left","0px"], anchorY:["top","0px"], title: "Title"}
+const titleHtml = `        
+<div class="title-bar">
+    <span contenteditable="true" class="titleText">title</span>
+</div>  `;
 
 const restoreData = async () => {
     try {
@@ -12,12 +23,10 @@ const restoreData = async () => {
 
         if (result.success) {
             for (const widget of result.filesData) {
-                if (widget.type === "tasks") {
-                    addTasksWidget(widget.title, widget.widgetId, widget)
-                }else if(widget.type == "incrementalGoal"){
-                    addIncrementalGoal(widget.title, widget.widgetId, widget.goalName, widget)
-                }
-                
+                // todo fix it
+                console.log(widget.uniqueWidgetData)
+                console.log(widget.data.type)
+                spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
             }
         } else {
             console.error("Data restore failed:", result.error);
@@ -28,69 +37,49 @@ const restoreData = async () => {
     rePosWidgets()
 };
 
+const loadWidgetData = async () =>{
+    try {
+        const result = await window.electronAPI.getWidgetData();
+
+        if (result.success) {
+            for (const wD of result.filesData) {
+                widgetData[wD.type] = wD;        
+            }
+        } else {
+            console.error("Data restore failed:", result.error);
+        }
+    } catch (error) {
+        console.error("Error while restoring data:", error);
+    }
+    
+    restoreData()
+}
 function addWidget(type){
-    if(type=="addWidgetTasks"){
-        addTasksWidget()
-    }else if(type=="addWidgetIncrementalGoal"){
-        addIncrementalGoal()
-    }else if(type=="addWidgetQuote"){
-        
-    }
+    console.log(exampleData)
+    let exampleDataExtended = {...exampleData}
+    exampleDataExtended["type"] = type
+    console.log(exampleDataExtended, "sdsdsd")
+    console.log("ooo",exampleData)
+    spawnWidget(widgetData[type]["html"], widgetData[type]["uniqueWidgetData"], widgetId, type, exampleDataExtended)
+
 }
 
 
-function addTasksWidget(title="New Widget", wId=widgetId, data=null) {
+function spawnWidget(html, uniqueWidgetData, wId, wType, data){
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
-    widget.id = `tasks${wId}`
-    widget.innerHTML = `
-        <div class="title-bar">
-            <span contenteditable="true" class="titleText">${title} ${wId}</span>
-        </div>  
-        </div>
-        <div class="taskBoard">
-            <button id="addTaskButton" type="button">Add</button>
-            <input placeholder="Task" id="taskInput">
-        </div>
-        <div class="tasks">
-            <div id="taskList"></div>
-        </div>
-    `;
+    widget.id = `${wType}${wId}`
+    widget.innerHTML = titleHtml + html
     widgetsContainer.appendChild(widget);
-    if(data==null){
-        widgets.push(new TasksWidget(wId))
-    }else{
-        widgets.push(new TasksWidget(data.widgetId, data.title, data.type, data.tasks, data.xPos, data.yPos, data.anchorX, data.anchorY)); // Create a new TasksWidget instance
-    }
     widgetId++;
-}
-
-function addIncrementalGoal(title="New Widget", wId=widgetId, goalName="enter goal", data=null){
-    const widgetsContainer = document.querySelector(".widgets");
-    const widget = document.createElement('div');
-    widget.className = 'widget';
-    widget.id = `incrementalGoal${wId}`
-    widget.innerHTML = `
-        <div class="title-bar">
-            <span contenteditable="true" class="titleText">${title} ${wId}</span>
-        </div>  
-        </div>
-        <div class="incrementalGoalWindow">
-            <p id="reward"> </p>
-            <span contenteditable="true" id="incrementalGoalName">${goalName}</span>
-            <button id="increaseGoal" type="button">+</button>
-            <p id="incrementalGoalStreak">Streak: 0<p>
-        </div>
-    `; 
-    widgetsContainer.appendChild(widget);
-    if(data==null){
-        console.log("new wi")
-        widgets.push(new IncrementalGoalWidget(widgetId=wId))
-    }else{
-        widgets.push(new IncrementalGoalWidget(data.widgetId, data.title, data.type, data.goalName, data.lastDateIncreased, data.streak, data.xPos, data.yPos, data.anchorX, data.anchorY));
+    if(wType=="tasks"){
+        widgets.push(new TasksWidget(wId, data, uniqueWidgetData))
+    }else if(wType== "incrementalGoal"){
+        widgets.push(new IncrementalGoalWidget(wId, data, uniqueWidgetData))
+    }else if(wType=="textBox"){
+        widgets.push(new TextBox(wId, data, uniqueWidgetData))
     }
-    widgetId++;
 }
 
 
@@ -116,34 +105,34 @@ addEventListener("beforeunload", (event) => {
 
 
 
-restoreData();
+loadWidgetData();
 
 function rePosWidgets(){
     let width = window.innerWidth
     let height = window.innerHeight
     for (let w of widgets) {
-        const anchorX = w.anchorX;
-        const anchorY = w.anchorY;
+        const anchorX = w.data.anchorX;
+        const anchorY = w.data.anchorY;
         let newXPos;
         let newYPos;
       
         // rePos x
         if (anchorX[0] == "right") {
-            newXPos = width - parseInt(w.width) - parseInt(anchorX[1]);
+            newXPos = width - parseInt(w.uniqueWidgetData.width) - parseInt(anchorX[1]);
         } else if (anchorX[0] == "left") {
             newXPos = parseInt(anchorX[1]);
         }
     
         // rePos y
         if (anchorY[0] == "bottom") {
-            newYPos = height - parseInt(w.height) - parseInt(anchorY[1]);
+            newYPos = height - parseInt(w.uniqueWidgetData.height) - parseInt(anchorY[1]);
         } else if (anchorY[0] == "top") {
             newYPos = parseInt(anchorY[1]);
         }
     
       
-        w.xPos = newXPos + "px";
-        w.yPos = newYPos + "px";
+        w.data.xPos = newXPos + "px";
+        w.data.yPos = newYPos + "px";
         w.updatePos();
       }
       
@@ -164,6 +153,6 @@ document.addEventListener("click", function(event) {
     menu.style.display = "none";
   }else if(menu.contains(event.target) && event.target !== addButton){
     menu.style.display = "none";
-    addWidget(event.target.id)
+    addWidget(event.target.getAttribute("data-widgetType"))
   }
 });
