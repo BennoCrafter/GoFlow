@@ -1,1 +1,1 @@
-{"widgetId":1,"data":{"xPos":"","yPos":"","anchorX":["left",""],"anchorY":["top",""],"title":"Title","type":"tasks"},"uniqueWidgetData":{"tasks":{"0":{"text":"test","completed":false},"1":{"text":"sd","completed":false},"2":{"text":"ds","completed":false}},"width":"320px","height":"420px"}}
+{"widgetId":1,"data":{"xPos":"17px","yPos":"275px","anchorX":["left","17px"],"anchorY":["bottom","102px"],"title":"Todo's","type":"tasks"},"uniqueWidgetData":{"tasks":{"0":{"text":"example todo","completed":false},"1":{"text":"learn","completed":false}},"width":"320px","height":"420px"}}

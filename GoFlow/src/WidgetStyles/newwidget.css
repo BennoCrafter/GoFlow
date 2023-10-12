@@ -1,0 +1,27 @@
+.textBoxWindow {
+    background-color: 	#a1d1cb; /* Vintage Apricot */
+}
+
+.textContent {
+    color: #584D3C; 
+}
+
+body {
+    background-color: #ffe0ae; /* Antique Silver */
+}
+
+.incrementalGoalWindow {
+    background-color: #a1d1cb; /* Old Gold */
+}
+
+.tasks {
+    background-color: #a1d1cb; /* Old Gold */
+}
+
+.taskBoard {
+    background-color: #a1d1cb; /* Old Gold */
+}
+
+button {
+    color: #a1d1cb; /* Vintage Apricot */
+}

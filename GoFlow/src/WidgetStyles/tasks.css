@@ -1,14 +1,14 @@
 .taskBoard{
   overflow: hidden;
   margin: auto;
-  background-color: #f3eded;
+  background-color: rgba(237, 243, 236, 1);
   width: 320px;
   }
 
 .tasks{
   width: 320px;
   height: 400px;
-  background-color:#f3eded;
+  background-color:rgba(237, 243, 236, 1);
   margin: auto;
   overflow: auto;
   border-radius: 0px 0px 10px 10px;
