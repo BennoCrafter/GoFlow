@@ -1,6 +1,7 @@
 import { TasksWidget } from "./Widgets/tasks.js"
 import { IncrementalGoalWidget } from "./Widgets/incrementalGoal.js"
 import { TextBox } from "./Widgets/textBox.js";
+import { GifWidget } from "./Widgets/gif.js";
 
 
 let widgetId = 0;
@@ -79,6 +80,8 @@ function spawnWidget(html, uniqueWidgetData, wId, wType, data){
         widgets.push(new IncrementalGoalWidget(wId, data, uniqueWidgetData))
     }else if(wType=="textBox"){
         widgets.push(new TextBox(wId, data, uniqueWidgetData))
+    }else if(wType=="gif"){
+        widgets.push(new GifWidget(wId, data, uniqueWidgetData))
     }
 }
 
