@@ -8,6 +8,8 @@ let widgetId = 0;
 
 let widgets = [];
 let widgetData = {};
+let currWidgetPageId = 0
+let currProjectId = 0
 // call rePosWidgets functiom on resizing window
 window.onresize = rePosWidgets
 
@@ -25,8 +27,6 @@ const restoreData = async () => {
         if (result.success) {
             for (const widget of result.filesData) {
                 // todo fix it
-                console.log(widget.uniqueWidgetData)
-                console.log(widget.data)
                 spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
             }
         } else {
@@ -56,11 +56,7 @@ const loadWidgetData = async () =>{
     restoreData()
 }
 function addWidget(type){
-    console.log(exampleData)
-    let exampleDataExtended = {...exampleData}
-    exampleDataExtended["type"] = type
-    console.log(exampleDataExtended, "sdsdsd")
-    console.log("ooo",exampleData)
+    let exampleDataExtended = {...exampleData, ...{type: type}}
     spawnWidget(widgetData[type]["html"], widgetData[type]["uniqueWidgetData"], widgetId, type, exampleDataExtended)
 
 }

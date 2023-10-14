@@ -10,7 +10,6 @@ export class IncrementalGoalWidget extends Widget {
     
     this.data = data
     this.uniqueWidgetData = uniqueWidgetData
-    console.log(this.uniqueWidgetData)
    
     this.loadEventListener()
     this.checkStreak();

@@ -43,7 +43,6 @@ export class TasksWidget extends Widget {
   }
 
   displayTasks() {
-    console.log(this.tasks);
     this.taskList.innerHTML = "";
     Object.entries(this.tasks).forEach(([taskId, task]) => {
       const div = document.createElement("div");

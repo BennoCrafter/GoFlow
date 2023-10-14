@@ -90,3 +90,6 @@ typings/
 
 # Electron-Forge
 out/
+
+# Saved Data
+src/SavedData/

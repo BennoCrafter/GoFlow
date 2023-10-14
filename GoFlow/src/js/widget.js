@@ -1,3 +1,8 @@
+import { getSettingsData, getTarget, handleWidgetSettingsMenu } from "./widgetSettingsMenu.js";
+const titleHtml = `        
+<div class="title-bar">
+    <span contenteditable="true" class="titleText">title</span>
+</div>  `;
 export class Widget {
   constructor(
     widgetId,
@@ -8,9 +13,8 @@ export class Widget {
     this.data = data;
     this.uniqueWidgetData = uniqueWidgetData;
     this.widgetPath = document.getElementById(`${this.data.type}${widgetId}`);
-    console.log(this.widgetPath)
     this.widgetPath.querySelector(".titleText").textContent = this.data.title;
-    console.log(this.widgetPath.querySelector(".titleText"))
+    this.hasTitle = true
     this.saveData()
     this.updatePos()
     this.loadBaseEventListener()
@@ -42,7 +46,7 @@ export class Widget {
       });
 
     document.addEventListener("click", (event) => {
-      if (event.target !== this.widgetPath.querySelector(".titleText")) {
+      if (event.target !== this.widgetPath.querySelector(".titleText") && this.hasTitle ==true) {
         this.saveTitle();
       }
     });
@@ -58,6 +62,27 @@ export class Widget {
 
     this.widgetPath.addEventListener("click", (event) => {
       this.determineNewAnchors();
+    });
+
+    this.widgetPath.addEventListener("contextmenu", (event) => {
+      handleWidgetSettingsMenu(event)
+
+    })
+
+    document.getElementById("widgetSettingsSubmitButton").addEventListener("click", (event)=>{
+      if(getTarget().parentElement.id!==this.data.type + this.widgetId){return}
+      if(this.hasTitle==getSettingsData()[0]){return}
+      this.hasTitle = getSettingsData()[0]
+      console.log(this.hasTitle)
+      if (this.hasTitle){
+        let t = document.createElement("div")
+        this.widgetPath.innerHTML = (titleHtml) + this.widgetPath.innerHTML;
+        console.log(this.widgetPath)
+      
+      }else{
+        console.log(this.widgetPath)
+        this.widgetPath.querySelector(".title-bar").remove()
+      }
     });
   }
 
@@ -93,5 +118,6 @@ export class Widget {
     const titleText = this.widgetPath.querySelector(".titleText");
     titleText.contentEditable = false;
     this.data.title = titleText.textContent.trim();
-}
+  }
+
 }

@@ -30,16 +30,8 @@
     "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
     "electron": "26.2.1"
   },
-  "config": {
-    "forge": {
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": ["darwin", "linux"], 
-          "config": {
-          }
-        }
-      ]
-    }
+  "mac": {
+    "icon": "src/icons/icon.ico", 
+    "category": "public.app-category.utilities"
   }
 }

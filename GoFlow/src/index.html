@@ -9,13 +9,12 @@
     <link rel="stylesheet" type="text/css" href="WidgetStyles/widget.css">
     <link rel="stylesheet" type="text/css" href="WidgetStyles/textBox.css">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="widgetSettingsMenuStyle.css">
 
     <script src="js/manageWidgets.js"></script>
     <script src="js/configureWidgets.js" type="module"></script>
-    <script src="js/Widgets/tasks.js" type="module"></script>
-    <script src="js/Widgets/incrementalGoal.js" type="module"></script>
-    <script src="js/Widgets/textBox.js" type="module"></script>
     <script src="js/widget.js" type="module"></script>
+    <script defer src="js/widgetSettingsMenu.js" type="module"></script>
 </head>
 <body>   
     <button type="button" id="addWidgetButton">Add Widget</button>
@@ -30,6 +29,17 @@
     <div class="widgets">
         <!-- Widgets will be displayed here --> 
     </div>
-    <img src="https://cdnb.artstation.com/p/assets/images/images/043/163/227/original/augustin-cart-gif-lofi-final.gif?1636484521">
+
+    <div id="widgetSettings" class="widgetSettingsMenu" style="display: none;">
+        <div class="widget-settings">
+          <label for="hasTitle">Widget Settings:</label>
+          <div>
+            <label for="hasTitle">Show Title:</label>
+            <input type="checkbox" id="hasTitle" checked>
+          </div>
+          <button id="widgetSettingsSubmitButton">Submit</button>
+        </div>
+    </div>
+
 </body>
 </html>

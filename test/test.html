@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+
+    /* Custom context menu styles */
+
+  </style>
+</head>
+<body>
+
+<script>
+let customContextMenu = document.getElementById("widgetSettings");
+
+// Function to handle the right-click event
+function handleContextMenu(event) {
+  event.preventDefault(); // Prevent the default browser context menu
+  customContextMenu.style.left = event.clientX + "px";
+  customContextMenu.style.top = event.clientY + "px";
+  customContextMenu.style.display = "block";
+}
+
+// Function to process the entered parameters
+function processParameters() {
+  const hasTitle = document.getElementById("hasTitle").checked;
+  alert("Show Title: " + (hasTitle ? "Yes" : "No"));
+  hideContextMenu();
+}
+
+// Function to hide the custom context menu
+function hideContextMenu() {
+  customContextMenu.style.display = "none";
+}
+
+// Close the custom context menu when clicking anywhere on the page
+document.addEventListener("click", function (event) {
+  if (event.target.id !== "hasTitle") {
+    hideContextMenu();
+  }
+});
+
+// Attach the context menu event listener to the document
+document.addEventListener("contextmenu", handleContextMenu);
+</script>
+
+</body>
+</html>

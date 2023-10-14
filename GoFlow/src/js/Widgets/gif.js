@@ -8,7 +8,6 @@ export class GifWidget extends Widget {
   ) {
     super(widgetId, data, uniqueWidgetData);
     //this.widgetPath.querySelector(".title-bar").remove()
-    console.log(uniqueWidgetData)
     this.widgetPath.innerHTML += `<img src="${uniqueWidgetData.gifSrc}" width=${uniqueWidgetData.width} height=${uniqueWidgetData.height}/>`
 
 }

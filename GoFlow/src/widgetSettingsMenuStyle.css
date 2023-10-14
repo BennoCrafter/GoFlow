@@ -1,0 +1,43 @@
+.widgetSettingsMenu {
+    font-family: monospace;  
+    position: absolute;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1000;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Widget settings styles */
+  .widget-settings {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .widget-settings label {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  .widget-settings input[type="checkbox"] {
+    margin-right: 5px;
+  }
+
+  .widget-settings button {
+    margin-top: 10px;  
+    padding: 10px 20px;
+    background-color: #8dabba;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: monospace;
+  }
+
+  .widget-settings button:hover {
+    background-color: #88afc2;
+    transform: scale(1.05);
+  }
