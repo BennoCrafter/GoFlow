@@ -8,13 +8,15 @@ let widgetId = 0;
 
 let widgets = [];
 let widgetData = {};
-let currWidgetPageId = 0
-let currProjectId = 0
+let currentProject = "Project1"
+let currentProjectPage = "page2"
+let allPages;
+let projectData;
 // call rePosWidgets functiom on resizing window
 window.onresize = rePosWidgets
 
 // todo: do it extra file
-const exampleData = {xPos: "0px", yPos: "0px",anchorX: ["left","0px"], anchorY:["top","0px"], title: "Title"}
+const exampleData = {xPos: "0px", yPos: "0px",anchorX: ["left","0px"], anchorY:["top","0px"], title: "Title", project: currentProject, page: currentProjectPage}
 const titleHtml = `        
 <div class="title-bar">
     <span contenteditable="true" class="titleText">title</span>
@@ -25,10 +27,8 @@ const restoreData = async () => {
         const result = await window.electronAPI.restoreData();
 
         if (result.success) {
-            for (const widget of result.filesData) {
-                // todo fix it
-                spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
-            }
+            projectData = {... result}
+            loadPage()
         } else {
             console.error("Data restore failed:", result.error);
         }
@@ -37,6 +37,15 @@ const restoreData = async () => {
     }
     rePosWidgets()
 };
+
+function loadPage(){
+    document.querySelector(".widgets").innerHTML = ""
+    for (const widget of projectData.projects[currentProject]["pages"][currentProjectPage]) {
+        spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
+    } 
+    allPages = projectData.projects[currentProject]["pages"]
+    rePosWidgets()
+}
 
 const loadWidgetData = async () =>{
     try {
@@ -103,6 +112,18 @@ addEventListener("beforeunload", (event) => {
 });
 
 
+document.addEventListener("keydown", function(event) {
+   // todo make it better (ez task)
+    if (event.key === "ArrowLeft") {
+        currentProjectPage = "page1"
+        loadPage()
+        // Do something for the left arrow key press
+    } else if (event.key === "ArrowRight") {
+        currentProjectPage = "page2"
+        loadPage()
+    }
+  });
+  
 
 loadWidgetData();
 

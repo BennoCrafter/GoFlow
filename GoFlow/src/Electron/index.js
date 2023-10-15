@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, globalShortcut, contextBridge, screen } = r
 const path = require('path');
 const fsWrite = require("fs").promises;
 const fsRead = require("fs");
-
+const fs = require("fs");
 let mainWindow = null;
 
 
@@ -62,9 +62,9 @@ app.on('activate', () => {
 const handleCommunication = () => {
   ipcMain.removeHandler("saveData");
   ipcMain.removeHandler("restoreData");
-  ipcMain.handle("saveData", async (event, data, name) => {
+  ipcMain.handle("saveData", async (event, data, name, projectName, pageName) => {
     try {
-      const filePath = path.join(__dirname, `../SavedData/${name}.json`); // Set your desired file path here
+      const filePath = path.join(__dirname, `../SavedData/${projectName}/${pageName}/${name}.json`); // Set your desired file path here
       await fsWrite.writeFile(filePath, data, "utf8");
 
       return { success: true };
@@ -73,25 +73,6 @@ const handleCommunication = () => {
     }
   });
   
-
-  ipcMain.handle("restoreData", async () => {
-    try {
-      const directoryPath = path.join(__dirname, '../SavedData/');
-      const files = await fsRead.promises.readdir(directoryPath);
-      
-      const filesData = await Promise.all(files.map(async (file) => {
-        const filePath = path.join(directoryPath, file);
-        const data = await fsRead.promises.readFile(filePath, "utf8");
-        return JSON.parse(data);
-      }));
-      
-      
-      return { success: true, filesData: filesData };
-    } catch (error) {
-      console.error('Error:', error);
-      return { error };
-    }
-  });
 
   ipcMain.handle("getWidgetData", async () => {
     try {
@@ -111,5 +92,69 @@ const handleCommunication = () => {
       return { error };
     }
   });
+
+  ipcMain.handle("restoreData", async () => {
+    try {
+      const directoryPath = path.join(__dirname, '../SavedData/');
+      const projects = await readDataFromDirectory(directoryPath);
+  
+      // Organize the data into the desired structure
+      const organizedProjects = {};
+      for (const project of projects) {
+        organizedProjects[project.name] = {
+          pages: {},
+        };
+  
+        for (const page of project.pagesData) {
+          organizedProjects[project.name].pages[page.name] = page.widgetsData;
+        }
+      }
+      console.log(organizedProjects["Project1"]["pages"]["page2"])
+      return { success: true, projects: organizedProjects };
+    } catch (error) {
+      console.error('Error:', error);
+      return { error };
+    }
+  });
+  
+  async function readDataFromDirectory(directoryPath) {
+    const projects = await fs.promises.readdir(directoryPath);
+    const projectData = [];
+  
+    for (const project of projects) {
+      const projectPath = path.join(directoryPath, project);
+      const pages = await fs.promises.readdir(projectPath);
+  
+      const projectInfo = {
+        name: project,
+        pagesData: [],
+      };
+  
+      for (const page of pages) {
+        const pagePath = path.join(projectPath, page);
+        const widgets = await fs.promises.readdir(pagePath);
+  
+        const pageInfo = {
+          name: page,
+          widgetsData: [],
+        };
+  
+        for (const widget of widgets) {
+          const widgetPath = path.join(pagePath, widget);
+  
+          // Ensure the file is a JSON file
+          if (path.extname(widget) === '.json') {
+            const data = await fs.promises.readFile(widgetPath, 'utf8');
+            const jsonData = JSON.parse(data);
+            pageInfo.widgetsData.push(jsonData);
+          }
+        }
+  
+        projectInfo.pagesData.push(pageInfo);
+      }
+      projectData.push(projectInfo);
+    }
+    return projectData;
+  }
 
 }

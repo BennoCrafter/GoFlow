@@ -33,7 +33,7 @@ export class Widget {
     const mergedData = {...{widgetId: this.widgetId}, ...{data: this.data}, ...{uniqueWidgetData: this.uniqueWidgetData}}
 
     // todo add possibillity to save it just so as file without any electron
-    window.electronAPI.saveData(JSON.stringify(mergedData), "widget" + this.widgetId);
+    window.electronAPI.saveData(JSON.stringify(mergedData), "widget" + this.widgetId, this.data.project, this.data.page);
   }
 
   loadBaseEventListener() {
