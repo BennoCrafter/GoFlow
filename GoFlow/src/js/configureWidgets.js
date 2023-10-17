@@ -71,7 +71,7 @@ function spawnWidget(html, uniqueWidgetData, wId, wType, data){
     const widgetsContainer = document.querySelector(".widgets");
     const widget = document.createElement('div');
     widget.className = 'widget';
-    widget.id = `${wType}${wId}`
+    widget.id = `${wType}-${wId}`
     widget.innerHTML = titleHtml + html
     widgetsContainer.appendChild(widget);
     if(wType=="tasks"){

@@ -12,7 +12,7 @@ export class Widget {
     this.widgetId = widgetId;
     this.data = data;
     this.uniqueWidgetData = uniqueWidgetData;
-    this.widgetPath = document.getElementById(`${this.data.type}${widgetId}`);
+    this.widgetPath = document.getElementById(`${this.data.type}-${widgetId}`);
     this.widgetPath.querySelector(".titleText").textContent = this.data.title;
     this.hasTitle = true
     this.saveData()
@@ -33,7 +33,7 @@ export class Widget {
     const mergedData = {...{widgetId: this.widgetId}, ...{data: this.data}, ...{uniqueWidgetData: this.uniqueWidgetData}}
 
     // todo add possibillity to save it just so as file without any electron
-    window.electronAPI.saveData(JSON.stringify(mergedData), "widget" + this.widgetId, this.data.project, this.data.page);
+    window.electronAPI.saveData(JSON.stringify(mergedData), "widget-" + this.widgetId, this.data.project, this.data.page);
   }
 
   loadBaseEventListener() {
