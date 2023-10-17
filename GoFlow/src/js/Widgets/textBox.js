@@ -61,6 +61,7 @@ export class TextBox extends Widget {
               event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
               this.uniqueWidgetData.textContent = textSpan.textContent
               textSpan.blur()
+              this.saveData()
             }
             if (event.key === "Enter" && event.shiftKey) {
                 console.log("triggerd")
@@ -74,6 +75,7 @@ export class TextBox extends Widget {
         const text = this.widgetPath.querySelector(".textBoxWindow").querySelector(".text")
         text.style.left = this.uniqueWidgetData.textX
         text.style.top = this.uniqueWidgetData.textY
+        this.saveData()
     }
 }
   

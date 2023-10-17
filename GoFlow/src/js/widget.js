@@ -39,24 +39,26 @@ export class Widget {
   loadBaseEventListener() {
 
     this.widgetPath
+      .querySelector(".title-bar")
       .querySelector(".titleText")
       .addEventListener("click", () => {
-        this.widgetPath.querySelector(".titleText").contentEditable = true;
-        this.widgetPath.querySelector(".titleText").focus();
+        this.widgetPath.querySelector(".title-bar").querySelector(".titleText").contentEditable = true;
+        this.widgetPath.querySelector(".title-bar").querySelector(".titleText").focus();
       });
 
     document.addEventListener("click", (event) => {
-      if (event.target !== this.widgetPath.querySelector(".titleText") && this.hasTitle ==true) {
+      if (event.target !== this.widgetPath.querySelector(".title-bar").querySelector(".titleText") && this.hasTitle ==true) {
         this.saveTitle();
       }
     });
 
     this.widgetPath
+      .querySelector(".title-bar")
       .querySelector(".titleText")
       .addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
-          this.widgetPath.querySelector(".titleText").blur(); // Trigger the blur event to save the title
+          this.saveTitle();
         }
       });
 

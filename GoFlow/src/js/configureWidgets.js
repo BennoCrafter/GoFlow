@@ -1,10 +1,8 @@
 import { TasksWidget } from "./Widgets/tasks.js"
 import { IncrementalGoalWidget } from "./Widgets/incrementalGoal.js"
 import { TextBox } from "./Widgets/textBox.js";
-import { GifWidget } from "./Widgets/gif.js";
+import { MediaWidget } from "./Widgets/media.js";
 
-
-let widgetId = 0;
 
 let widgets = [];
 let widgetData = {};
@@ -28,17 +26,15 @@ const restoreData = async () => {
 
         if (result.success) {
             projectData = {... result}
-            loadPage()
         } else {
             console.error("Data restore failed:", result.error);
         }
     } catch (error) {
         console.error("Error while restoring data:", error);
     }
-    rePosWidgets()
 };
 
-function loadPage(){
+async function loadPage(){
     document.querySelector(".widgets").innerHTML = ""
     for (const widget of projectData.projects[currentProject]["pages"][currentProjectPage]) {
         spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
@@ -62,12 +58,12 @@ const loadWidgetData = async () =>{
         console.error("Error while restoring data:", error);
     }
     
-    restoreData()
+    await restoreData()
+    await loadPage()
 }
 function addWidget(type){
-    let exampleDataExtended = {...exampleData, ...{type: type}}
-    spawnWidget(widgetData[type]["html"], widgetData[type]["uniqueWidgetData"], widgetId, type, exampleDataExtended)
-
+    const exampleDataExtended = {...exampleData, ...{type: type, page: currentProjectPage, project: currentProject}}
+    spawnWidget(widgetData[type]["html"], {... widgetData[type]["uniqueWidgetData"]}, Math.random().toString(36).substr(2, 10), type, {... exampleDataExtended})
 }
 
 
@@ -78,16 +74,16 @@ function spawnWidget(html, uniqueWidgetData, wId, wType, data){
     widget.id = `${wType}${wId}`
     widget.innerHTML = titleHtml + html
     widgetsContainer.appendChild(widget);
-    widgetId++;
     if(wType=="tasks"){
         widgets.push(new TasksWidget(wId, data, uniqueWidgetData))
     }else if(wType== "incrementalGoal"){
         widgets.push(new IncrementalGoalWidget(wId, data, uniqueWidgetData))
     }else if(wType=="textBox"){
         widgets.push(new TextBox(wId, data, uniqueWidgetData))
-    }else if(wType=="gif"){
-        widgets.push(new GifWidget(wId, data, uniqueWidgetData))
+    }else if(wType=="media"){
+        widgets.push(new MediaWidget(wId, data, uniqueWidgetData))
     }
+
 }
 
 
@@ -112,8 +108,10 @@ addEventListener("beforeunload", (event) => {
 });
 
 
-document.addEventListener("keydown", function(event) {
-   // todo make it better (ez task)
+document.addEventListener("keydown", async function(event) {
+    if(event.target.id == "body"){
+        await restoreData()
+    // todo make it better (ez task)
     if (event.key === "ArrowLeft") {
         currentProjectPage = "page1"
         loadPage()
@@ -122,10 +120,9 @@ document.addEventListener("keydown", function(event) {
         currentProjectPage = "page2"
         loadPage()
     }
+    }
   });
   
-
-loadWidgetData();
 
 function rePosWidgets(){
     let width = window.innerWidth
@@ -176,3 +173,5 @@ document.addEventListener("click", function(event) {
     addWidget(event.target.getAttribute("data-widgetType"))
   }
 });
+
+loadWidgetData();
