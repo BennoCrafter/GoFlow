@@ -1,6 +1,5 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, contextBridge, screen } = require("electron");
 const path = require('path');
-const fsWrite = require("fs").promises;
 const fsRead = require("fs");
 const fs = require("fs");
 let mainWindow = null;
@@ -65,7 +64,7 @@ const handleCommunication = () => {
   ipcMain.handle("saveData", async (event, data, name, projectName, pageName) => {
     try {
       const filePath = path.join(__dirname, `../SavedData/${projectName}/${pageName}/${name}.json`); // Set your desired file path here
-      await fsWrite.writeFile(filePath, data, "utf8");
+      await fs.promises.writeSync(filePath, data, "utf8");
 
       return { success: true };
     } catch (error) {
@@ -95,9 +94,9 @@ const handleCommunication = () => {
 
   ipcMain.handle("restoreData", async () => {
     try {
+
       const directoryPath = path.join(__dirname, '../SavedData/');
       const projects = await readDataFromDirectory(directoryPath);
-  
       // Organize the data into the desired structure
       const organizedProjects = {};
       for (const project of projects) {
@@ -122,6 +121,7 @@ const handleCommunication = () => {
     const projectData = [];
   
     for (const project of projects) {
+      if(project == ".DS_Store"){continue}
       const projectPath = path.join(directoryPath, project);
       const pages = await fs.promises.readdir(projectPath);
   

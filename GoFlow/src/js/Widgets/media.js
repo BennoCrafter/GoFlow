@@ -13,6 +13,12 @@ export class MediaWidget extends Widget {
     mediaElement.style.width = uniqueWidgetData.width;
     mediaElement.style.height = uniqueWidgetData.height;
     this.widgetPath.querySelector(".mediaSrc").appendChild(mediaElement)
+    this.initializeEventListener()
+  
+  }
+
+  initializeEventListener(){
+    
   }
  
 }
