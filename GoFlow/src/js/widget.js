@@ -1,4 +1,6 @@
 import { getSettingsData, getTarget, handleWidgetSettingsMenu } from "./widgetSettingsMenu.js";
+import { editMode } from "./editButton.js";
+
 const titleHtml = `        
 <div class="title-bar">
     <span contenteditable="true" class="titleText">title</span>
@@ -15,13 +17,14 @@ export class Widget {
     this.widgetPath = document.getElementById(`${this.data.type}-${widgetId}`);
     this.widgetPath.querySelector(".titleText").textContent = this.data.title;
     this.hasTitle = true
+    // updates always
+    this.editMode = editMode
     this.saveData()
     this.updatePos()
     this.loadBaseEventListener()
 }
 
   updatePos() {
-    
     this.widgetPath.style.left = this.data.xPos;
     this.widgetPath.style.top = this.data.yPos;
   }

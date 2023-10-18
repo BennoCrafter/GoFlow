@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, contextBridge, screen } = require("electron");
 const path = require('path');
-const fsRead = require("fs");
-const fs = require("fs");
+const fs = require("fs").promises;
 let mainWindow = null;
 
 
@@ -64,7 +63,7 @@ const handleCommunication = () => {
   ipcMain.handle("saveData", async (event, data, name, projectName, pageName) => {
     try {
       const filePath = path.join(__dirname, `../SavedData/${projectName}/${pageName}/${name}.json`); // Set your desired file path here
-      await fs.promises.writeSync(filePath, data, "utf8");
+      await fs.writeFile(filePath, data, "utf8");
 
       return { success: true };
     } catch (error) {
@@ -76,11 +75,11 @@ const handleCommunication = () => {
   ipcMain.handle("getWidgetData", async () => {
     try {
       const directoryPath = path.join(__dirname, '../WidgetData/');
-      const files = await fsRead.promises.readdir(directoryPath);
+      const files = await fs.readdir(directoryPath);
       
       const filesData = await Promise.all(files.map(async (file) => {
         const filePath = path.join(directoryPath, file);
-        const data = await fsRead.promises.readFile(filePath, "utf8");
+        const data = await fs.readFile(filePath, "utf8");
         return JSON.parse(data);
       }));
       
@@ -94,9 +93,9 @@ const handleCommunication = () => {
 
   ipcMain.handle("restoreData", async () => {
     try {
-
       const directoryPath = path.join(__dirname, '../SavedData/');
       const projects = await readDataFromDirectory(directoryPath);
+  
       // Organize the data into the desired structure
       const organizedProjects = {};
       for (const project of projects) {
@@ -117,13 +116,13 @@ const handleCommunication = () => {
   });
   
   async function readDataFromDirectory(directoryPath) {
-    const projects = await fs.promises.readdir(directoryPath);
+    const projects = await fs.readdir(directoryPath);
     const projectData = [];
   
     for (const project of projects) {
       if(project == ".DS_Store"){continue}
       const projectPath = path.join(directoryPath, project);
-      const pages = await fs.promises.readdir(projectPath);
+      const pages = await fs.readdir(projectPath);
   
       const projectInfo = {
         name: project,
@@ -132,7 +131,7 @@ const handleCommunication = () => {
   
       for (const page of pages) {
         const pagePath = path.join(projectPath, page);
-        const widgets = await fs.promises.readdir(pagePath);
+        const widgets = await fs.readdir(pagePath);
   
         const pageInfo = {
           name: page,
@@ -144,7 +143,7 @@ const handleCommunication = () => {
   
           // Ensure the file is a JSON file
           if (path.extname(widget) === '.json') {
-            const data = await fs.promises.readFile(widgetPath, 'utf8');
+            const data = await fs.readFile(widgetPath, 'utf8');
             const jsonData = JSON.parse(data);
             pageInfo.widgetsData.push(jsonData);
           }
