@@ -175,3 +175,8 @@ document.addEventListener("click", function(event) {
 });
 
 loadWidgetData();
+
+
+window.electronAPI.onNewProject(newProjectName=>{
+    console.log("test", newProjectName)
+})

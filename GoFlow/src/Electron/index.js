@@ -1,17 +1,59 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, contextBridge, screen } = require("electron");
+const { app, BrowserWindow, ipcMain, globalShortcut, Menu } = require("electron");
 const path = require('path');
 const fs = require("fs").promises;
 let mainWindow = null;
-
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+function setupMainMenu() {
+  // First, define the menu template
+  const template = [
+    {
+      label: "Electron",
+      submenu: [
+        {role: "Quit"}
+      ]
+    },
+    {
+      label: "File",
+      submenu: [
+        // todo add input field to name new project
+        { label: "New Project", role: "New", click: ()=> {mainWindow.webContents.send('newProject', "exampleProjectName");} },
+      ],
+    },
+    {
+      label: "Edit",
+      submenu: [
+        { role: "undo" },
+        { role: "redo" },
+        { type: "separator" },
+        { role: "cut" },
+        { role: "copy" },
+        { role: "paste" }, // Fixed "past" to "paste"
+        { role: "reload" },
+        { role: "save" }
+      ],
+    },
+    {
+      label: "View",
+      submenu: [
+        { role: "toggledevtools" }
+      ]
+    }
+  ];
+
+  // Build the menu from the template
+  const menu = Menu.buildFromTemplate(template);
+
+  // Set the application's default menu
+  Menu.setApplicationMenu(menu);
+}
+
 const createWindow = () => {
   // Create the browser window.
-  console.log( path.join(__dirname, "../icons/icon.jpg"))
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -37,6 +79,7 @@ const createWindow = () => {
   });
 
   handleCommunication();
+  setupMainMenu()
 }
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
@@ -107,7 +150,6 @@ const handleCommunication = () => {
           organizedProjects[project.name].pages[page.name] = page.widgetsData;
         }
       }
-      console.log(organizedProjects["Project1"]["pages"]["page2"])
       return { success: true, projects: organizedProjects };
     } catch (error) {
       console.error('Error:', error);
