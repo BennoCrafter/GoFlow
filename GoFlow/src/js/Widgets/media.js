@@ -10,6 +10,7 @@ export class MediaWidget extends Widget {
     this.uniqueWidgetData = uniqueWidgetData
     //this.widgetPath.querySelector(".title-bar").remove()
     this.initializeEventListener()
+    this.inputField = this.widgetPath.querySelector(".mediaSrc").querySelector("#inputField")
     if(uniqueWidgetData.mediaSrc==""){this.showSrcChooser()}else{this.showMediaSrc()}
   
   }
@@ -17,28 +18,33 @@ export class MediaWidget extends Widget {
   initializeEventListener(){
 
   }
- 
-  showSrcChooser(){
-    const inputField = document.createElement("input");
-    inputField.placeholder = "please enter gif link"
-    this.widgetPath.appendChild(inputField);
 
-    inputField.addEventListener("keydown", (event) => {
+
+  showSrcChooser(){
+    this.inputField.style.display = "block"
+    this.inputField.placeholder = "please enter media link"
+    this.inputField.value = ""
+    this.inputField.addEventListener("keydown", (event) => {
       if(event.key == "Enter"){
-        this.uniqueWidgetData.mediaSrc = inputField.value
-        inputField.value = ""; // Clear the default text when typing starts
+        this.uniqueWidgetData.mediaSrc = this.inputField.value
         this.showMediaSrc()
         // hide field
-        inputField.style.display =  "none"
+        this.inputField.style.display =  "none"
       }
     })
   }
 
   showMediaSrc(){
-    const mediaElement = document.createElement("img");
+    const mediaElement = this.widgetPath.querySelector(".mediaSrc").querySelector("#mediaElement");
+
     mediaElement.src = this.uniqueWidgetData.mediaSrc;
     mediaElement.style.width = this.uniqueWidgetData.width;
     mediaElement.style.height = this.uniqueWidgetData.height;
-    this.widgetPath.querySelector(".mediaSrc").appendChild(mediaElement)
+    }
+
+  enterEditMode(){
+    console.log("x")
+    this.showSrcChooser()
   }
+
 }

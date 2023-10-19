@@ -125,4 +125,9 @@ export class Widget {
     this.data.title = titleText.textContent.trim();
   }
 
+  enterEditMode() {
+    
+  }
+
+
 }

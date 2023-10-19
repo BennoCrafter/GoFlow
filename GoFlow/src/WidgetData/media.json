@@ -1,5 +1,5 @@
 {
-    "html": "<div class='mediaSrc'></div>",
-    "uniqueWidgetData": {"mediaSrc": "", "width": "270px", "height": "180px"},
+    "html": "<div class='mediaSrc'> <input id='inputField' placeholder='please enter media link' style='display: none;'> <img id='mediaElement'></div>",
+    "uniqueWidgetData": {"mediaSrc": "", "width": "270px", "height": "x180px"},
     "type": "media"
 }

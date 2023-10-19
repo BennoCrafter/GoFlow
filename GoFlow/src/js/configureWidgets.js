@@ -4,7 +4,7 @@ import { TextBox } from "./Widgets/textBox.js";
 import { MediaWidget } from "./Widgets/media.js";
 
 
-let widgets = [];
+export let widgets = [];
 let widgetData = {};
 let currentProject = "Project1"
 let currentProjectPage = "page2"
