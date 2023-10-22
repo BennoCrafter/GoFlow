@@ -12,7 +12,7 @@ export class MediaWidget extends Widget {
     this.initializeEventListener()
     this.inputField = this.widgetPath.querySelector(".mediaSrc").querySelector("#inputField")
     if(uniqueWidgetData.mediaSrc==""){this.showSrcChooser()}else{this.showMediaSrc()}
-  
+
   }
 
   initializeEventListener(){
@@ -28,6 +28,7 @@ export class MediaWidget extends Widget {
       if(event.key == "Enter"){
         this.uniqueWidgetData.mediaSrc = this.inputField.value
         this.showMediaSrc()
+        this.saveData()
         // hide field
         this.inputField.style.display =  "none"
       }
@@ -43,7 +44,6 @@ export class MediaWidget extends Widget {
     }
 
   enterEditMode(){
-    console.log("x")
     this.showSrcChooser()
   }
 

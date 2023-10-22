@@ -1,18 +1,18 @@
-async function saveFile() {
-    try {
-      // create a new handle
-      const newHandle = await window.showSaveFilePicker();
-  
-      // create a FileSystemWritableFileStream to write to
-      const writableStream = await newHandle.createWritable();
-  
-      // write our file
-      await writableStream.write("This is my file content");
-  
-      // close the file and write the contents to disk.
-      await writableStream.close();
-    } catch (err) {
-      console.error(err.name, err.message);
+const fs = require('fs');
+const path = require("path")
+// Define the name of the directory you want to create
+const directoryName = 'new_directory';
+
+// Check if the directory already exists
+if (!fs.existsSync(directoryName)) {
+  // If it doesn't exist, create it
+  fs.mkdir(path.join(__dirname, directoryName), (err) => {
+    if (err) {
+      console.error('Error creating directory:', err);
+    } else {
+      console.log('Directory created successfully');
     }
-  }
-saveFile()
+  });
+} else {
+  console.log('Directory already exists');
+}

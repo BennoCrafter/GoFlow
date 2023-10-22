@@ -36,7 +36,7 @@ export class Widget {
     const mergedData = {...{widgetId: this.widgetId}, ...{data: this.data}, ...{uniqueWidgetData: this.uniqueWidgetData}}
 
     // todo add possibillity to save it just so as file without any electron
-    window.electronAPI.saveData(JSON.stringify(mergedData), "widget-" + this.widgetId, this.data.project, this.data.page);
+    window.electronAPI.saveData(this.data.project, this.data.page, false, JSON.stringify(mergedData), "widget-" + this.widgetId, );
   }
 
   loadBaseEventListener() {
@@ -92,6 +92,7 @@ export class Widget {
   }
 
   determineNewAnchors() {
+    if(this.widgetPath.style.left==this.data.xPos || this.data.yPos == this.widgetPath.style.top){return}
     this.data.xPos = this.widgetPath.style.left;
     this.data.yPos = this.widgetPath.style.top;
 

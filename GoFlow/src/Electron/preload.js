@@ -1,8 +1,8 @@
 const { contextBridge, ipcRenderer} = require("electron");
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  saveData(data, name, projectName, pageName) {
-    return ipcRenderer.invoke("saveData", data, name, projectName, pageName);
+  saveData(projectName, pageName, isNewDir, data, name)  {
+    return ipcRenderer.invoke("saveData", projectName, pageName, isNewDir, data, name);
   },
   restoreData() {
     return ipcRenderer.invoke("restoreData");
@@ -12,5 +12,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
   onNewProject: (cb) => {
     ipcRenderer.on('newProject', (event, newProjectName) => cb(newProjectName));
-  }
+  } 
 });

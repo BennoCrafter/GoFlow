@@ -1,27 +1,41 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, Menu } = require("electron");
+const { app, BrowserWindow, ipcMain, globalShortcut, Menu, dialog} = require("electron");
 const path = require('path');
+const { constrainedMemory } = require("process");
 const fs = require("fs").promises;
+const fss = require("fs");
 let mainWindow = null;
 
+const isMac = process.platform === 'darwin'
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-function setupMainMenu() {
+async function setupMainMenu() {
   // First, define the menu template
   const template = [
-    {
-      label: "Electron",
-      submenu: [
-        {role: "Quit"}
-      ]
-    },
-    {
+    ...(isMac ? [{
+        label: app.name,
+        submenu: [
+            { role: 'about' },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' }
+        ]
+    }] : []),
+    { 
       label: "File",
       submenu: [
         // todo add input field to name new project
-        { label: "New Project", role: "New", click: ()=> {mainWindow.webContents.send('newProject', "exampleProjectName");} },
+        { label: "New Project", role: "New",           click: () => {
+              mainWindow.webContents.send('newProject');
+        } 
+      },
       ],
     },
     {
@@ -77,7 +91,6 @@ const createWindow = () => {
       mainWindow.webContents.openDevTools();
     }
   });
-
   handleCommunication();
   setupMainMenu()
 }
@@ -103,10 +116,26 @@ app.on('activate', () => {
 const handleCommunication = () => {
   ipcMain.removeHandler("saveData");
   ipcMain.removeHandler("restoreData");
-  ipcMain.handle("saveData", async (event, data, name, projectName, pageName) => {
+  ipcMain.handle("saveData", async (event,  projectName, pageName, isNewDir, data=null, name=null) => {
     try {
-      const filePath = path.join(__dirname, `../SavedData/${projectName}/${pageName}/${name}.json`); // Set your desired file path here
-      await fs.writeFile(filePath, data, "utf8");
+      if(isNewDir){
+        console.log("ttttt", projectName)
+        if (!fss.existsSync(path.join(__dirname, "../SavedData/" + projectName))) {
+          // If it doesn't exist, create it
+          fss.mkdir(path.join(__dirname, "../SavedData/" + projectName), (err) => {
+            if (err) {
+              console.error('Error creating directory:', err);
+            } else {
+              console.log('Directory created successfully');
+            }
+          });
+        } else {
+          console.log('Directory already exists');
+        }
+      }else{
+        const filePath = path.join(__dirname, `../SavedData/${projectName}/${pageName}/${name}.json`); // Set your desired file path here
+        await fs.writeFile(filePath, data, "utf8");
+      }
 
       return { success: true };
     } catch (error) {
@@ -199,3 +228,4 @@ const handleCommunication = () => {
   }
 
 }
+

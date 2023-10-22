@@ -63,7 +63,7 @@ const loadWidgetData = async () =>{
 }
 function addWidget(type){
     const exampleDataExtended = {...exampleData, ...{type: type, page: currentProjectPage, project: currentProject}}
-    spawnWidget(widgetData[type]["html"], {... widgetData[type]["uniqueWidgetData"]}, Math.random().toString(36).substr(2, 10), type, {... exampleDataExtended})
+    spawnWidget(widgetData[type]["html"], {... widgetData[type]["uniqueWidgetData"]}, new Date().getTime(), type, {... exampleDataExtended})
 }
 
 
@@ -176,7 +176,3 @@ document.addEventListener("click", function(event) {
 
 loadWidgetData();
 
-
-window.electronAPI.onNewProject(newProjectName=>{
-    console.log("test", newProjectName)
-})
