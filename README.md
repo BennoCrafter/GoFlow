@@ -1,8 +1,6 @@
 # GoFlow
 GoFlow. An App to manage everything! :)
 
-# GoFlow
-
 ## Description
 
 GoFlow. An App to manage everything! :)
