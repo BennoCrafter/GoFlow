@@ -1,8 +1,7 @@
 # GoFlow
-
+GoFlow. An App to manage everything! :)
 ## Description
 
-GoFlow. An App to manage everything! :)
 With GoFlow you can create beautiful designs, with an awesome selection of widgets!
 
 ## Getting Started
