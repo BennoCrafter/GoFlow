@@ -56,19 +56,47 @@ export class TextBox extends Widget {
 
     saveTextListener(){
         const textSpan = this.widgetPath.querySelector(".textBoxWindow").querySelector(".text").querySelector("#textContent")
-        textSpan.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
-              event.preventDefault(); // Prevent the default Enter key behavior (e.g., adding a new line)
-              this.uniqueWidgetData.textContent = textSpan.textContent
+        
+          textSpan.innerHTML = this.uniqueWidgetData.textContent;
+
+          // todo maybe adding later save button
+          // saveButton.addEventListener("click", () => {
+          //   this.uniqueWidgetData.text = inputField.innerHTML;
+          // });
+
+          textSpan.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              // Perform submission action (e.g., save to variable)
+              this.uniqueWidgetData.textContent = textSpan.innerHTML;
               textSpan.blur()
-              this.saveData()
-            }
-            if (event.key === "Enter" && event.shiftKey) {
-                console.log("triggerd")
-                textSpan.innerHTML += '<br>';
-                textSpan.focus()
+              e.preventDefault();
             }
           });
+          
+          textSpan.addEventListener("keydown", (e) => {
+            if (e.shiftKey && e.key === "Enter") {
+              const selection = window.getSelection();
+              const range = selection.getRangeAt(0);
+              const br = document.createElement("br");
+              range.insertNode(br);
+              range.setStartAfter(br);
+              range.setEndAfter(br);
+              selection.removeAllRanges();
+              selection.addRange(range);
+              e.preventDefault();
+            }
+          });
+          
+          
+          // Handle Tab key press
+          textSpan.addEventListener("keydown", (e) => {
+            if (e.key === "Tab") {
+              e.preventDefault(); // Prevent the default tab action
+            }
+          });
+        
+          
+          
     }
 
     updateTextPos(){

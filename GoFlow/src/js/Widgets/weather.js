@@ -1,0 +1,40 @@
+import { Widget } from "../widget.js";
+
+
+export class WeatherWidget extends Widget{
+    constructor(widgetId, data, uniqueWidgetData){
+        super(widgetId, data, uniqueWidgetData)
+        this.getWeatherData()
+
+        this.weatherIconsDict = {0: ["clear-night.svg","clear-day.svg"], 2: ["partly-cloudy-night.svg", "partly-cloudy-day.svg"], 3: ["overcast-night.svg", "overcast-day.svg"], 45: ["fog-night.svg", "wo_fog-day.svg"], 61: ["partly-cloudy-night-drizzle.svg", "partly-cloudy-day-drizzle.svg"], 65: ["partly-cloudy-night-rain.svg", "partly-cloudy-day-rain.svg"]}
+    }
+
+    getWeatherData(){
+
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,is_day&daily=weathercode&current_weather=true&timezone=Europe%2FBerlin`;
+
+        fetch(url)
+          .then(response => {
+            if (response.status === 200) {
+              return response.json();
+            } else {
+              throw new Error(`Failed to fetch data. Status code: ${response.status}`);
+            }
+          })
+          .then(data => {
+            // Now you can work with the JSON data
+            console.log(data);
+            // current_weather .. weathercode--- is_day
+            this.setWeatherIcon(1, this.weatherIconsDict[data["current_weather"]["weathercode"]][data["current_weather"]["is_day"]])
+          })
+          .catch(error => {
+            console.error(error);
+          });
+          
+    }
+    // day stands for, which day we should set the weather icon. day 1 is current day
+    setWeatherIcon(day, weatherPath){
+        const imgSrc = this.widgetPath.querySelector(".weatherWindow").querySelector(`#day${day}`).querySelector("#weather-src")
+        imgSrc.src = `resources/weather-icons/${weatherPath}`
+    }
+} 

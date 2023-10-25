@@ -1,0 +1,7 @@
+
+
+{
+    "html": "<div class='weatherWindow'><div id='day1' class='day-title'><p>Today</p><img src='' id='weather-src'><div class='thermometer-container'><img class='thermometer-img' src='resources/weather-icons/thermometer.svg' alt='Thermometer'><div class='thermometer-level'></div></div><div class='temperature'>Loading...</div><div class='location'>Loading...</div></div></div><div class='button-container'><button onclick='switchDay(-1)'>Previous</button><button onclick='switchDay(1)'>Next</button></div>",
+    "uniqueWidgetData": {"width": "270px", "height": "180px", "textX": "0px", "textY": "0px"},
+    "type": "weather"
+}

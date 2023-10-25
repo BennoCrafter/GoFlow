@@ -98,6 +98,17 @@ const createWindow = () => {
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
 app.on("ready", () => {
   createWindow();
+
+  if (!fss.existsSync(path.join(__dirname, "../SavedData/"))) {
+    // If it doesn't exist, create it
+    fss.mkdir(path.join(__dirname, "../SavedData/"), (err) => {
+      if (err) {
+        console.error('Error creating main directory for saved data:', err);
+      } else {
+      }
+    });
+  } else {
+  }
 });
 
 // Quit when all windows are closed, except on macOS.
@@ -119,7 +130,6 @@ const handleCommunication = () => {
   ipcMain.handle("saveData", async (event,  projectName, pageName, isNewDir, data=null, name=null) => {
     try {
       if(isNewDir){
-        console.log("ttttt", projectName)
         if (!fss.existsSync(path.join(__dirname, "../SavedData/" + projectName))) {
           // If it doesn't exist, create it
           fss.mkdir(path.join(__dirname, "../SavedData/" + projectName), (err) => {
