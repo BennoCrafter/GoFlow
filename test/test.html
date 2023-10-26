@@ -1,47 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Weather Widget</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css">
+    <style>
+        body {
+            overflow: hidden;
+            background-color: #C6DABF;
+            font-family: Arial, sans-serif;
+        }
 
-    /* Custom context menu styles */
+        .widget-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
 
-  </style>
+        .widget {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            display: none;
+        }
+
+        .widget.active {
+            display: block;
+        }
+
+        .widget:hover {
+            transform: scale(1.05);
+        }
+
+        .widget-title {
+            font-size: 24px;
+            color: #4a90e2;
+        }
+
+        .weather-icon {
+            font-size: 72px;
+            color: #4a90e2;
+        }
+
+        .temperature {
+            font-size: 48px;
+            color: #333;
+        }
+
+        .location {
+            font-size: 36px;
+            color: #666;
+        }
+
+        .thermometer-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .thermometer-img {
+            width: 30px;
+            height: 200px;
+            margin-right: 10px;
+        }
+
+        .thermometer-level {
+            width: 30px;
+            height: 0;
+            background-color: #ff9900;
+            border-radius: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #8dabba;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+
+        button:hover {
+            background-color: #88afc2;
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
+    <div class="widget-container">
+        <div class="widget active">
+            <div class="widget-title">Today</div>
+            <i class="wi wi-day-sunny weather-icon"></i>
+            <div class="thermometer-container">
+                <img class="thermometer-img" src="thermometer.svg" alt="Thermometer" width="100px" height="100px">
+                <div class="thermometer-level"></div>
+            </div>
+            <div class="temperature">Loading...</div>
+            <div class="location">New York, NY</div>
+        </div>
+        <div class="widget">
+            <div class="widget-title">Tomorrow</div>
+            <i class="wi wi-day-cloudy weather-icon"></i>
+            <div class="thermometer-container">
+                <img class="thermometer-img" src="barometer.svg" alt="Thermometer">
+                <div class="thermometer-level"></div>
+            </div>
+            <div class="temperature">Loading...</div>
+            <div class="location">New York, NY</div>
+        </div>
+        <div class="widget">
+            <div class="widget-title">Day After Tomorrow</div>
+            <i class="wi wi-day-rain weather-icon"></i>
+            <div class="thermometer-container">
+                <img class="thermometer-img" src="barometer.svg" alt="Thermometer">
+                <div class="thermometer-level"></div>
+            </div>
+            <div class="temperature">Loading...</div>
+            <div class="location">New York, NY</div>
+        </div>
+    </div>
+    <div class="button-container">
+        <button onclick="switchDay(-1)">Previous</button>
+        <button onclick="switchDay(1)">Next</button>
+    </div>
 
-<script>
-let customContextMenu = document.getElementById("widgetSettings");
+    <script>
+        let currentDay = 0;
+        const widgets = document.querySelectorAll('.widget');
 
-// Function to handle the right-click event
-function handleContextMenu(event) {
-  event.preventDefault(); // Prevent the default browser context menu
-  customContextMenu.style.left = event.clientX + "px";
-  customContextMenu.style.top = event.clientY + "px";
-  customContextMenu.style.display = "block";
-}
+        function switchDay(offset) {
+            widgets[currentDay].classList.remove('active');
+            currentDay = (currentDay + offset + widgets.length) % widgets.length;
+            widgets[currentDay].classList.add('active');
+        }
 
-// Function to process the entered parameters
-function processParameters() {
-  const hasTitle = document.getElementById("hasTitle").checked;
-  alert("Show Title: " + (hasTitle ? "Yes" : "No"));
-  hideContextMenu();
-}
+        // Replace with your actual weather data retrieval logic
+        const dummyWeatherData = [
+            {
+                temperature: 72,
+                location: 'New York, NY'
+            },
+            {
+                temperature: 68,
+                location: 'New York, NY'
+            },
+            {
+                temperature: 64,
+                location: 'New York, NY'
+            }
+        ];
 
-// Function to hide the custom context menu
-function hideContextMenu() {
-  customContextMenu.style.display = "none";
-}
+        // Function to update weather data
+        function updateWeatherData() {
+            widgets.forEach((widget, index) => {
+                const temperatureElem = widget.querySelector('.temperature');
+                if (temperatureElem) {
+                    temperatureElem.textContent = `${dummyWeatherData[index].temperature}°F`;
+                    // Adjust the thermometer's temperature level
+                    const thermometerLevel = widget.querySelector('.thermometer-level');
+                    const temperaturePercentage = (dummyWeatherData[index].temperature / 100) * 100;
+                    thermometerLevel.style.height = `${temperaturePercentage}%`;
+                }
 
-// Close the custom context menu when clicking anywhere on the page
-document.addEventListener("click", function (event) {
-  if (event.target.id !== "hasTitle") {
-    hideContextMenu();
-  }
-});
+                const locationElem = widget.querySelector('.location');
+                if (locationElem) {
+                    locationElem.textContent = dummyWeatherData[index].location;
+                }
+            });
+        }
 
-// Attach the context menu event listener to the document
-document.addEventListener("contextmenu", handleContextMenu);
-</script>
-
+        // Call the function to update initial data
+        updateWeatherData();
+    </script>
 </body>
 </html>

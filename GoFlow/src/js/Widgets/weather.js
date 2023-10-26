@@ -25,7 +25,9 @@ export class WeatherWidget extends Widget{
             // Now you can work with the JSON data
             console.log(data);
             // current_weather .. weathercode--- is_day
-            this.setWeatherIcon(1, this.weatherIconsDict[data["current_weather"]["weathercode"]][data["current_weather"]["is_day"]])
+            // get loc with long and lang
+            const loc = "Berlin"
+            this.setWeatherIcon(1, this.weatherIconsDict[data["current_weather"]["weathercode"]][data["current_weather"]["is_day"]], data["current_weather"]["temperature"], loc)
           })
           .catch(error => {
             console.error(error);
@@ -33,8 +35,16 @@ export class WeatherWidget extends Widget{
           
     }
     // day stands for, which day we should set the weather icon. day 1 is current day
-    setWeatherIcon(day, weatherPath){
-        const imgSrc = this.widgetPath.querySelector(".weatherWindow").querySelector(`#day${day}`).querySelector("#weather-src")
-        imgSrc.src = `resources/weather-icons/${weatherPath}`
+    setWeatherIcon(day, weatherPath, temp, loc){
+        const dayPath = this.widgetPath.querySelector(".weatherWindow").querySelector(`#day${day}`)
+        // set img src
+        const imgSrc = dayPath.querySelector("#weather-src");
+        imgSrc.src = `resources/weather-icons/${weatherPath}`;
+        // set temperature
+        dayPath.querySelector(".temperature").textContent = temp;
+
+        // set location
+        dayPath.querySelector(".location").textContent = loc
+
     }
 } 

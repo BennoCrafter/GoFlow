@@ -1,42 +1,38 @@
+.weatherWindow {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: none;
+    display: flex;
+}
+
+
 .day-title {
+    font-size: 24px;
     color: #4a90e2;
 }
 
-.weather-icon {
+.weather-title {
+    font-size: 72px;
     color: #4a90e2;
 }
 
 .temperature {
+    font-size: 25px;
     color: #333;
 }
 
 .location {
+    font-size: 23px;
     color: #666;
 }
 
-.thermometer-container {
-    align-items: center;
-    margin-top: 20px;
-}
-
-.thermometer-level {
-    width:30px;
-    height: 0;
-    background-color: #ff9900;
-    border-radius: 5px;
-}
-
 .button-container {
+    display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-}
-
-.weatherWindow{
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 20px;
-    display:flex;
-    width: 200px;
-    height: 400px;
 }
