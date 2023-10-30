@@ -3,6 +3,7 @@ import { IncrementalGoalWidget } from "./Widgets/incrementalGoal.js"
 import { TextBox } from "./Widgets/textBox.js";
 import { MediaWidget } from "./Widgets/media.js";
 import { WeatherWidget } from "./Widgets/weather.js";
+import { CalendarWidget } from "./Widgets/calendar.js";
 
 
 export let widgets = [];
@@ -85,6 +86,8 @@ function spawnWidget(html, uniqueWidgetData, wId, wType, data){
         widgets.push(new MediaWidget(wId, data, uniqueWidgetData))
     }else if(wType=="weather"){
         widgets.push(new WeatherWidget(wId, data, uniqueWidgetData))
+    }else if(wType=="calendar"){
+        widgets.push(new CalendarWidget(wId, data, uniqueWidgetData))
     }
 
 }

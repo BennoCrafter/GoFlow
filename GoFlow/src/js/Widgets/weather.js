@@ -10,8 +10,7 @@ export class WeatherWidget extends Widget{
     }
 
     getWeatherData(){
-
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,is_day&daily=weathercode&current_weather=true&timezone=Europe%2FBerlin`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${this.uniqueWidgetData.latitude}&longitude=${this.uniqueWidgetData.longitude}&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,is_day&daily=weathercode&current_weather=true&timezone=Europe%2FBerlin`;
 
         fetch(url)
           .then(response => {
