@@ -1,99 +1,127 @@
 .calendar {
-    background-color: #FFF;
-    border-radius: 0.8rem;
-    box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
-    padding: 2rem; /* Reduce padding */
-    cursor: pointer;
-    font-family: Helvetica, sans-serif;
-    font-size: 1.4rem; /* Smaller font size */
-  }
-  
-  .calendar * {
-    box-sizing: inherit;
-    font-size: 1.4rem; /* Smaller font size for descendants */
-  }
-  
-  .calendar body {
-    background-color: #A9DDEB;
-    font-size: 1.4rem; /* Smaller font size for body within .calendar */
-    min-height: 100vh;
-    place-content: center;
-  }
-  
-  /* Additional size adjustments for calendar content */
-  .calendar__header {
-    font-weight: bold;
-    font-size: 1.6rem; /* Slightly larger font size for headers */
-    display: flex;
-    justify-content: space-between;
-    letter-spacing: 0.2rem;
-    padding: 0 0.2rem 0.8rem; /* Adjusted padding */
-    text-transform: uppercase;
-  }
-  
-  .calendar__day-names {
-    border-bottom: 0.1rem solid #828889;
-    display: flex;
-    gap: 1rem; /* Adjusted gap */
-    margin-bottom: 0.6rem; /* Adjusted margin */
-    padding: 0.6rem 0;
-  }
-  
-  .calendar__day-name {
-    aspect-ratio: 1;
-    color: #828889;
-    font-weight: normal;
-    text-align: center;
-    width: 2rem; /* Smaller width */
-    font-size: 1.2rem; /* Smaller font size for day names */
-  }
-  
-  .calendar__day_numbers {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .calendar__day-numbers-row {
-    display: flex;
-    gap: 1rem; /* Adjusted gap */
-    padding: 0.4rem 0; /* Adjusted padding */
-  }
-  
-  .calendar__day-numbers-row:first-child {
-    justify-content: flex-end;
-  }
-  
-  .calendar__day-number {
-    align-content: center;
-    justify-content: center;
-    aspect-ratio: 1;
-    color: #000;
-    display: flex;
-    line-height: 1.2;
-    text-align: center;
-    width: 2rem; /* Smaller width */
-    font-size: 1.2rem; /* Smaller font size for day numbers */
-    position: relative;
-  }
-  
-  .calendar__day-number--current {
-    background-color: #23839D;
-    border-radius: 50%;
-    box-shadow: 0 0 0 0.4rem #23839D;
-    color: #FFF;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .calendar__day-number .marked {
-    position: absolute;
-    top: 80%; /* Position it below the current number */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px; /* Smaller width */
-    height: 5px; /* Smaller height */
-    background-color: #828889;
-    border-radius: 50%;
-  }
+  background-color: #fff;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
+  padding: 2rem; /* Reduce padding */
+  cursor: pointer;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.4rem; /* Smaller font size */
+  width: 382px;
+  height: 382px;
+}
+
+
+.calendar * {
+  box-sizing: inherit;
+  font-size: 1.4rem; /* Smaller font size for descendants */
+}
+
+.calendar body {
+  background-color: #a9ddeb;
+  font-size: 1.4rem; /* Smaller font size for body within .calendar */
+  min-height: 100vh;
+  place-content: center;
+}
+
+/* Additional size adjustments for calendar content */
+.calendar__header {
+  font-weight: bold;
+  font-size: 1.6rem; /* Slightly larger font size for headers */
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 0.2rem;
+  padding: 0 0.2rem 0.8rem; /* Adjusted padding */
+  text-transform: uppercase;
+}
+
+.calendar__day-names {
+  border-bottom: 0.1rem solid #828889;
+  display: flex;
+  gap: 1rem; /* Adjusted gap */
+  margin-bottom: 0.6rem; /* Adjusted margin */
+  padding: 0.6rem 0;
+}
+
+.calendar__day-name {
+  aspect-ratio: 1;
+  color: #828889;
+  font-weight: normal;
+  text-align: center;
+  width: 2rem; /* Smaller width */
+  font-size: 1.2rem; /* Smaller font size for day names */
+}
+
+.calendar__day_numbers {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar__day-numbers-row {
+  display: flex;
+  gap: 1rem; /* Adjusted gap */
+  padding: 0.4rem 0; /* Adjusted padding */
+}
+
+.calendar__day-numbers-row:first-child {
+  justify-content: flex-end;
+}
+
+.calendar__day-number {
+  align-content: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  color: #000;
+  display: flex;
+  line-height: 1.2;
+  text-align: center;
+  width: 2rem; /* Smaller width */
+  font-size: 1.2rem; /* Smaller font size for day numbers */
+  position: relative;
+}
+
+.calendar__day-number--current {
+  background-color: #23839d;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.4rem #23839d;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  bottom: 4px; /* Move the current day up by 4px */
+}
+
+.calendar__day-number .marked {
+  position: absolute;
+  top: 80%; /* Position it below the current number */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px; /* Smaller width */
+  height: 5px; /* Smaller height */
+  background-color: #828889;
+  border-radius: 50%;
+}
+
+.calendar-event-popup {
+  background-color: #fff;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
+  padding: 2rem;
+  cursor: pointer;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.4rem;
+  box-sizing: inherit; /* Inherit box-sizing property from .calendar */
+  flex-direction: column; /* Ensure that it has the same flex direction as .calendar */
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+  display: none;
+  width: 382px;
+  height: 382px;
+}
+
+.calendar-event-popup body {
+  background-color: #a9ddeb;
+  font-size: 1.4rem;
+  min-height: 100vh;
+  place-content: center;
+}

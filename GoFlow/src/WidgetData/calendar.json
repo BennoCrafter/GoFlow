@@ -1,5 +1,5 @@
 {
-    "html": "<div class='calendar'><header class='calendar__header'><div class='calendar__month'></div><div class='calendar__year'></div></header><div class='calendar__grid'><div class='calendar__day-names'><span class='calendar__day-name'>S</span><span class='calendar__day-name'>M</span><span class='calendar__day-name'>T</span><span class='calendar__day-name'>W</span><span class='calendar__day-name'>T</span><span class='calendar__day-name'>F</span><span class='calendar__day-name'>S</span></div><div class='calendar__day-numbers'></div></div></div>",
+    "html": "<div class='calendar-event-popup'><h2 id='event-title'>Event Title</h2><p id='description'>Loading Data..</p><button id='backToCalendar'>Back</button></div><div class='calendar'><header class='calendar__header'><div class='calendar__month'></div><div class='calendar__year'></div></header><div class='calendar__grid'><div class='calendar__day-names'><span class='calendar__day-name'>S</span><span class='calendar__day-name'>M</span><span class='calendar__day-name'>T</span><span class='calendar__day-name'>W</span><span class='calendar__day-name'>T</span><span class='calendar__day-name'>F</span><span class='calendar__day-name'>S</span></div><div class='calendar__day-numbers'></div></div></div>",
     "uniqueWidgetData": {"events": [], "width": "270px", "height": "180px"},
     "type": "calendar"
 }

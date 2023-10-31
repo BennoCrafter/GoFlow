@@ -18,11 +18,11 @@ export class CalendarWidget extends Widget{
     }
     getDescription(year, month, day){
         const event = this.uniqueWidgetData.events.find(event => event.from.getFullYear() === year && event.from.getMonth() == month && event.from.getDate() == day)
-        return event ? [true, event.description] : [false, "No Event for this date"]
+        return event ? [true, event.title, event.description] : [false, "No Event for this date"]
     }
     
     loadMonth(month, year){
-        this.uniqueWidgetData.events.push(new Event("Other Test", new Date(2023, 9, 8, 0, 0), new Date(2023, 9, 8, 1, 0)))
+        this.uniqueWidgetData.events.push(new Event("SUIII  Test","wowowoowo ganz tolles zeug", new Date(2023, 9, 1, 0, 0), new Date(2023, 9, 1, 1, 0)))
         // set month and year
         document.querySelector('.calendar__month').innerText = this.months[this.currentDate.getMonth()];
         document.querySelector('.calendar__year').innerText = this.currentYear;
@@ -59,6 +59,9 @@ export class CalendarWidget extends Widget{
                 // console.log("Clicked day:", Cday, monthName, year.toString())
                 const result = this.getDescription(year, month, parseInt(Cday))
                 console.log(result[0] ? "Has Event: " + result[1] : result[1])
+                if(result[0]){
+                    this.showEvent(result[1], result[2])
+                }
                 this.currentMarkedDay.classList.remove("calendar__day-number--current")
                 this.currentMarkedDay = day;
                 this.currentMarkedDay.classList.add("calendar__day-number--current")    
@@ -71,11 +74,8 @@ export class CalendarWidget extends Widget{
     loadEvents(){
         for(const event of this.uniqueWidgetData.events){
             const path = document.querySelector(".calendar__day-numbers");
-            console.log(event.from.getDate());
             let eventElement = path.querySelector(`#week${parseInt(event.from.getDate()/7)}`);
-            console.log(event.from.getMonth());
             eventElement = eventElement.querySelector(`[id="${event.from.getFullYear()}|${event.from.getMonth()}|${event.from.getDate()}"]`);
-            console.log(eventElement);
             const point = document.createElement("span");
             point.classList.add("marked"); 
             eventElement.appendChild(point);
@@ -88,7 +88,26 @@ export class CalendarWidget extends Widget{
             event["to"] = new Date(event["to"])
         }
     }
-    
+
+    showEvent(title, desc){
+        const backButton = this.widgetPath.querySelector(".calendar-event-popup").querySelector("#backToCalendar");
+        const popup = this.widgetPath.querySelector(".calendar-event-popup")
+        popup.querySelector("#event-title").textContent = title
+        popup.querySelector("#description").textContent = desc
+        
+        popup.style.display = "flex";
+        this.widgetPath.querySelector(".calendar").style.display = "none";
+        
+        popup.style.left = this.data.xPos
+        popup.style.top = this.data.yPos
+
+        backButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+            this.widgetPath.querySelector(".calendar").style.display = "block";
+        });
+
+    }
+
 }
 
 
@@ -96,7 +115,8 @@ export class CalendarWidget extends Widget{
 
 
 class Event{
-    constructor(description, from, to){
+    constructor(title, description, from, to){ 
+        this.title = title
         this.description = description
         this.from = from
         this.to = to
