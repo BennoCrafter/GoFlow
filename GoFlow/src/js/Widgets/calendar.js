@@ -12,17 +12,23 @@ export class CalendarWidget extends Widget{
         this.currentMonth = this.currentDate.getMonth();
         this.currentDay = this.currentDate.getDate();
         this.currentMarkedDay; 
+        //this.createEvent("Lunch", "Lunch break", new Date(2023, 10, 5, 12, 0), new Date(2023, 10, 5, 13, 0))
+        //this.createEvent("Meeting 1", "Discuss project updates", new Date(2023, 10, 5, 9, 0), new Date(2023, 10, 5, 11, 0))
         this.convertSavedEventsToDateObject()
         this.loadMonth(this.currentMonth, this.currentYear)
+        this.rightClickListener()
+
 
     }
-    getDescription(year, month, day){
-        const event = this.uniqueWidgetData.events.find(event => event.from.getFullYear() === year && event.from.getMonth() == month && event.from.getDate() == day)
-        return event ? [true, event.title, event.description] : [false, "No Event for this date"]
+    getEventsOfDay(year, month, day){
+        if(this.uniqueWidgetData.events.hasOwnProperty(new Date(year, month, day))){
+            return [true, this.uniqueWidgetData.events[new Date(year, month, day)]]
+        }else{
+            return [false, "No Event for this date"]
+        }
     }
     
     loadMonth(month, year){
-        this.uniqueWidgetData.events.push(new Event("SUIII  Test","wowowoowo ganz tolles zeug", new Date(2023, 9, 1, 0, 0), new Date(2023, 9, 1, 1, 0)))
         // set month and year
         document.querySelector('.calendar__month').innerText = this.months[this.currentDate.getMonth()];
         document.querySelector('.calendar__year').innerText = this.currentYear;
@@ -57,14 +63,14 @@ export class CalendarWidget extends Widget{
             day.addEventListener("click", (event) =>{
                 const Cday = day.id.split("|")[2]
                 // console.log("Clicked day:", Cday, monthName, year.toString())
-                const result = this.getDescription(year, month, parseInt(Cday))
+                const result = this.getEventsOfDay(year, month, parseInt(Cday))
                 console.log(result[0] ? "Has Event: " + result[1] : result[1])
                 if(result[0]){
                     this.showEvent(result[1], result[2])
                 }
-                this.currentMarkedDay.classList.remove("calendar__day-number--current")
-                this.currentMarkedDay = day;
-                this.currentMarkedDay.classList.add("calendar__day-number--current")    
+                // this.currentMarkedDay.classList.remove("calendar__day-number--current")
+                // this.currentMarkedDay = day;
+                // this.currentMarkedDay.classList.add("calendar__day-number--current")    
             })
         }
     
@@ -72,42 +78,89 @@ export class CalendarWidget extends Widget{
     }
 
     loadEvents(){
-        for(const event of this.uniqueWidgetData.events){
-            const path = document.querySelector(".calendar__day-numbers");
-            let eventElement = path.querySelector(`#week${parseInt(event.from.getDate()/7)}`);
-            eventElement = eventElement.querySelector(`[id="${event.from.getFullYear()}|${event.from.getMonth()}|${event.from.getDate()}"]`);
-            const point = document.createElement("span");
-            point.classList.add("marked"); 
-            eventElement.appendChild(point);
+        for(const events of Object.values(this.uniqueWidgetData.events)){
+            if(events[0].from.getMonth() == this.currentMonth){
+                const path = document.querySelector(".calendar__day-numbers");
+                let eventElement = path.querySelector(`[id="${events[0].from.getFullYear()}|${events[0].from.getMonth()}|${events[0].from.getDate()}"]`);
+                const point = document.createElement("span");
+                point.classList.add("marked"); 
+                eventElement.appendChild(point);
+            }
         }
     }
 
     convertSavedEventsToDateObject(){
-        for(const event of this.uniqueWidgetData.events){
+       for(let date of Object.keys(this.uniqueWidgetData.events)){
+          date = new Date(date)
+       }
+        for(const events of Object.values(this.uniqueWidgetData.events)){
+          for(const event of events){
             event["from"] = new Date(event["from"])
             event["to"] = new Date(event["to"])
+          }
         }
     }
 
-    showEvent(title, desc){
+    showEvent(events) {
         const backButton = this.widgetPath.querySelector(".calendar-event-popup").querySelector("#backToCalendar");
-        const popup = this.widgetPath.querySelector(".calendar-event-popup")
-        popup.querySelector("#event-title").textContent = title
-        popup.querySelector("#description").textContent = desc
-        
+        const popup = this.widgetPath.querySelector(".calendar-event-popup");
         popup.style.display = "flex";
         this.widgetPath.querySelector(".calendar").style.display = "none";
         
-        popup.style.left = this.data.xPos
-        popup.style.top = this.data.yPos
+        const ul = document.querySelector('.event-list');;
 
+        events.forEach(event => {
+            const li = document.createElement('li');
+            li.classList.add('event-item');
+          
+            const title = document.createElement('h2');
+            title.textContent = event.title;
+            title.classList.add('event-title');
+          
+            const description = document.createElement('p');
+            description.textContent = event.description;
+            description.classList.add('event-description');
+          
+            const date = document.createElement('p');
+            date.textContent = `${event.from.getHours()}:${event.to.getMinutes() < 10 ? event.from.getMinutes() + "0" : event.from.getMinutes()}-${event.to.getHours()}:${event.from.getMinutes() < 10 ? event.to.getMinutes() + "0" : event.to.getMinutes()}`;
+            date.classList.add('event-date');
+          
+            li.appendChild(title);
+            li.appendChild(description);
+            li.appendChild(date);
+          
+            ul.appendChild(li);
+          });
+          
+        
         backButton.addEventListener('click', () => {
-            popup.style.display = 'none';
-            this.widgetPath.querySelector(".calendar").style.display = "block";
+          popup.style.display = 'none';
+          this.widgetPath.querySelector(".calendar").style.display = "block";
+          popup.querySelector(".event-list").innerHTML = ""
         });
+      }
 
+    createEvent(title, desc, from, to){
+        // example: 
+        // events = {new Date(2023-10-1): [list of events ]}
+        const date = new Date(from.getFullYear(), from.getMonth(), from.getDate())
+        if(!this.uniqueWidgetData.events.hasOwnProperty(date)){
+          this.uniqueWidgetData.events[date] = []          
+        }
+        this.uniqueWidgetData.events[date].push(new Event(title, desc, from, to))
+        this.uniqueWidgetData.events[date].sort((a, b) => a.from - b.from);
+        console.log(this.uniqueWidgetData.events)
+      }
+
+    rightClickListener(){
+        document.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+            const clickedElement = event.target;
+            const elementId = clickedElement.id || 'No ID found';
+            
+            console.log('Right-clicked element ID:', elementId);
+          });
     }
-
 }
 
 

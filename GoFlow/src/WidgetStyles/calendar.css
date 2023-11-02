@@ -1,13 +1,13 @@
 .calendar {
   background-color: #fff;
   border-radius: 0.8rem;
-  box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
   padding: 2rem; /* Reduce padding */
   cursor: pointer;
   font-family: Helvetica, sans-serif;
   font-size: 1.4rem; /* Smaller font size */
   width: 382px;
   height: 382px;
+  display: block;
 }
 
 
@@ -20,7 +20,6 @@
   background-color: #a9ddeb;
   font-size: 1.4rem; /* Smaller font size for body within .calendar */
   min-height: 100vh;
-  place-content: center;
 }
 
 /* Additional size adjustments for calendar content */
@@ -124,4 +123,38 @@
   font-size: 1.4rem;
   min-height: 100vh;
   place-content: center;
+}
+
+.calendar-view {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+}
+
+.event-item {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.event-title {
+  font-size: 20px;
+  color: #333;
+}
+
+.event-description {
+  font-size: 16px;
+  color: #666;
+}
+
+.event-date {
+  font-size: 14px;
+  color: #999;
 }

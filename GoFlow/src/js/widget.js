@@ -70,7 +70,7 @@ export class Widget {
     });
 
     this.widgetPath.addEventListener("contextmenu", (event) => {
-      handleWidgetSettingsMenu(event)
+      //handleWidgetSettingsMenu(event)
 
     })
 

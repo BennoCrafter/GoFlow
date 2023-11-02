@@ -14,6 +14,10 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
+.settings-Button{
+  margin-top: 5px;
+}
+
 button {
   padding: 10px 20px;
   background-color: #8dabba;
@@ -42,34 +46,30 @@ button:hover {
   margin: 5px;
 }
 
-    /* Style for the popup menu */
-    #newProjectMenu {
-      position: absolute;
-      display: none;
-      background-color: #f9f9f9;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 20px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      width: 300px;
-  }
+#inputDialog {
+  position: absolute;
+  display: none;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 300px;
+}
 
-  /* Style for the project name input field */
-  #projectNameInput {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-  }
+#inputField {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-  /* Style for the "Create Project" button */
-  #createProjectButton {
-      background-color: #007bff;
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-  }
+#submitButton {
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

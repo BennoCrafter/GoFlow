@@ -13,26 +13,29 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="widgetSettingsMenuStyle.css">
 
-    <script defer src="js/manageWidgets.js"></script>
+    <script defer src="js/moveWidgets.js"></script>
     <script defer src="js/configureWidgets.js" type="module"></script>
     <script defer src="js/widget.js" type="module"></script>
     <script defer src="js/widgetSettingsMenu.js" type="module"></script>
     <script defer src="js/editButton.js" type="module"></script>
     <script defer src="js/addNewProject.js" type="module"></script>
+    <script defer src="js/addNewPage.js" type="module"></script>
 </head>
-<body id="body">   
+<body id="body">  
+  <script src="lib/vanilla-toast.min.js"></script>
+  
     <button type="button" id="addWidgetButton">Add Widget</button>
     <div class="widgetButtonsMenu">
-        <button class="widgetButtonMenu" id="addWidgetTasks" data-widgetType="tasks">Add Task list</button>
-        <button class="widgetButtonMenu" id="addWidgetIncrementalGoal" data-widgetType="incrementalGoal">  Add incremental Goal</button>
-        <button class="widgetButtonMenu" id="addMediaWidget" data-widgetType="media">Add Media</button>
-        <button class="widgetButtonMenu" id="addWidgetTextBox" data-widgetType="textBox">Add Text Box</button>
-        <button class="widgetButtonMenu"  data-widgetType="weather">Add Weather</button>
-        <button class="widgetButtonMenu"  data-widgetType="calendar">Add Weather</button>
+        <button class="widgetButtonMenu" data-widgetType="tasks">Add Task list</button>
+        <button class="widgetButtonMenu" data-widgetType="incrementalGoal">  Add incremental Goal</button>
+        <button class="widgetButtonMenu" data-widgetType="media">Add Media</button>
+        <button class="widgetButtonMenu" data-widgetType="textBox">Add Text Box</button>
+        <button class="widgetButtonMenu" data-widgetType="weather">Add Weather</button>
+        <button class="widgetButtonMenu" data-widgetType="calendar">Add Calendar</button>
       </div>
-    <button type="button" id="saveData">Save</button>
-    <button type="button" id="restoreData">Restore</button>
-    <button type="button" id="editButton">Edit</button>
+    <button type="button" id="saveData" class="settings-Button">Save</button>
+    <button type="button" id="restoreData" class="settings-Button">Restore</button>
+    <button type="button" id="editButton" class="settings-Button">Edit</button>
     <div class="widgets">
         <!-- Widgets will be displayed here --> 
     </div>
@@ -48,9 +51,9 @@
         </div>
     </div>
 
-    <div id="newProjectMenu">
-      <input type="text" id="projectNameInput" placeholder="Enter project name">
-      <button id="createProjectButton">Create Project</button>
+  <div id="inputDialog">
+      <input type="text" id="inputField" placeholder="placeholder">
+      <button id="submitButton" type="button">Placeholder</button>
   </div>
 
 </body>

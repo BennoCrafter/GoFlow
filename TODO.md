@@ -1,7 +1,7 @@
 # TODO
 
-- VERY IMPORTANT: make the ui scales better
+- IMPORTANT: add feature to set the lang and long of weather widget
+
 - add simple adding from custom widgets
-- adding feature customize the incremental goal widget, like goal
 
 - add random notes widget

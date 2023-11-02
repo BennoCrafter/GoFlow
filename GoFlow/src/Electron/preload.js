@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
   },
   onNewProject: (cb) => {
     ipcRenderer.on('newProject', (event, newProjectName) => cb(newProjectName));
-  } 
+  },
+  onNewPage: (cb) => {
+    ipcRenderer.on('newPage', (event) => cb());
+  }  
 });
