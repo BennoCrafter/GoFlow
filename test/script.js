@@ -8,7 +8,7 @@ if (!fs.existsSync(directoryName)) {
   // If it doesn't exist, create it
   fs.mkdir(path.join(__dirname, directoryName), (err) => {
     if (err) {
-      console.error('Error creating directory:', err);
+        console.error('Error creating directory:', err);
     } else {
       console.log('Directory created successfully');
     }
@@ -16,3 +16,9 @@ if (!fs.existsSync(directoryName)) {
 } else {
   console.log('Directory already exists');
 }
+
+
+function lol(){
+
+}
+

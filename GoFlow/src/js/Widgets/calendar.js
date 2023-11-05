@@ -17,7 +17,11 @@ export class CalendarWidget extends Widget{
         this.convertSavedEventsToDateObject()
         this.loadMonth(this.currentMonth, this.currentYear)
         this.rightClickListener()
-
+        this.submitCalendarEventListener()
+        this.backButton = this.widgetPath.querySelector("#backToCalendar");
+        this.backButton.addEventListener('click', () => {
+            this.closeCurrentPopup()
+          });
 
     }
     getEventsOfDay(year, month, day){
@@ -44,7 +48,6 @@ export class CalendarWidget extends Widget{
             day.classList.add('calendar__day-number');
             day.innerText = i;
             day.id = `${year}|${month}|${i}`
-        
             if(i===this.currentDay){
                 day.classList.add('calendar__day-number--current');
                 this.currentMarkedDay = day;
@@ -82,9 +85,11 @@ export class CalendarWidget extends Widget{
             if(events[0].from.getMonth() == this.currentMonth){
                 const path = document.querySelector(".calendar__day-numbers");
                 let eventElement = path.querySelector(`[id="${events[0].from.getFullYear()}|${events[0].from.getMonth()}|${events[0].from.getDate()}"]`);
-                const point = document.createElement("span");
-                point.classList.add("marked"); 
-                eventElement.appendChild(point);
+                if (!eventElement.querySelector(".marked")) {
+                    const point = document.createElement("span");
+                    point.classList.add("marked");
+                    eventElement.appendChild(point);
+                  }
             }
         }
     }
@@ -102,10 +107,11 @@ export class CalendarWidget extends Widget{
     }
 
     showEvent(events) {
-        const backButton = this.widgetPath.querySelector(".calendar-event-popup").querySelector("#backToCalendar");
-        const popup = this.widgetPath.querySelector(".calendar-event-popup");
-        popup.style.display = "flex";
+        this.popup = this.widgetPath.querySelector(".calendar-event-popup");
+        this.popup.querySelector(".event-list").innerHTML = ""
+        this.popup.style.display = "flex";
         this.widgetPath.querySelector(".calendar").style.display = "none";
+        this.backButton.style.display = "block"
         
         const ul = document.querySelector('.event-list');;
 
@@ -122,7 +128,7 @@ export class CalendarWidget extends Widget{
             description.classList.add('event-description');
           
             const date = document.createElement('p');
-            date.textContent = `${event.from.getHours()}:${event.to.getMinutes() < 10 ? event.from.getMinutes() + "0" : event.from.getMinutes()}-${event.to.getHours()}:${event.from.getMinutes() < 10 ? event.to.getMinutes() + "0" : event.to.getMinutes()}`;
+            date.textContent = `${event.from.getHours()}:${event.from.getMinutes() < 10 ? "0" + event.from.getMinutes() : event.from.getMinutes()}-${event.to.getHours()}:${event.to.getMinutes() < 10 ? "0" + event.to.getMinutes() : event.to.getMinutes()}`;
             date.classList.add('event-date');
           
             li.appendChild(title);
@@ -132,12 +138,6 @@ export class CalendarWidget extends Widget{
             ul.appendChild(li);
           });
           
-        
-        backButton.addEventListener('click', () => {
-          popup.style.display = 'none';
-          this.widgetPath.querySelector(".calendar").style.display = "block";
-          popup.querySelector(".event-list").innerHTML = ""
-        });
       }
 
     createEvent(title, desc, from, to){
@@ -149,22 +149,58 @@ export class CalendarWidget extends Widget{
         }
         this.uniqueWidgetData.events[date].push(new Event(title, desc, from, to))
         this.uniqueWidgetData.events[date].sort((a, b) => a.from - b.from);
-        console.log(this.uniqueWidgetData.events)
-      }
+        this.saveData()
+    }
 
     rightClickListener(){
         document.addEventListener('contextmenu', (event) => {
             event.preventDefault();
             const clickedElement = event.target;
-            const elementId = clickedElement.id || 'No ID found';
-            
-            console.log('Right-clicked element ID:', elementId);
+            if(clickedElement.className.split(' ').includes("calendar__day-number")){
+                this.clickedDayId = clickedElement.id
+                this.openEventCreationPopup()
+            }
           });
     }
+
+    openEventCreationPopup(){
+        this.popup = this.widgetPath.querySelector(".calendar-new-event-popup");
+        this.popup.style.display = "flex";
+        this.widgetPath.querySelector(".calendar").style.display = "none";
+        this.backButton.style.display = "block"
+        //calendarNewEventPopup
+    }
+
+    submitCalendarEventListener(){
+        const popup = this.widgetPath.querySelector(".calendar-new-event-popup")
+        popup.querySelector("#submitEvent").addEventListener('click', (event) => {
+            const fromTime = popup.querySelector("#fromField").value.split(":")
+            const toTime = popup.querySelector("#toField").value.split(":")
+            console.log(fromTime, toTime)
+            console.log(fromTime)
+            const Cday = this.clickedDayId.split("|")
+            const from = new Date(Cday[0], Cday[1], Cday[2],(fromTime[0]), (fromTime[1]))
+            const to = new Date(Cday[0], Cday[1], Cday[2], (toTime[0]), (toTime[1]))
+            console.log(parseInt(fromTime[0]), parseInt(fromTime[1]))
+            console.log(parseInt(toTime[0]), parseInt(toTime[1]))
+            this.createEvent(popup.querySelector("#titleField").value, popup.querySelector("#descriptionField").value, from, to)
+            this.closeCurrentPopup()
+            this.loadEvents()
+
+            // clear user inputs
+            popup.querySelector("#fromField").value = ""
+            popup.querySelector("#toField").value = ""
+            popup.querySelector("#titleField").value = ""
+            popup.querySelector("#descriptionField").value = ""
+        })
+    }
+
+    closeCurrentPopup(){
+        this.popup.style.display = 'none';
+        this.widgetPath.querySelector(".calendar").style.display = "block";
+        this.backButton.style.display = "none"
+    }
 }
-
-
-
 
 
 class Event{

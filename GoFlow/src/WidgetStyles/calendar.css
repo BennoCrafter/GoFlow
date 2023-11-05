@@ -1,6 +1,5 @@
 .calendar {
   background-color: #fff;
-  border-radius: 0.8rem;
   padding: 2rem; /* Reduce padding */
   cursor: pointer;
   font-family: Helvetica, sans-serif;
@@ -8,8 +7,9 @@
   width: 382px;
   height: 382px;
   display: block;
-}
+  border-radius: 0px 0px 10px 10px;
 
+}
 
 .calendar * {
   box-sizing: inherit;
@@ -103,7 +103,7 @@
 
 .calendar-event-popup {
   background-color: #fff;
-  border-radius: 0.8rem;
+  border-radius: 0px 0px 10px 10px;
   box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
   padding: 2rem;
   cursor: pointer;
@@ -112,36 +112,38 @@
   box-sizing: inherit; /* Inherit box-sizing property from .calendar */
   flex-direction: column; /* Ensure that it has the same flex direction as .calendar */
   align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
   display: none;
   width: 382px;
   height: 382px;
+  padding: 40px;
 }
 
 .calendar-event-popup body {
   background-color: #a9ddeb;
   font-size: 1.4rem;
   min-height: 100vh;
-  place-content: center;
 }
 
 .calendar-view {
   width: 80%;
-  margin: 0 auto;
   padding: 20px;
 }
 
 .event-list {
   list-style: none;
   padding: 0;
+  max-height: 400px; /* Adjust to the height you want */
+  overflow-y: auto; /* This will add a scrollbar if content overflows */
 }
+
 
 .event-item {
   background-color: #f7f7f7;
   border: 1px solid #ddd;
-  margin: 10px 0;
+  margin: 10px 0px;
   padding: 10px;
   border-radius: 5px;
+  width: 362px;
 }
 
 .event-title {
@@ -157,4 +159,65 @@
 .event-date {
   font-size: 14px;
   color: #999;
+}
+
+
+#backToCalendar{
+  display: none;
+  position:absolute;
+  top:40px;
+  left:15px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+#backToCalendar:hover{
+  text-decoration: underline;
+}
+.calendar-new-event-popup{
+  background-color: #fff;
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
+  padding: 2rem;
+  cursor: pointer;
+  font-family: Helvetica, sans-serif;
+  font-size: 1.4rem;
+  box-sizing: inherit; /* Inherit box-sizing property from .calendar */
+  flex-direction: column; /* Ensure that it has the same flex direction as .calendar */
+  align-items: center; /* Center content vertically */
+  display: none;
+  width: 382px;
+  height: 382px;
+  padding: 40px;
+}
+
+/* Style the input fields */
+.inputField {
+  margin: 10px; /* Add some space around the input fields */
+  padding: 10px; /* Add some space inside the input fields */
+  width: 100%; /* Make the input fields take up the full width of their container */
+  border: 1px solid #ccc; /* Add a border with a light gray color */
+  border-radius: 5px; /* Round the corners a bit */
+  font-size: 16px; /* Set the font size to make it more readable */
+}
+
+/* Style the label */
+label {
+  display: block; /* Display the label on a new line */
+  margin: 10px 0; /* Add some space above and below the label */
+  font-size: 18px; /* Make the label text a bit larger */
+}
+
+/* Style the time input fields */
+input[type="time"] {
+  margin: 10px; /* Add some space around the time input fields */
+  padding: 10px; /* Add some space inside the time input fields */
+  border: 1px solid #ccc; /* Add a border with a light gray color */
+  border-radius: 5px; /* Round the corners a bit */
+  font-size: 16px; /* Set the font size to make it more readable */
+}
+
+#submitEvent{
+  display: block;
 }

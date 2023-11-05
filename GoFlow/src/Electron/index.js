@@ -2,22 +2,19 @@ const {
   app,
   BrowserWindow,
   ipcMain,
-  globalShortcut,
   Menu,
-  dialog,
 } = require("electron");
 const path = require("path");
-const { constrainedMemory } = require("process");
-const fs = require("fs").promises;
-const fss = require("fs");
+const isMac = process.platform === "darwin";
+const fs = require("fs");
+const utils = require("./Utils/utils")
+
 let mainWindow = null;
 
-const isMac = process.platform === "darwin";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
-
 async function setupMainMenu() {
   // First, define the menu template
   const template = [
@@ -45,6 +42,7 @@ async function setupMainMenu() {
         {
           label: "New Project",
           role: "New",
+          accelerator: "Shift+CmdOrCtrl+N",
           click: () => {
             mainWindow.webContents.send("newProject");
           },
@@ -52,6 +50,7 @@ async function setupMainMenu() {
         {
           label: "New Page",
           role: "New",
+          accelerator: "CmdOrCtrl+N",
           click: () => {
             mainWindow.webContents.send("newPage");
           },
@@ -68,12 +67,19 @@ async function setupMainMenu() {
         { role: "copy" },
         { role: "paste" }, // Fixed "past" to "paste"
         { role: "reload" },
-        { role: "save" },
+        {
+          role: "save",
+          label: "Save",
+          accelerator: "CmdOrCtrl+S",
+          click: () => {
+            mainWindow.webContents.send("savePage");
+          },
+        },
       ],
     },
     {
       label: "View",
-      submenu: [{ role: "toggledevtools" }],
+      submenu: [{ role: "toggledevtools", label:"Toggle Developer Tools", accelerator: "CmdOrCtrl+I" }],
     },
   ];
 
@@ -83,6 +89,7 @@ async function setupMainMenu() {
   // Set the application's default menu
   Menu.setApplicationMenu(menu);
 }
+
 
 const createWindow = () => {
   // Create the browser window.
@@ -101,14 +108,6 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
-  // Toggle open/close the DevTools.
-  globalShortcut.register("CommandorControl+D", () => {
-    if (mainWindow.webContents.isDevToolsOpened()) {
-      mainWindow.webContents.closeDevTools();
-    } else {
-      mainWindow.webContents.openDevTools();
-    }
-  });
   handleCommunication();
   setupMainMenu();
 };
@@ -117,9 +116,9 @@ const createWindow = () => {
 app.on("ready", () => {
   createWindow();
 
-  if (!fss.existsSync(path.join(__dirname, "../SavedData/"))) {
+  if (!fs.existsSync(path.join(__dirname, "../SavedData/"))) {
     // If it doesn't exist, create it
-    fss.mkdir(path.join(__dirname, "../SavedData/"), (err) => {
+    fs.mkdir(path.join(__dirname, "../SavedData/"), (err) => {
       if (err) {
         console.error("Error creating main directory for saved data:", err);
       } else {
@@ -127,6 +126,26 @@ app.on("ready", () => {
     });
   } else {
   }
+
+  // order.json file
+  fs.promises.access(
+    path.join(__dirname, "../SavedData/order.json"),
+    fs.constants.F_OK,
+    (err) => {
+      if (err) {
+        console.log(`File does not exist, creating it...`);
+        // File does not exist, write the file
+        fs.promises.writeFile(
+          path.join(__dirname, "../SavedData/order.json"),
+          (err) => {
+            if (err) throw err;
+            console.log("The file has been created!");
+          }
+        );
+      } else {
+      }
+    }
+  );
 });
 
 // Quit when all windows are closed, except on macOS.
@@ -151,35 +170,29 @@ const handleCommunication = () => {
       event,
       projectName,
       pageName,
-      isNewDir,
+      creating,
       data = null,
       name = null
     ) => {
       try {
-        if (isNewDir) {
-          if (
-            !fss.existsSync(path.join(__dirname, "../SavedData/" + projectName))
-          ) {
-            // If it doesn't exist, create it
-            fss.mkdir(
-              path.join(__dirname, "../SavedData/" + projectName),
-              (err) => {
-                if (err) {
-                  console.error("Error creating directory:", err);
-                } else {
-                  console.log("Directory created successfully");
-                }
-              }
+        if (creating) {
+          if (pageName == false) {
+            utils.createDirectory(
+              path.join(__dirname, "../SavedData"),
+              projectName
             );
           } else {
-            console.log("Directory already exists");
+            utils.createDirectory(
+              path.join(__dirname, "../SavedData/" + projectName),
+              pageName
+            );
           }
         } else {
           const filePath = path.join(
             __dirname,
             `../SavedData/${projectName}/${pageName}/${name}.json`
           ); // Set your desired file path here
-          await fs.writeFile(filePath, data, "utf8");
+          await fs.promises.writeFile(filePath, data, "utf8");
         }
 
         return { success: true };
@@ -192,12 +205,12 @@ const handleCommunication = () => {
   ipcMain.handle("getWidgetData", async () => {
     try {
       const directoryPath = path.join(__dirname, "../WidgetData/");
-      const files = await fs.readdir(directoryPath);
+      const files = await fs.promises.readdir(directoryPath);
 
       const filesData = await Promise.all(
         files.map(async (file) => {
           const filePath = path.join(directoryPath, file);
-          const data = await fs.readFile(filePath, "utf8");
+          const data = await fs.promises.readFile(filePath, "utf8");
           return JSON.parse(data);
         })
       );
@@ -212,7 +225,7 @@ const handleCommunication = () => {
   ipcMain.handle("restoreData", async () => {
     try {
       const directoryPath = path.join(__dirname, "../SavedData/");
-      const projects = await readDataFromDirectory(directoryPath);
+      const projects = await utils.readDataFromDirectory(directoryPath);
 
       // Organize the data into the desired structure
       const organizedProjects = {};
@@ -232,46 +245,15 @@ const handleCommunication = () => {
     }
   });
 
-  async function readDataFromDirectory(directoryPath) {
-    const projects = await fs.readdir(directoryPath);
-    const projectData = [];
+  ipcMain.handle("getOrder", async () => {
+    const filePath = path.join(__dirname, "../SavedData/order.json");
+    const data = await fs.promises.readFile(filePath, "utf8");
+    return JSON.parse(data);
+  })
 
-    for (const project of projects) {
-      if (project == ".DS_Store") {
-        continue;
-      }
-      const projectPath = path.join(directoryPath, project);
-      const pages = await fs.readdir(projectPath);
+  ipcMain.handle("saveOrder", async(event, content) =>{
+    const filePath = path.join(__dirname, "../SavedData/order.json");
+    await fs.promises.writeFile(filePath, JSON.stringify(content), "utf8");
+  })
 
-      const projectInfo = {
-        name: project,
-        pagesData: [],
-      };
-
-      for (const page of pages) {
-        const pagePath = path.join(projectPath, page);
-        const widgets = await fs.readdir(pagePath);
-
-        const pageInfo = {
-          name: page,
-          widgetsData: [],
-        };
-
-        for (const widget of widgets) {
-          const widgetPath = path.join(pagePath, widget);
-
-          // Ensure the file is a JSON file
-          if (path.extname(widget) === ".json") {
-            const data = await fs.readFile(widgetPath, "utf8");
-            const jsonData = JSON.parse(data);
-            pageInfo.widgetsData.push(jsonData);
-          }
-        }
-
-        projectInfo.pagesData.push(pageInfo);
-      }
-      projectData.push(projectInfo);
-    }
-    return projectData;
-  }
 };

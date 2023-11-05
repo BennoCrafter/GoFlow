@@ -29,6 +29,7 @@ export class TasksWidget extends Widget {
     const addButton = this.widgetPath.querySelector("#addTaskButton");
     addButton.addEventListener("click", () => this.addTaskToWidget());
   }
+
   addTaskToWidget() {
     const todoName = this.taskInput.value.trim();
 

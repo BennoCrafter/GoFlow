@@ -1,6 +1,6 @@
 .weatherWindow {
-    background-color: #fff;
-    border-radius: 10px;
+    background-color: #fefcfc;
+    border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 30px;
     cursor: pointer;

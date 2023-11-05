@@ -19,5 +19,4 @@ function createDirectory(path, dirName){
         console.log("Directory already exists");
       }
 }
-
 module.exports = { createDirectory } 

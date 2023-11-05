@@ -6,10 +6,13 @@ export class WeatherWidget extends Widget{
         super(widgetId, data, uniqueWidgetData)
         this.getWeatherData()
 
-        this.weatherIconsDict = {0: ["clear-night.svg","clear-day.svg"], 2: ["partly-cloudy-night.svg", "partly-cloudy-day.svg"], 3: ["overcast-night.svg", "overcast-day.svg"], 45: ["fog-night.svg", "wo_fog-day.svg"], 61: ["partly-cloudy-night-drizzle.svg", "partly-cloudy-day-drizzle.svg"], 65: ["partly-cloudy-night-rain.svg", "partly-cloudy-day-rain.svg"]}
+        this.weatherIconsDict = {0: ["clear-night.svg","clear-day.svg"], 1: ["clear-night.svg","clear-day.svg"], 2: ["partly-cloudy-night.svg", "partly-cloudy-day.svg"], 3: ["overcast-night.svg", "overcast-day.svg"], 45: ["fog-night.svg", "wo_fog-day.svg"], 61: ["partly-cloudy-night-drizzle.svg", "partly-cloudy-day-drizzle.svg"], 65: ["partly-cloudy-night-rain.svg", "partly-cloudy-day-rain.svg"]}
     }
 
     getWeatherData(){
+        // example long and lang
+        this.uniqueWidgetData.longitude = 13.404954
+        this.uniqueWidgetData.latitude = 52.520008
         const url = `https://api.open-meteo.com/v1/forecast?latitude=${this.uniqueWidgetData.latitude}&longitude=${this.uniqueWidgetData.longitude}&hourly=temperature_2m,precipitation_probability,precipitation,weathercode,is_day&daily=weathercode&current_weather=true&timezone=Europe%2FBerlin`;
 
         fetch(url)

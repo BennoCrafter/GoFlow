@@ -4,13 +4,11 @@ import { TextBox } from "./Widgets/textBox.js";
 import { MediaWidget } from "./Widgets/media.js";
 import { WeatherWidget } from "./Widgets/weather.js";
 import { CalendarWidget } from "./Widgets/calendar.js";
-
+import {currentProject, currentProjectPage} from "./manageOrder.js"
 
 export let widgets = [];
 let widgetData = {};
-let currentProject = "Project1"
-let currentProjectPage = "page2"
-let allPages;
+
 let projectData;
 // call rePosWidgets functiom on resizing window
 window.onresize = rePosWidgets
@@ -22,7 +20,7 @@ const titleHtml = `
     <span contenteditable="true" class="titleText">title</span>
 </div>  `;
 
-const restoreData = async () => {
+export const restoreData = async () => {
     try {
         const result = await window.electronAPI.restoreData();
 
@@ -36,12 +34,11 @@ const restoreData = async () => {
     }
 };
 
-async function loadPage(){
+export async function loadPage(){
     document.querySelector(".widgets").innerHTML = ""
     for (const widget of projectData.projects[currentProject]["pages"][currentProjectPage]) {
         spawnWidget(widgetData[widget.data.type]["html"], widget.uniqueWidgetData, widget.widgetId, widget.data.type, widget.data)
     } 
-    allPages = projectData.projects[currentProject]["pages"]
     rePosWidgets()
 }
 
@@ -92,42 +89,12 @@ function spawnWidget(html, uniqueWidgetData, wId, wType, data){
 
 }
 
-
-// addEventListener("DOMContentLoaded", (event) => {
-//     document.getElementById("addWidgetButton").addEventListener("click", function() {
-//         addWidget("tasks")
-//     });
-// });
-
-addEventListener("DOMContentLoaded", (event) => {
-    document.getElementById("saveData").addEventListener("click", function() {
-        for (let w of widgets){
-            w.saveData()
-        }
-    });
-});
-
 addEventListener("beforeunload", (event) => {
     for (let w of widgets){
         w.saveData()
     }   
 });
 
-
-document.addEventListener("keydown", async function(event) {
-    if(event.target.id == "body"){
-        await restoreData()
-    // todo make it better (ez task)
-    if (event.key === "ArrowLeft") {
-        currentProjectPage = "page1"
-        loadPage()
-        // Do something for the left arrow key press
-    } else if (event.key === "ArrowRight") {
-        currentProjectPage = "page2"
-        loadPage()
-    }
-    }
-  });
   
 
 function rePosWidgets(){
@@ -182,3 +149,11 @@ document.addEventListener("click", function(event) {
 
 loadWidgetData();
 
+
+
+window.electronAPI.onSavePage(() => {
+    for (let w of widgets){
+        w.saveData()
+    }   
+    console.log("Saved")
+  });

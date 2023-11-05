@@ -1,7 +1,7 @@
 
 
 {
-    "html": "<div class='weatherWindow'><div id='day1' class='day-title'><p>Today</p><img src='' id='weather-src'><img class='thermometer-img' src='resources/weather-icons/thermometer.svg' alt='Thermometer'><p class='temperature'>Loading...</p><p class='location'>Loading...</p></div></div><div class='button-container'><button onclick='switchDay(-1)'>Previous</button><button onclick='switchDay(1)'>Next</button></div>",
-    "uniqueWidgetData": {"width": "270px", "height": "180px", "textX": "0px", "textY": "0px"},
+    "html": "<div class='weatherWindow'><div id='day1' class='day-title'><p>Today</p><img src='' id='weather-src'><img class='thermometer-img' src='resources/weather-icons/thermometer.svg' alt='Thermometer'><p class='temperature'>Loading...</p><p class='location'>Loading...</p></div></div><div class='button-container' style='display: none'><button onclick='switchDay(-1)'>Previous</button><button onclick='switchDay(1)'>Next</button></div>",
+    "uniqueWidgetData": {"width": "270px", "height": "180px", "longitude": "", "langitude": ""},
     "type": "weather"
 }

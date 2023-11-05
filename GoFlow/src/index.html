@@ -18,24 +18,26 @@
     <script defer src="js/widget.js" type="module"></script>
     <script defer src="js/widgetSettingsMenu.js" type="module"></script>
     <script defer src="js/editButton.js" type="module"></script>
-    <script defer src="js/addNewProject.js" type="module"></script>
-    <script defer src="js/addNewPage.js" type="module"></script>
+    <script defer src="js/addNew.js" type="module"></script>
+    <script defer src="js/manageOrder.js" type="module"></script>
 </head>
 <body id="body">  
   <script src="lib/vanilla-toast.min.js"></script>
   
     <button type="button" id="addWidgetButton">Add Widget</button>
+    <button type="button" id="editButton" class="settings-Button">Edit</button>
+    <button type="button" id="loadButton">Load</button>
     <div class="widgetButtonsMenu">
+      <div class="menu-list">
         <button class="widgetButtonMenu" data-widgetType="tasks">Add Task list</button>
-        <button class="widgetButtonMenu" data-widgetType="incrementalGoal">  Add incremental Goal</button>
+        <button class="widgetButtonMenu" data-widgetType="incrementalGoal">Add Incremental Goal</button>
         <button class="widgetButtonMenu" data-widgetType="media">Add Media</button>
         <button class="widgetButtonMenu" data-widgetType="textBox">Add Text Box</button>
         <button class="widgetButtonMenu" data-widgetType="weather">Add Weather</button>
         <button class="widgetButtonMenu" data-widgetType="calendar">Add Calendar</button>
       </div>
-    <button type="button" id="saveData" class="settings-Button">Save</button>
-    <button type="button" id="restoreData" class="settings-Button">Restore</button>
-    <button type="button" id="editButton" class="settings-Button">Edit</button>
+    </div>
+    
     <div class="widgets">
         <!-- Widgets will be displayed here --> 
     </div>
