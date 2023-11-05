@@ -8,15 +8,15 @@ export let currentProjectPage = order[currentProject][index]
 document.addEventListener("keydown", async function(event) {
     if(event.target.id == "body"){
     if (event.key === "ArrowRight") {
-        await restoreData()
-        if(index+1 <= order[currentProject].length){
+        if(index+2 <= order[currentProject].length){
+            await restoreData()
             index++;
             currentProjectPage = order[currentProject][index]
             loadPage()
         }
     } else if (event.key === "ArrowLeft") {
-        await restoreData()
-        if(index>0){
+        if(index-1>=0){
+            await restoreData()
             index --;
             currentProjectPage = order[currentProject][index]     
             loadPage()
