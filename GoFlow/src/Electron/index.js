@@ -128,24 +128,12 @@ app.on("ready", () => {
   }
 
   // order.json file
-  fs.promises.access(
-    path.join(__dirname, "../SavedData/order.json"),
-    fs.constants.F_OK,
-    (err) => {
-      if (err) {
-        console.log(`File does not exist, creating it...`);
-        // File does not exist, write the file
-        fs.promises.writeFile(
-          path.join(__dirname, "../SavedData/order.json"),
-          (err) => {
-            if (err) throw err;
-            console.log("The file has been created!");
-          }
-        );
-      } else {
-      }
-    }
-  );
+  if (!fs.existsSync(path.join(__dirname, "../SavedData/order.json"))) {
+    // If it doesn't exist, create the file with the provided content
+    fs.promises.writeFile(path.join(__dirname, "../SavedData/order.json"), "{}");
+    console.log(`File '${path.join(__dirname, "../SavedData/order.json")}' created successfully.`);
+  } else {
+  }
 });
 
 // Quit when all windows are closed, except on macOS.
