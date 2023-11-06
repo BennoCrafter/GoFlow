@@ -6,7 +6,6 @@ let widgetPositions = {}; // Store widget positions
 document.addEventListener("mousedown", (event) => {
     const titleBar = event.target.closest(".title-bar");
     const window = event.target.closest(".widget");
-
     if (titleBar) {
         isDragging = true;
         activeWindow = window;
@@ -17,6 +16,8 @@ document.addEventListener("mousedown", (event) => {
 
 document.addEventListener("mousemove", (event) => {
     if (isDragging && activeWindow) {
+        document.addEventListener("selectstart", preventTextSelection);
+
         const x = event.clientX - offsetX;
         const y = event.clientY - offsetY;
         activeWindow.style.left = x + "px";
@@ -39,4 +40,10 @@ document.addEventListener("mousemove", (event) => {
 document.addEventListener("mouseup", () => {
     isDragging = false;
     activeWindow = null;
+    document.removeEventListener("selectstart", preventTextSelection);
 });
+
+
+function preventTextSelection(e) {
+    e.preventDefault();
+  }

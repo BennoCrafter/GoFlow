@@ -8,7 +8,7 @@ export class TasksWidget extends Widget {
   ) {
     super(widgetId, data, uniqueWidgetData);
     this.tasks = uniqueWidgetData.tasks;
-    this.id = Object.keys(this.tasks).length;
+    this.id = Object.keys(this.tasks).length+1;
 
     this.taskInput = this.widgetPath
       .querySelector(".taskBoard")
