@@ -115,10 +115,11 @@ const createWindow = () => {
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
 app.on("ready", () => {
   createWindow();
+  console.log(app.getPath("userData"))
 
-  if (!fs.existsSync(path.join(__dirname, "../SavedData/"))) {
+  if (!fs.existsSync(path.join(app.getPath("userData"), "/SavedData/"))) {
     // If it doesn't exist, create it
-    fs.mkdir(path.join(__dirname, "../SavedData/"), (err) => {
+    fs.mkdir(path.join(app.getPath("userData"), "/SavedData/"), (err) => {
       if (err) {
         console.error("Error creating main directory for saved data:", err);
       } else {
@@ -128,10 +129,10 @@ app.on("ready", () => {
   }
 
   // order.json file
-  if (!fs.existsSync(path.join(__dirname, "../SavedData/order.json"))) {
+  if (!fs.existsSync(path.join(app.getPath("userData"), "/SavedData/order.json"))) {
     // If it doesn't exist, create the file with the provided content
-    fs.promises.writeFile(path.join(__dirname, "../SavedData/order.json"), "{}");
-    console.log(`File '${path.join(__dirname, "../SavedData/order.json")}' created successfully.`);
+    fs.promises.writeFile(path.join(app.getPath("userData"), "/SavedData/order.json"), "{}");
+    console.log(`File '${path.join(app.getPath("userData"), "/SavedData/order.json")}' created successfully.`);
   } else {
   }
 });
@@ -166,19 +167,19 @@ const handleCommunication = () => {
         if (creating) {
           if (pageName == false) {
             utils.createDirectory(
-              path.join(__dirname, "../SavedData"),
+              path.join(app.getPath("userData"), "/SavedData"),
               projectName
             );
           } else {
             utils.createDirectory(
-              path.join(__dirname, "../SavedData/" + projectName),
+              path.join(app.getPath("userData"), "/SavedData/" + projectName),
               pageName
             );
           }
         } else {
           const filePath = path.join(
-            __dirname,
-            `../SavedData/${projectName}/${pageName}/${name}.json`
+            app.getPath("userData"),
+            `/SavedData/${projectName}/${pageName}/${name}.json`
           ); // Set your desired file path here
           await fs.promises.writeFile(filePath, data, "utf8");
         }
@@ -212,7 +213,7 @@ const handleCommunication = () => {
 
   ipcMain.handle("restoreData", async () => {
     try {
-      const directoryPath = path.join(__dirname, "../SavedData/");
+      const directoryPath = path.join(app.getPath("userData"), "/SavedData/");
       const projects = await utils.readDataFromDirectory(directoryPath);
 
       // Organize the data into the desired structure
@@ -234,13 +235,13 @@ const handleCommunication = () => {
   });
 
   ipcMain.handle("getOrder", async () => {
-    const filePath = path.join(__dirname, "../SavedData/order.json");
+    const filePath = path.join(app.getPath("userData"), "/SavedData/order.json");
     const data = await fs.promises.readFile(filePath, "utf8");
     return JSON.parse(data);
   })
 
   ipcMain.handle("saveOrder", async(event, content) =>{
-    const filePath = path.join(__dirname, "../SavedData/order.json");
+    const filePath = path.join(app.getPath("userData"), "/SavedData/order.json");
     await fs.promises.writeFile(filePath, JSON.stringify(content), "utf8");
   })
 
