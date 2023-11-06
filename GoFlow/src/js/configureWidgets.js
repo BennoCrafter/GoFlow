@@ -136,7 +136,7 @@ addButton.addEventListener("click", function() {
   } else {
     menu.style.display = "none";
   }
-});
+});             
 
 document.addEventListener("click", function(event) {
   if (!menu.contains(event.target) && event.target !== addButton) {
