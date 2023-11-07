@@ -136,11 +136,12 @@ app.on("ready", () => {
   }
     
   const sourceDirectory = path.join(__dirname, '../ExampleSavedData');
-  const targetDirectory = app.getPath("userData") + "/SavedData";
+  const targetDirectory = path.join(app.getPath("userData") + "/SavedData");
   if (!fs.existsSync(path.join(app.getPath("userData"), "/SavedData"))) {
     copyDirectory(sourceDirectory, targetDirectory);
     console.log('Directory contents copied successfully!');
   }
+  console.log(app.getPath("appData"))
   
   // if (!fs.existsSync(path.join(app.getPath("userData"), "/SavedData/"))) {
   //   // If it doesn't exist, create it
