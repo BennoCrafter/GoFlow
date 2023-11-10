@@ -4,6 +4,8 @@ GoFlow. An App to manage everything! :)
 
 With GoFlow you can create beautiful designs, with an awesome selection of widgets!
 
+## Preview
+![Preview Image](preview-image.png)
 ## Getting Started
 
 To use GoFlow, follow these steps:
