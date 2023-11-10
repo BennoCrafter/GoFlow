@@ -16,10 +16,17 @@ To use GoFlow, follow these steps:
 
 ## You can copy following
 ```bash
-cd Goflow/src
+cd src
 npm install
 npm start
 ```
+
+## If you want to build the app just do following
+```bash
+cd src
+npm install
+npm run make
+``````
 
 Feel free to modify it to match your specific app's details.
 
