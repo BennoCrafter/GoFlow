@@ -5,7 +5,6 @@
     padding: 30px;
     cursor: pointer;
     transition: transform 0.2s ease;
-    display: none;
     display: flex;
 }
 
@@ -36,3 +35,20 @@
     align-items: center;
     margin-top: 20px;
 }
+
+.location-popup{
+    background-color: #fff;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
+    padding: 2rem;
+    cursor: pointer;
+    font-family: Helvetica, sans-serif;
+    font-size: 1.4rem;
+    box-sizing: inherit; /* Inherit box-sizing property from .calendar */
+    flex-direction: column; /* Ensure that it has the same flex direction as .calendar */
+    align-items: center; /* Center content vertically */
+    display: none;
+    width: 200px;
+    height: 382px;
+    padding: 40px;
+  }
