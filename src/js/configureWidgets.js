@@ -4,7 +4,10 @@ import { TextBox } from "./Widgets/textBox.js";
 import { MediaWidget } from "./Widgets/media.js";
 import { WeatherWidget } from "./Widgets/weather.js";
 import { CalendarWidget } from "./Widgets/calendar.js";
+
+
 import {currentProject, currentProjectPage} from "./manageOrder.js"
+import { rePosWidgets } from "./rePosWidgets.js";
 
 export let widgets = [];
 let widgetData = {};
@@ -60,7 +63,8 @@ const loadWidgetData = async () =>{
     await restoreData()
     await loadPage()
 }
-function addWidget(type){
+
+export function addWidget(type){
     const exampleDataExtended = {...exampleData, ...{type: type, page: currentProjectPage, project: currentProject}}
     spawnWidget(widgetData[type]["html"], {... widgetData[type]["uniqueWidgetData"]}, new Date().getTime(), type, {... exampleDataExtended})
 }
@@ -89,71 +93,4 @@ function spawnWidget(html, uniqueWidgetData, wId, wType, data){
 
 }
 
-addEventListener("beforeunload", (event) => {
-    for (let w of widgets){
-        w.saveData()
-    }   
-});
-
-  
-
-function rePosWidgets(){
-    let width = window.innerWidth
-    let height = window.innerHeight
-    for (let w of widgets) {
-        const anchorX = w.data.anchorX;
-        const anchorY = w.data.anchorY;
-        let newXPos;
-        let newYPos;
-      
-        // rePos x
-        if (anchorX[0] == "right") {
-            newXPos = width - parseInt(w.uniqueWidgetData.width) - parseInt(anchorX[1]);
-        } else if (anchorX[0] == "left") {
-            newXPos = parseInt(anchorX[1]);
-        }
-    
-        // rePos y
-        if (anchorY[0] == "bottom") {
-            newYPos = height - parseInt(w.uniqueWidgetData.height) - parseInt(anchorY[1]);
-        } else if (anchorY[0] == "top") {
-            newYPos = parseInt(anchorY[1]);
-        }
-    
-      
-        w.data.xPos = newXPos + "px";
-        w.data.yPos = newYPos + "px";
-        w.updatePos();
-      }
-      
-}
-const addButton = document.getElementById("addWidgetButton");
-const menu = document.querySelector(".widgetButtonsMenu");
-
-addButton.addEventListener("click", function() {
-  if (menu.style.display === "none" || menu.style.display === "") {
-    menu.style.display = "block";
-  } else {
-    menu.style.display = "none";
-  }
-});             
-
-document.addEventListener("click", function(event) {
-  if (!menu.contains(event.target) && event.target !== addButton) {
-    menu.style.display = "none";
-  }else if(menu.contains(event.target) && event.target !== addButton){
-    menu.style.display = "none";
-    addWidget(event.target.getAttribute("data-widgetType"))
-  }
-});
-
 loadWidgetData();
-
-
-
-window.electronAPI.onSavePage(() => {
-    for (let w of widgets){
-        w.saveData()
-    }   
-    console.log("Saved")
-  });

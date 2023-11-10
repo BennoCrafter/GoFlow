@@ -1,4 +1,4 @@
-import { widgets } from "./configureWidgets.js";
+import { widgets } from "../configureWidgets.js";
 
 const editButton = document.getElementById("editButton")
 let editMode = false;

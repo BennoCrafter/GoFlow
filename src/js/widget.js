@@ -1,5 +1,5 @@
 import { getSettingsData, getTarget, handleWidgetSettingsMenu } from "./widgetSettingsMenu.js";
-import { editMode } from "./editButton.js";
+import { editMode } from "./ButtonHandlers/editButton.js";
 
 const titleHtml = `        
 <div class="title-bar">

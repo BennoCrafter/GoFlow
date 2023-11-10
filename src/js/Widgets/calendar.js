@@ -185,6 +185,9 @@ export class CalendarWidget extends Widget {
       li.appendChild(date);
 
       ul.appendChild(li);
+      ul.addEventListener("click", (event) => {
+        
+      })
     });
   }
 

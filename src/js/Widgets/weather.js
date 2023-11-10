@@ -73,7 +73,7 @@ export class WeatherWidget extends Widget {
     const imgSrc = dayPath.querySelector("#weather-src");
     imgSrc.src = `resources/weather-icons/${weatherPath}`;
     // set temperature
-    dayPath.querySelector(".temperature").textContent = temp;
+    dayPath.querySelector(".temperature").textContent = temp + "°";
 
     // set location
     dayPath.querySelector(".location").textContent = this.uniqueWidgetData.loc;
