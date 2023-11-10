@@ -18,24 +18,20 @@ if (require("electron-squirrel-startup")) {
 async function setupMainMenu() {
   // First, define the menu template
   const template = [
-    ...(isMac
-      ? [
-          {
-            label: app.name,
-            submenu: [
-              { role: "about" },
-              { type: "separator" },
-              { role: "services" },
-              { type: "separator" },
-              { role: "hide" },
-              { role: "hideOthers" },
-              { role: "unhide" },
-              { type: "separator" },
-              { role: "quit" },
-            ],
-          },
-        ]
-      : []),
+    {
+      label: app.name,
+      submenu: [
+        { role: "about" },
+        { type: "separator" },
+        { role: "services" },
+        { type: "separator" },
+        { role: "hide" },
+        { role: "hideOthers" },
+        { role: "unhide" },
+        { type: "separator" },
+        { role: "quit" },
+      ],
+    },
     {
       label: "File",
       submenu: [
@@ -86,8 +82,7 @@ async function setupMainMenu() {
   // Build the menu from the template
   const menu = Menu.buildFromTemplate(template);
 
-  // Set the application's default menu
-  Menu.setApplicationMenu(menu);
+   Menu.setApplicationMenu(menu);
 }
 
 
@@ -116,24 +111,6 @@ const createWindow = () => {
 app.on("ready", () => {
   createWindow();
   
-  function copyDirectory(sourceDir, targetDir) {
-    if (!fs.existsSync(targetDir)) {
-      fs.mkdirSync(targetDir);
-    }
-  
-    const files = fs.readdirSync(sourceDir);
-  
-    files.forEach((file) => {
-      const sourcePath = path.join(sourceDir, file);
-      const targetPath = path.join(targetDir, file);
-  
-      if (fs.lstatSync(sourcePath).isDirectory()) {
-        copyDirectory(sourcePath, targetPath);
-      } else {
-        fs.copyFileSync(sourcePath, targetPath);
-      }
-    });
-  }
     
   const sourceDirectory = path.join(__dirname, '../ExampleSavedData');
   const targetDirectory = path.join(app.getPath("userData") + "/SavedData");
@@ -272,3 +249,23 @@ const handleCommunication = () => {
   })
 
 };
+
+
+function copyDirectory(sourceDir, targetDir) {
+  if (!fs.existsSync(targetDir)) {
+    fs.mkdirSync(targetDir);
+  }
+
+  const files = fs.readdirSync(sourceDir);
+
+  files.forEach((file) => {
+    const sourcePath = path.join(sourceDir, file);
+    const targetPath = path.join(targetDir, file);
+
+    if (fs.lstatSync(sourcePath).isDirectory()) {
+      copyDirectory(sourcePath, targetPath);
+    } else {
+      fs.copyFileSync(sourcePath, targetPath);
+    }
+  });
+}

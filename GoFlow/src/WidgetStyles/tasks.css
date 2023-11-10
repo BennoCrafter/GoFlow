@@ -15,12 +15,11 @@
 }
 
 .task {
-  text-align: center;
-  padding: 0px 20px; /* Increase or decrease this value to adjust the vertical space */
+  text-align: none;
+  padding: 0px 20px;
   font-size: 20px;
   display: flex;
   align-items: center;
-  text-align: center;
   font-family: monospace;
 }
 

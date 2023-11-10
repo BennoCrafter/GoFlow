@@ -22,6 +22,10 @@ export class CalendarWidget extends Widget{
         this.backButton.addEventListener('click', () => {
             this.closeCurrentPopup()
           });
+        this.createButton = this.widgetPath.querySelector("#createEvent");
+        this.createButton.addEventListener('click', () => {
+            this.openEventCreationPopup()
+        });
 
     }
     getEventsOfDay(year, month, day){
@@ -68,8 +72,12 @@ export class CalendarWidget extends Widget{
                 // console.log("Clicked day:", Cday, monthName, year.toString())
                 const result = this.getEventsOfDay(year, month, parseInt(Cday))
                 console.log(result[0] ? "Has Event: " + result[1] : result[1])
+                this.clickedDayId = day.id
                 if(result[0]){
                     this.showEvent(result[1], result[2])
+                }else{
+                    console.log(day.id)
+                    this.openEventCreationPopup()
                 }
                 // this.currentMarkedDay.classList.remove("calendar__day-number--current")
                 // this.currentMarkedDay = day;
@@ -112,31 +120,36 @@ export class CalendarWidget extends Widget{
         this.popup.style.display = "flex";
         this.widgetPath.querySelector(".calendar").style.display = "none";
         this.backButton.style.display = "block"
+        this.createButton.style.display = "block"
         
         const ul = document.querySelector('.event-list');;
 
         events.forEach(event => {
-            const li = document.createElement('li');
-            li.classList.add('event-item');
-          
-            const title = document.createElement('h2');
-            title.textContent = event.title;
-            title.classList.add('event-title');
-          
-            const description = document.createElement('p');
-            description.textContent = event.description;
-            description.classList.add('event-description');
-          
-            const date = document.createElement('p');
+        const li = document.createElement('li');
+        li.classList.add('event-item');
+
+        const title = document.createElement('h2');
+        title.textContent = event.title;
+        title.classList.add('event-title');
+
+        const description = document.createElement('p');
+        description.textContent = event.description;
+        description.classList.add('event-description');
+
+        const date = document.createElement('p');
+        if (event.from.getHours() === 0 && event.from.getMinutes() === 0 && event.to.getHours() === 0 && event.to.getMinutes() === 0) {
+            date.textContent = "All day long";
+        } else {
             date.textContent = `${event.from.getHours()}:${event.from.getMinutes() < 10 ? "0" + event.from.getMinutes() : event.from.getMinutes()}-${event.to.getHours()}:${event.to.getMinutes() < 10 ? "0" + event.to.getMinutes() : event.to.getMinutes()}`;
-            date.classList.add('event-date');
-          
-            li.appendChild(title);
-            li.appendChild(description);
-            li.appendChild(date);
-          
-            ul.appendChild(li);
-          });
+        }
+                date.classList.add('event-date');
+        li.appendChild(title);
+        li.appendChild(description);
+        li.appendChild(date);
+
+        ul.appendChild(li);
+});
+
           
       }
 
@@ -164,6 +177,9 @@ export class CalendarWidget extends Widget{
     }
 
     openEventCreationPopup(){
+        if(this.popup!==undefined){
+            this.popup.style.display = "none"
+        }
         this.popup = this.widgetPath.querySelector(".calendar-new-event-popup");
         this.popup.style.display = "flex";
         this.widgetPath.querySelector(".calendar").style.display = "none";
@@ -174,15 +190,23 @@ export class CalendarWidget extends Widget{
     submitCalendarEventListener(){
         const popup = this.widgetPath.querySelector(".calendar-new-event-popup")
         popup.querySelector("#submitEvent").addEventListener('click', (event) => {
-            const fromTime = popup.querySelector("#fromField").value.split(":")
-            const toTime = popup.querySelector("#toField").value.split(":")
-            console.log(fromTime, toTime)
-            console.log(fromTime)
+            let fromTime = popup.querySelector("#fromField").value
+            let toTime = popup.querySelector("#toField").value
+            let from;
+            let to;
             const Cday = this.clickedDayId.split("|")
-            const from = new Date(Cday[0], Cday[1], Cday[2],(fromTime[0]), (fromTime[1]))
-            const to = new Date(Cday[0], Cday[1], Cday[2], (toTime[0]), (toTime[1]))
-            console.log(parseInt(fromTime[0]), parseInt(fromTime[1]))
-            console.log(parseInt(toTime[0]), parseInt(toTime[1]))
+            
+            if(fromTime==""&&toTime==""){
+                from = new Date(Cday[0], Cday[1], Cday[2])
+                to = new Date(Cday[0], Cday[1], Cday[2])
+            }else{
+                fromTime = fromTime.split(":")
+                toTime = toTime.split(":")
+
+                from = new Date(Cday[0], Cday[1], Cday[2],(fromTime[0]), (fromTime[1]))
+                to = new Date(Cday[0], Cday[1], Cday[2], (toTime[0]), (toTime[1]))
+            }
+
             this.createEvent(popup.querySelector("#titleField").value, popup.querySelector("#descriptionField").value, from, to)
             this.closeCurrentPopup()
             this.loadEvents()
@@ -199,6 +223,7 @@ export class CalendarWidget extends Widget{
         this.popup.style.display = 'none';
         this.widgetPath.querySelector(".calendar").style.display = "block";
         this.backButton.style.display = "none"
+        this.createButton.style.display = "none"
     }
 }
 

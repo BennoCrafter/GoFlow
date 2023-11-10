@@ -138,28 +138,33 @@
 
 
 .event-item {
-  background-color: #f7f7f7;
+  background-color: #fbf7f7;
   border: 1px solid #ddd;
   margin: 10px 0px;
-  padding: 10px;
-  border-radius: 5px;
+  padding: 15px; /* Increased padding for a cozier feel */
+  border-radius: 10px; /* Rounded corners for a softer look */
   width: 362px;
-}
+  transition: transform 0.2s ease; /* Smooth hover effect */
+} 
 
 .event-title {
   font-size: 20px;
   color: #333;
+  font-weight: bold; /* Making the title stand out */
 }
 
 .event-description {
   font-size: 16px;
   color: #666;
+  margin-top: 10px; /* A bit of spacing between title and description */
 }
 
 .event-date {
   font-size: 14px;
   color: #999;
+  margin-top: 10px; /* Spacing above the date */
 }
+
 
 
 #backToCalendar{
@@ -170,11 +175,31 @@
   cursor: pointer;
   text-decoration: none;
   color: black;
+  font-size: 20px;
+  font-family: monospace;
 }
 
 #backToCalendar:hover{
   text-decoration: underline;
 }
+
+#createEvent:hover{
+  text-decoration: underline;
+}
+
+#createEvent{
+  display: none;
+  position:absolute;
+  top:40px;
+  right:15px;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  font-family: monospace;
+}
+
+
 .calendar-new-event-popup{
   background-color: #fff;
   border-radius: 0px 0px 10px 10px;
