@@ -2,16 +2,23 @@
     background-color: #fefcfc;
     border-radius: 0 0 10px 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 30px;
     cursor: pointer;
     transition: transform 0.2s ease;
     display: flex;
+    width: 200px;
+    height: 320px;
 }
 
 
 .day-title {
+    padding-top: 5px;
     font-size: 24px;
     color: #4a90e2;
+}
+
+#weather-src{
+    width: 100px;
+    height: 100px;
 }
 
 .weather-title {
@@ -29,6 +36,16 @@
     color: #666;
 }
 
+.thermometer-img{
+    width: 100px;
+    height: 100px;
+}
+
+.thermometer-container{
+    align-items: center;
+
+}
+
 .button-container {
     display: flex;
     flex-direction: column;
@@ -36,19 +53,25 @@
     margin-top: 20px;
 }
 
-.location-popup{
+.location-popup {
+    text-align: center;
     background-color: #fff;
-    border-radius: 0px 0px 10px 10px;
-    box-shadow: 0 0.8rem 1.6rem rgba(35, 131, 157, 0.2);
-    padding: 2rem;
-    cursor: pointer;
-    font-family: Helvetica, sans-serif;
-    font-size: 1.4rem;
-    box-sizing: inherit; /* Inherit box-sizing property from .calendar */
-    flex-direction: column; /* Ensure that it has the same flex direction as .calendar */
-    align-items: center; /* Center content vertically */
-    display: none;
-    width: 200px;
-    height: 382px;
-    padding: 40px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 200px; /* Set a max width to avoid it getting too wide */
+    width: 100%;/* Take up available width */
   }
+
+  #latitudeField, #longitudeField {
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  .day-title, .temperature, .location {
+    text-align: center; /* Center text horizontally */
+}

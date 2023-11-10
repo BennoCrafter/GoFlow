@@ -1,7 +1,7 @@
 
 
 {
-    "html": "<div class='location-popup'><input type='text' class='inputField' id='longitudeField' placeholder='Enter Longitude'><input type='text' class='inputField' id='latitudeField' placeholder='Enter Latitude'><button id='submitWeatherLoc' type='button'>Submit</button></div><div class='weatherWindow'><div id='day1' class='day-title'><p>Today</p><img src='' id='weather-src'><img class='thermometer-img' src='resources/weather-icons/thermometer.svg' alt='Thermometer'><p class='temperature'>Loading...</p><p class='location'>Loading...</p></div></div><div class='button-container' style='display: none'><button onclick='switchDay(-1)'>Previous</button><button onclick='switchDay(1)'>Next</button></div>",
+    "html": "<div class='location-popup'><input type='text' id='latitudeField' placeholder='Enter latitude'><input type='text' id='longitudeField' placeholder='Enter longitude'><button id='submitWeatherLoc' type='button'>Submit</button></div><div class='weatherWindow'><div id='day1' class='day-title'><p>Today</p><img src='' id='weather-src'><div id='thermometer-container'><img class='thermometer-img' src='resources/weather-icons/thermometer.svg' alt='Thermometer'><p class='temperature'>Loading...</p></div><p class='location'>Loading...</p></div></div><div class='button-container' style='display: none'><button onclick='switchDay(-1)'>Previous</button><button onclick='switchDay(1)'>Next</button></div>",
     "uniqueWidgetData": {"width": "270px", "height": "180px", "longitude": null, "latitude": null},
     "type": "weather"
 }
