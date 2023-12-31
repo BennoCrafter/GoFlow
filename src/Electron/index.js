@@ -120,24 +120,6 @@ app.on("ready", () => {
   }
   console.log(app.getPath("appData"))
   
-  // if (!fs.existsSync(path.join(app.getPath("userData"), "/SavedData/"))) {
-  //   // If it doesn't exist, create it
-  //   fs.mkdir(path.join(app.getPath("userData"), "/SavedData/"), (err) => {
-  //     if (err) {
-  //       console.error("Error creating main directory for saved data:", err);
-  //     } else {
-  //     }
-  //   });
-  // } else {
-  // }
-
-  // order.json file
-  // if (!fs.existsSync(path.join(app.getPath("userData"), "/SavedData/order.json"))) {
-  //   // If it doesn't exist, create the file with the provided content
-  //   fs.promises.writeFile(path.join(app.getPath("userData"), "/SavedData/order.json"), "{}");
-  //   console.log(`File '${path.join(app.getPath("userData"), "/SavedData/order.json")}' created successfully.`);
-  // } else {
-  // }
 });
 
 // Quit when all windows are closed, except on macOS.

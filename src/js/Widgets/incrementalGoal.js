@@ -1,19 +1,15 @@
 import { Widget } from "../widget.js";
 
 export class IncrementalGoalWidget extends Widget {
-  constructor(
-    widgetId,
-    data,
-    uniqueWidgetData
-  ) {
+  constructor(widgetId, data, uniqueWidgetData) {
     super(widgetId, data, uniqueWidgetData);
-    
-    this.data = data
-    this.uniqueWidgetData = uniqueWidgetData
-   
-    this.loadEventListener()
+
+    this.data = data;
+    this.uniqueWidgetData = uniqueWidgetData;
+
+    this.loadEventListener();
     this.checkStreak();
-    this.updateText()
+    this.updateText();
   }
 
   increaseGoal() {
@@ -21,7 +17,9 @@ export class IncrementalGoalWidget extends Widget {
       this.uniqueWidgetData.lastDateIncreased = new Date().getTime();
       this.uniqueWidgetData.streak++;
       this.showReward();
-      console.log(`Goal increased! Current streak: ${this.uniqueWidgetData.streak}`);
+      console.log(
+        `Goal increased! Current streak: ${this.uniqueWidgetData.streak}`
+      );
       this.updateText();
       this.saveData();
     } else {
@@ -33,26 +31,29 @@ export class IncrementalGoalWidget extends Widget {
     if (this.uniqueWidgetData.lastDateIncreased == null) {
       return true; // If lastDateIncreased is not set, allow increasing
     }
+    let prediciton = new Date(
+      this.uniqueWidgetData.lastDateIncreased + 86400000
+    );
 
     // Check if the last increment was more than 24 hours ago
-    const currentDate = new Date().getTime();
-    const timeDifference = currentDate - this.uniqueWidgetData.lastDateIncreased;
+    const currentDate = new Date();
     if (
-      timeDifference >= 24 * 60 * 60 * 1000 &&
-      timeDifference <= 2 * (24 * 60 * 60 * 1000)
+      prediciton.getFullYear() == currentDate.getFullYear() &&
+      prediciton.getDay() == currentDate.getDate() &&
+      currentDate.getMonth() == prediciton.getMonth()
     ) {
-      // passed 24 hours and under 48 hours
       return true;
-    } else if (timeDifference >= 2 * (24 * 60 * 60 * 1000)) {
-      // passed over 48 hours (streak reset)
-      this.uniqueWidgetData.streak = 0;
-      this.saveData();
-      this.updateText();
-      this.uniqueWidgetData.lastDateIncreased = null; // set it to default
-      console.log("lost streak");
-      return false;
     } else {
-      // doesnt passed 24 hours
+      const timeDifference =
+        currentDate - this.uniqueWidgetData.lastDateIncreased;
+
+      if (timeDifference >= 2 * (24 * 60 * 60 * 1000)) {
+        this.uniqueWidgetData.streak = 0;
+        this.saveData();
+        this.updateText();
+        this.uniqueWidgetData.lastDateIncreased = null; // set it to default
+        console.log("lost streak");
+      }
       return false;
     }
   }
@@ -74,7 +75,8 @@ export class IncrementalGoalWidget extends Widget {
     // update goal name
     this.widgetPath
       .querySelector(".incrementalGoalWindow")
-      .querySelector("#incrementalGoalName").textContent = this.uniqueWidgetData.goalName.trim();
+      .querySelector("#incrementalGoalName").textContent =
+      this.uniqueWidgetData.goalName.trim();
   }
 
   showReward() {

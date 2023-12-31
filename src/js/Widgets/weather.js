@@ -10,7 +10,7 @@ export class WeatherWidget extends Widget {
       1: ["clear-night.svg", "clear-day.svg"],
       2: ["partly-cloudy-night.svg", "partly-cloudy-day.svg"],
       3: ["overcast-night.svg", "overcast-day.svg"],
-      45: ["fog-night.svg", "wo_fog-day.svg"],
+      45: ["fog-night.svg", "fog-day.svg"],
       61: ["partly-cloudy-night-drizzle.svg", "partly-cloudy-day-drizzle.svg"],
       65: ["partly-cloudy-night-rain.svg", "partly-cloudy-day-rain.svg"],
       80: ["partly-cloudy-night-rain.svg", "partly-cloudy-day-rain.svg"],

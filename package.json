@@ -10,7 +10,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/icons/icon.ico --prune=true --out=release-builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/icons/icon.icns --prune=true --out=release-builds"
   },
   "keywords": [],
   "author": {

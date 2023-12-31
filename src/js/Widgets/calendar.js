@@ -167,7 +167,7 @@ export class CalendarWidget extends Widget {
         event.to.getHours() === 0 &&
         event.to.getMinutes() === 0
       ) {
-        date.textContent = "All day long";
+        date.textContent = "All day";
       } else {
         date.textContent = `${event.from.getHours()}:${
           event.from.getMinutes() < 10
