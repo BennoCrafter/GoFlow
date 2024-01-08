@@ -200,6 +200,7 @@ const handleCommunication = () => {
     try {
       const directoryPath = path.join(app.getPath("userData"), "/SavedData/");
       const projects = await utils.readDataFromDirectory(directoryPath);
+      
 
       // Organize the data into the desired structure
       const organizedProjects = {};

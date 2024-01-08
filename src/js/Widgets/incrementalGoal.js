@@ -28,25 +28,25 @@ export class IncrementalGoalWidget extends Widget {
   }
 
   canIncrease() {
-    if (this.uniqueWidgetData.lastDateIncreased == null) {
+    const { lastDateIncreased, streak } = this.uniqueWidgetData;
+  
+    if (!lastDateIncreased) {
       return true; // If lastDateIncreased is not set, allow increasing
     }
-    let prediciton = new Date(
-      this.uniqueWidgetData.lastDateIncreased + 86400000
-    );
-
-    // Check if the last increment was more than 24 hours ago
+  
+    const prediction = new Date(lastDateIncreased + 86400000);
     const currentDate = new Date();
+  
+    // Check if the last increment was on the same day
     if (
-      prediciton.getFullYear() == currentDate.getFullYear() &&
-      prediciton.getDay() == currentDate.getDate() &&
-      currentDate.getMonth() == prediciton.getMonth()
+      prediction.getDate() === currentDate.getDate() &&
+      prediction.getMonth() === currentDate.getMonth() &&
+      prediction.getFullYear() === currentDate.getFullYear()
     ) {
       return true;
     } else {
-      const timeDifference =
-        currentDate - this.uniqueWidgetData.lastDateIncreased;
-
+      const timeDifference = currentDate - lastDateIncreased;
+  
       if (timeDifference >= 2 * (24 * 60 * 60 * 1000)) {
         this.uniqueWidgetData.streak = 0;
         this.saveData();
@@ -57,8 +57,9 @@ export class IncrementalGoalWidget extends Widget {
       return false;
     }
   }
+  
 
-  checkStreak() {
+  checkStreak() { 
     this.canIncrease();
     this.saveData();
     this.updateText();
