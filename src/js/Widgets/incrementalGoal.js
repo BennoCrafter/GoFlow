@@ -29,14 +29,14 @@ export class IncrementalGoalWidget extends Widget {
 
   canIncrease() {
     const { lastDateIncreased, streak } = this.uniqueWidgetData;
-  
+
     if (!lastDateIncreased) {
       return true; // If lastDateIncreased is not set, allow increasing
     }
-  
+
     const prediction = new Date(lastDateIncreased + 86400000);
     const currentDate = new Date();
-  
+
     // Check if the last increment was on the same day
     if (
       prediction.getDate() === currentDate.getDate() &&
@@ -45,21 +45,25 @@ export class IncrementalGoalWidget extends Widget {
     ) {
       return true;
     } else {
-      const timeDifference = currentDate - lastDateIncreased;
-  
-      if (timeDifference >= 2 * (24 * 60 * 60 * 1000)) {
-        this.uniqueWidgetData.streak = 0;
-        this.saveData();
-        this.updateText();
-        this.uniqueWidgetData.lastDateIncreased = null; // set it to default
-        console.log("lost streak");
+      const lastDateIncreasedConverted = new Date(lastDateIncreased);
+      if (
+        lastDateIncreasedConverted.getDate() === currentDate.getDate() &&
+        lastDateIncreasedConverted.getMonth() === currentDate.getMonth() &&
+        lastDateIncreasedConverted.getFullYear() === currentDate.getFullYear()
+      ) {
+        return false;
+      } else {
       }
+      this.uniqueWidgetData.streak = 0;
+      this.saveData();
+      this.updateText();
+      this.uniqueWidgetData.lastDateIncreased = null; // set it to default
+      console.log("lost streak");
       return false;
     }
   }
-  
 
-  checkStreak() { 
+  checkStreak() {
     this.canIncrease();
     this.saveData();
     this.updateText();
